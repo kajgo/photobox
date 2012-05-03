@@ -18,10 +18,9 @@ public class PhotoboxActivity extends Activity {
         final EditText et = (EditText) findViewById(R.id.nameInputField);
         final Button b = (Button) findViewById(R.id.nameInputButton);
         b.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				tv.setText(et.getText());
-			}
-		});
+            public void onClick(View v) {
+                tv.setText(et.getText());
+            }
+        });
     }
 }
