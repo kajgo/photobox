@@ -1,8 +1,10 @@
 package com.photobox;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -11,8 +13,8 @@ import android.view.View;
 
 public class OurCustomView extends View {
 
-	private int w = 20;
-	private int h = 20;
+	private float px = 20;
+	private float py = 20;
 			
 	public OurCustomView(Context context) {
 		super(context);
@@ -29,7 +31,22 @@ public class OurCustomView extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		Log.d("panic", "someone is touching me... help!!");
-		return super.onTouchEvent(event);
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			Log.d("iiiih!", "don't push it...");
+			break;
+		case MotionEvent.ACTION_UP:
+			Log.d("phiew!", "back again!");
+			break;
+		case MotionEvent.ACTION_MOVE:
+			px = event.getX();
+			py = event.getY();
+			invalidate();
+			break;
+		default:
+			break;
+		}
+		return true;
 	}
 	
 	@Override
@@ -40,8 +57,18 @@ public class OurCustomView extends View {
 		bgPaint.setARGB(255, 255, 255, 0);
 		canvas.drawPaint(bgPaint);
 		
+		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.testimage_x);
+		
+		int border = 10;
+		int w = image.getWidth() + border * 2;
+		int h = image.getHeight() + border * 2;
+		
 		Paint paint = new Paint();
-		paint.setARGB(255, 255, 0, 255);
-		canvas.drawRect(0, 0, this.w-this.w/2, this.h-this.h/2, paint);
+		paint.setARGB(255, 255, 255, 255);
+		canvas.drawRect(px-w/2-border, py-h/2-border, px+w/2+border, py+h/2+border, paint);
+		
+		Matrix matrix = new Matrix();
+		matrix.setTranslate(px-w/2+border, py-h/2+border);
+		canvas.drawBitmap(image, matrix, null);
 	}
 }

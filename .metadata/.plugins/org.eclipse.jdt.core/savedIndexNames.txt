@@ -1,2 +1,0 @@
-INDEX VERSION 1.126+/home/kajsa/workspaces/photobox/.metadata/.plugins/org.eclipse.jdt.core
-1274216971.index
