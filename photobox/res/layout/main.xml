@@ -26,4 +26,9 @@
         android:layout_height="wrap_content"
         android:text="Button" />
 
+    <com.photobox.OurCustomView
+        android:id="@+id/ourCustomView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
