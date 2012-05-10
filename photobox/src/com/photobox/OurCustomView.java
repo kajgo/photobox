@@ -1,7 +1,10 @@
 package com.photobox;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -10,9 +13,6 @@ import android.view.View;
 
 public class OurCustomView extends View {
 
-	private int w = 20;
-	private int h = 20;
-	
 	private float px = 20;
 	private float py = 20;
 			
@@ -57,8 +57,18 @@ public class OurCustomView extends View {
 		bgPaint.setARGB(255, 255, 255, 0);
 		canvas.drawPaint(bgPaint);
 		
+		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.testimage_x);
+		
+		int border = 10;
+		int w = image.getWidth() + border * 2;
+		int h = image.getHeight() + border * 2;
+		
 		Paint paint = new Paint();
-		paint.setARGB(255, 255, 0, 255);
-		canvas.drawRect(px, py, px+40, py+40, paint);
+		paint.setARGB(255, 255, 255, 255);
+		canvas.drawRect(px-w/2-border, py-h/2-border, px+w/2+border, py+h/2+border, paint);
+		
+		Matrix matrix = new Matrix();
+		matrix.setTranslate(px-w/2+border, py-h/2+border);
+		canvas.drawBitmap(image, matrix, null);
 	}
 }
