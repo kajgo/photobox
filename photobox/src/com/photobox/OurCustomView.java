@@ -2,7 +2,6 @@ package com.photobox;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,6 +12,9 @@ public class OurCustomView extends View {
 
 	private int w = 20;
 	private int h = 20;
+	
+	private float px = 20;
+	private float py = 20;
 			
 	public OurCustomView(Context context) {
 		super(context);
@@ -29,7 +31,22 @@ public class OurCustomView extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		Log.d("panic", "someone is touching me... help!!");
-		return super.onTouchEvent(event);
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			Log.d("iiiih!", "don't push it...");
+			break;
+		case MotionEvent.ACTION_UP:
+			Log.d("phiew!", "back again!");
+			break;
+		case MotionEvent.ACTION_MOVE:
+			px = event.getX();
+			py = event.getY();
+			invalidate();
+			break;
+		default:
+			break;
+		}
+		return true;
 	}
 	
 	@Override
@@ -42,6 +59,6 @@ public class OurCustomView extends View {
 		
 		Paint paint = new Paint();
 		paint.setARGB(255, 255, 0, 255);
-		canvas.drawRect(0, 0, this.w-this.w/2, this.h-this.h/2, paint);
+		canvas.drawRect(px, py, px+40, py+40, paint);
 	}
 }
