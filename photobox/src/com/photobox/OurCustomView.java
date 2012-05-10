@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -15,6 +16,7 @@ public class OurCustomView extends View {
 
 	private float px = 20;
 	private float py = 20;
+	private float angle = 0;
 			
 	public OurCustomView(Context context) {
 		super(context);
@@ -39,8 +41,14 @@ public class OurCustomView extends View {
 			Log.d("phiew!", "back again!");
 			break;
 		case MotionEvent.ACTION_MOVE:
-			px = event.getX();
-			py = event.getY();
+			if (event.getPointerCount() > 1) {
+				float dh = event.getY() - py;
+				angle += dh;
+			} else {
+				px = event.getX();
+				py = event.getY();
+				Log.d("coords", "px=" + px + ", py=" + py);
+			}
 			invalidate();
 			break;
 		default:
@@ -63,12 +71,23 @@ public class OurCustomView extends View {
 		int w = image.getWidth() + border * 2;
 		int h = image.getHeight() + border * 2;
 		
-		Paint paint = new Paint();
-		paint.setARGB(255, 255, 255, 255);
-		canvas.drawRect(px-w/2-border, py-h/2-border, px+w/2+border, py+h/2+border, paint);
+		canvas.save();
 		
 		Matrix matrix = new Matrix();
-		matrix.setTranslate(px-w/2+border, py-h/2+border);
-		canvas.drawBitmap(image, matrix, null);
+		matrix.preTranslate(px, py);
+		matrix.preRotate(angle);
+		canvas.setMatrix(matrix);
+		
+		Paint paint = new Paint();
+		paint.setARGB(255, 255, 255, 255);
+		canvas.drawRect(-w/2, -h/2, w/2, h/2, paint);
+		
+		canvas.drawBitmap(image, -w/2+border, -h/2+border, null);
+		
+		Paint p = new Paint();
+		p.setColor(Color.BLUE);
+		canvas.drawCircle(0, 0, 10, p);
+		
+		canvas.restore();
 	}
 }
