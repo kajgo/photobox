@@ -1,9 +1,11 @@
 Rendera ett foto.
 	Ta reda på hur en canvas funkar.
 	Fixa.
-Zooma fotovy.
 Ändra position på foton.
+
+Undersök om vi vill ha flera image-views i en autoscrollcontainer
 Ändra rotation på foton.
+Zooma fotovy.
 Rendera foto i en ram.
 Rendera n individuella foton.
 Undersök hur flyttning och rotation ska funka för flera bilder.
