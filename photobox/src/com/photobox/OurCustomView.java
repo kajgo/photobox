@@ -43,8 +43,8 @@ public class OurCustomView extends View {
             break;
         case MotionEvent.ACTION_MOVE:
             if (event.getPointerCount() > 1) {
-                double dy = event.getY() - py;
-                double dx = event.getX() - px;
+                double dy = event.getY(1) - event.getY(0);
+                double dx = event.getX(1) - event.getX(0);
                 double currentFingerAngle = Math.toDegrees(Math.atan2(dy, dx));
                 if (previousFingerAngle != null) {
                     double diffAngle = currentFingerAngle - previousFingerAngle;
@@ -52,9 +52,10 @@ public class OurCustomView extends View {
                 }
                 previousFingerAngle = new Float(currentFingerAngle);
             } else {
-                px = event.getX();
-                py = event.getY();
+                previousFingerAngle = null;
             }
+            px = event.getX();
+            py = event.getY();
             Log.d("coords", "px=" + px + ", py=" + py);
             invalidate();
             break;
