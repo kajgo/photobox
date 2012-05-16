@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -45,8 +44,8 @@ public class OurCustomView extends View {
                 float dh = event.getY() - py;
                 angle += dh;
             } else {
-                px = event.getRawX();
-                py = event.getRawY();
+                px = event.getX();
+                py = event.getY();
             }
             Log.d("coords", "px=" + px + ", py=" + py);
             invalidate();
@@ -72,12 +71,8 @@ public class OurCustomView extends View {
         int w = image.getWidth() + border * 2;
         int h = image.getHeight() + border * 2;
 
-        canvas.save();
-
-        Matrix matrix = new Matrix();
-        matrix.setTranslate(px, py);
-        matrix.preRotate(angle);
-        canvas.setMatrix(matrix);
+        canvas.translate(px, py);
+        canvas.rotate(angle);
 
         Paint paint = new Paint();
         paint.setARGB(255, 255, 255, 255);
@@ -88,7 +83,5 @@ public class OurCustomView extends View {
         Paint p = new Paint();
         p.setColor(Color.BLUE);
         canvas.drawCircle(0, 0, 10, p);
-
-        canvas.restore();
     }
 }
