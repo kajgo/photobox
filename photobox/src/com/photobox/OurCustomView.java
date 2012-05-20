@@ -15,23 +15,19 @@ import android.view.View;
 
 public class OurCustomView extends View {
 
+    private ScaleGestureDetector scaleDetector;
+    private float scaleFactor = 1.f;
     private float px = 20;
     private float py = 20;
     private float angle = 0;
     private Float previousFingerAngle = null;
-    private ScaleGestureDetector scaleDetector;
-    private float scaleFactor = 1.f;
 
     public OurCustomView(Context context) {
-        super(context);
-        ScaleListener scaleListener = new ScaleListener();
-        scaleDetector = new ScaleGestureDetector(context, scaleListener);
+        this(context, null, 0);
     }
 
     public OurCustomView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        SimpleOnScaleGestureListener scaleListener = new ScaleListener();
-        scaleDetector = new ScaleGestureDetector(context, scaleListener);
+        this(context, attrs, 0);
     }
 
     public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
