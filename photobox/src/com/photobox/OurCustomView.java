@@ -80,8 +80,6 @@ public class OurCustomView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.scale(scaleFactor, scaleFactor);
-
         Paint bgPaint = new Paint();
         bgPaint.setARGB(255, 255, 255, 0);
         canvas.drawPaint(bgPaint);
@@ -95,6 +93,7 @@ public class OurCustomView extends View {
 
         canvas.translate(px, py);
         canvas.rotate(angle);
+        canvas.scale(scaleFactor, scaleFactor);
 
         Paint paint = new Paint();
         paint.setARGB(255, 255, 255, 255);
