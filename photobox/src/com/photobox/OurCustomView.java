@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.View;
 
 public class OurCustomView extends View {
@@ -17,22 +19,31 @@ public class OurCustomView extends View {
     private float py = 20;
     private float angle = 0;
     private Float previousFingerAngle = null;
+    private ScaleGestureDetector scaleDetector;
+    private float scaleFactor = 1.f;
 
     public OurCustomView(Context context) {
         super(context);
+        ScaleListener scaleListener = new ScaleListener();
+        scaleDetector = new ScaleGestureDetector(context, scaleListener);
     }
 
     public OurCustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        SimpleOnScaleGestureListener scaleListener = new ScaleListener();
+        scaleDetector = new ScaleGestureDetector(context, scaleListener);
     }
 
     public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        SimpleOnScaleGestureListener scaleListener = new ScaleListener();
+        scaleDetector = new ScaleGestureDetector(context, scaleListener);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.d("panic", "someone is touching me... help!!");
+        scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             Log.d("iiiih!", "don't push it...");
@@ -69,6 +80,8 @@ public class OurCustomView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        canvas.scale(scaleFactor, scaleFactor);
+
         Paint bgPaint = new Paint();
         bgPaint.setARGB(255, 255, 255, 0);
         canvas.drawPaint(bgPaint);
@@ -92,5 +105,14 @@ public class OurCustomView extends View {
         Paint p = new Paint();
         p.setColor(Color.BLUE);
         canvas.drawCircle(0, 0, 10, p);
+    }
+
+    private class ScaleListener extends
+            ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleDetector) {
+            scaleFactor *= scaleDetector.getScaleFactor();
+            return true;
+        }
     }
 }
