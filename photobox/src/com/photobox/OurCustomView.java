@@ -17,8 +17,11 @@ public class OurCustomView extends View {
 
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
+
     private float px = 20;
     private float py = 20;
+    private float previousPx = 20;
+    private float previousPy = 20;
     private float angle = 0;
     private Float previousFingerAngle = null;
 
@@ -87,6 +90,8 @@ public class OurCustomView extends View {
         int w = image.getWidth() + border * 2;
         int h = image.getHeight() + border * 2;
 
+        moveOnlyWhenFingerOnImage(w, h);
+
         canvas.translate(px, py);
         canvas.rotate(angle);
         canvas.scale(scaleFactor, scaleFactor);
@@ -100,6 +105,16 @@ public class OurCustomView extends View {
         Paint p = new Paint();
         p.setColor(Color.BLUE);
         canvas.drawCircle(0, 0, 10, p);
+    }
+
+    private void moveOnlyWhenFingerOnImage(int w, int h) {
+        if (previousPx - w / 2 > px || previousPx + w / 2 < px
+                || previousPy - h / 2 > py || previousPy + h / 2 < py) {
+            px = previousPx;
+            py = previousPy;
+        }
+        previousPx = px;
+        previousPy = py;
     }
 
     private class ScaleListener extends
