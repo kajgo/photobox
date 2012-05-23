@@ -108,8 +108,12 @@ public class OurCustomView extends View {
     }
 
     private void moveOnlyWhenFingerOnImage(int w, int h) {
-        if (previousPx - w / 2 > px || previousPx + w / 2 < px
-                || previousPy - h / 2 > py || previousPy + h / 2 < py) {
+        int scaledWidth = (int) (w * scaleFactor);
+        int scaledHeight = (int) (h * scaleFactor);
+        if (previousPx - scaledWidth / 2 > px
+                || previousPx + scaledWidth / 2 < px
+                || previousPy - scaledHeight / 2 > py
+                || previousPy + scaledHeight / 2 < py) {
             px = previousPx;
             py = previousPy;
         }
