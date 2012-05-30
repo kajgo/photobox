@@ -7,21 +7,24 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.View;
+import android.view.WindowManager;
 
 public class OurCustomView extends View {
 
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
 
-    private float px = 20;
-    private float py = 20;
-    private float previousPx = 20;
-    private float previousPy = 20;
+    private float px = 0;
+    private float py = 0;
+    private float previousPx = 0;
+    private float previousPy = 0;
     private float angle = 0;
     private Float previousFingerAngle = null;
 
@@ -37,6 +40,7 @@ public class OurCustomView extends View {
         super(context, attrs, defStyle);
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
+        initializePxPy(context);
     }
 
     @Override
@@ -119,6 +123,19 @@ public class OurCustomView extends View {
         }
         previousPx = px;
         previousPy = py;
+    }
+
+    private void initializePxPy(Context context) {
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+
+        px = metrics.widthPixels / 2;
+        py = metrics.heightPixels / 2;
+        previousPx = metrics.widthPixels / 2;
+        previousPy = metrics.heightPixels / 2;
     }
 
     private class ScaleListener extends
