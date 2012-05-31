@@ -15,7 +15,7 @@ public class PhotoCollectionTest {
     @Test
     public void containsPhotos() {
         PhotoCollection collection = new PhotoCollection();
-        Photo p = new Photo();
+        Photo p = new Photo(null);
         collection.addPhoto(p);
 
         List<Photo> l = new ArrayList<Photo>();

@@ -21,11 +21,12 @@ public class OurCustomView extends View {
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
 
+    private Photo thePhoto;
+
     private float px = 0;
     private float py = 0;
     private float previousPx = 0;
     private float previousPy = 0;
-    private float angle = 0;
     private Float previousFingerAngle = null;
 
     public OurCustomView(Context context) {
@@ -41,6 +42,8 @@ public class OurCustomView extends View {
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
         initializePxPy(context);
+        thePhoto = new Photo(BitmapFactory.decodeResource(getResources(),
+                R.drawable.testimage_x));
     }
 
     @Override
@@ -62,7 +65,7 @@ public class OurCustomView extends View {
                 double currentFingerAngle = Math.toDegrees(Math.atan2(dy, dx));
                 if (previousFingerAngle != null) {
                     double diffAngle = currentFingerAngle - previousFingerAngle;
-                    angle += (float) diffAngle;
+                    thePhoto.angle += (float) diffAngle;
                 }
                 previousFingerAngle = new Float(currentFingerAngle);
             } else {
@@ -70,6 +73,8 @@ public class OurCustomView extends View {
             }
             px = event.getX();
             py = event.getY();
+            thePhoto.centerX = px;
+            thePhoto.centerY = py;
             Log.d("coords", "px=" + px + ", py=" + py);
             invalidate();
             break;
@@ -90,30 +95,30 @@ public class OurCustomView extends View {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
 
-        int border = 10;
-        int w = image.getWidth() + border * 2;
-        int h = image.getHeight() + border * 2;
+        float w = thePhoto.getWidth();
+        float h = thePhoto.getHeight();
 
         moveOnlyWhenFingerOnImage(w, h);
 
-        canvas.translate(px, py);
-        canvas.rotate(angle);
+        canvas.translate(thePhoto.centerX, thePhoto.centerY);
+        canvas.rotate(thePhoto.angle);
         canvas.scale(scaleFactor, scaleFactor);
 
         Paint paint = new Paint();
         paint.setARGB(255, 255, 255, 255);
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, paint);
 
-        canvas.drawBitmap(image, -w / 2 + border, -h / 2 + border, null);
+        canvas.drawBitmap(image, -w / 2 + thePhoto.BORDER, -h / 2
+                + thePhoto.BORDER, null);
 
         Paint p = new Paint();
         p.setColor(Color.BLUE);
         canvas.drawCircle(0, 0, 10, p);
     }
 
-    private void moveOnlyWhenFingerOnImage(int w, int h) {
-        int scaledWidth = (int) (w * scaleFactor);
-        int scaledHeight = (int) (h * scaleFactor);
+    private void moveOnlyWhenFingerOnImage(float w, float h) {
+        float scaledWidth = w * scaleFactor;
+        float scaledHeight = h * scaleFactor;
         if (previousPx - scaledWidth / 2 > px
                 || previousPx + scaledWidth / 2 < px
                 || previousPy - scaledHeight / 2 > py
