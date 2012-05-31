@@ -1,6 +1,7 @@
 /photobox/bin
 /photobox/gen
 /photobox/.settings
+/photobox/local.properties
 /photobox-test/bin
 /photobox-test/gen
 /photobox-test/.settings
