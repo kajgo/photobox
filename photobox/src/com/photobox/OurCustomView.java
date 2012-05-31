@@ -60,24 +60,7 @@ public class OurCustomView extends View {
             previousFingerAngle = null;
             break;
         case MotionEvent.ACTION_MOVE:
-            if (event.getPointerCount() > 1) {
-                double dy = event.getY(1) - event.getY(0);
-                double dx = event.getX(1) - event.getX(0);
-                double currentFingerAngle = Math.toDegrees(Math.atan2(dy, dx));
-                if (previousFingerAngle != null) {
-                    double diffAngle = currentFingerAngle - previousFingerAngle;
-                    currentPhoto().angle += (float) diffAngle;
-                }
-                previousFingerAngle = new Float(currentFingerAngle);
-            } else {
-                previousFingerAngle = null;
-            }
-            px = event.getX();
-            py = event.getY();
-            currentPhoto().centerX = px;
-            currentPhoto().centerY = py;
-            Log.d("coords", "px=" + px + ", py=" + py);
-            invalidate();
+            movePhoto(event);
             break;
         default:
             break;
@@ -92,6 +75,27 @@ public class OurCustomView extends View {
         for (Photo photo : collection.getPhotos()) {
             renderPhoto(canvas, photo);
         }
+    }
+
+    private void movePhoto(MotionEvent event) {
+        if (event.getPointerCount() > 1) {
+            double dy = event.getY(1) - event.getY(0);
+            double dx = event.getX(1) - event.getX(0);
+            double currentFingerAngle = Math.toDegrees(Math.atan2(dy, dx));
+            if (previousFingerAngle != null) {
+                double diffAngle = currentFingerAngle - previousFingerAngle;
+                currentPhoto().angle += (float) diffAngle;
+            }
+            previousFingerAngle = new Float(currentFingerAngle);
+        } else {
+            previousFingerAngle = null;
+        }
+        px = event.getX();
+        py = event.getY();
+        currentPhoto().centerX = px;
+        currentPhoto().centerY = py;
+        Log.d("coords", "px=" + px + ", py=" + py);
+        invalidate();
     }
 
     private void renderBackground(Canvas canvas) {
