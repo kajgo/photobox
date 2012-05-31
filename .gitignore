@@ -1,5 +1,7 @@
 /photobox/bin
+/photobox/gen
 /photobox/.settings
 /photobox-test/bin
+/photobox-test/gen
 /photobox-test/.settings
 /.metadata
