@@ -43,8 +43,9 @@ public class OurCustomView extends View {
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
         initializePxPy(context);
         collection = new PhotoCollection();
-        collection.addPhoto(new Photo(BitmapFactory.decodeResource(
-                getResources(), R.drawable.testimage_x)));
+        Bitmap p = BitmapFactory.decodeResource(getResources(),
+                R.drawable.testimage_x);
+        collection.addPhoto(new Photo(p.getWidth(), p.getHeight(), p));
     }
 
     @Override
