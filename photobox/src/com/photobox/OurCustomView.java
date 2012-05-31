@@ -21,7 +21,7 @@ public class OurCustomView extends View {
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
 
-    private Photo thePhoto;
+    private PhotoCollection collection;
 
     private float px = 0;
     private float py = 0;
@@ -42,8 +42,9 @@ public class OurCustomView extends View {
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
         initializePxPy(context);
-        thePhoto = new Photo(BitmapFactory.decodeResource(getResources(),
-                R.drawable.testimage_x));
+        collection = new PhotoCollection();
+        collection.addPhoto(new Photo(BitmapFactory.decodeResource(
+                getResources(), R.drawable.testimage_x)));
     }
 
     @Override
@@ -65,7 +66,7 @@ public class OurCustomView extends View {
                 double currentFingerAngle = Math.toDegrees(Math.atan2(dy, dx));
                 if (previousFingerAngle != null) {
                     double diffAngle = currentFingerAngle - previousFingerAngle;
-                    thePhoto.angle += (float) diffAngle;
+                    currentPhoto().angle += (float) diffAngle;
                 }
                 previousFingerAngle = new Float(currentFingerAngle);
             } else {
@@ -73,8 +74,8 @@ public class OurCustomView extends View {
             }
             px = event.getX();
             py = event.getY();
-            thePhoto.centerX = px;
-            thePhoto.centerY = py;
+            currentPhoto().centerX = px;
+            currentPhoto().centerY = py;
             Log.d("coords", "px=" + px + ", py=" + py);
             invalidate();
             break;
@@ -87,29 +88,37 @@ public class OurCustomView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        renderBackground(canvas);
+        for (Photo photo : collection.getPhotos()) {
+            renderPhoto(canvas, photo);
+        }
+    }
 
+    private void renderBackground(Canvas canvas) {
         Paint bgPaint = new Paint();
         bgPaint.setARGB(255, 255, 255, 0);
         canvas.drawPaint(bgPaint);
+    }
 
+    private void renderPhoto(Canvas canvas, Photo photo) {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
 
-        float w = thePhoto.getWidth();
-        float h = thePhoto.getHeight();
+        float w = currentPhoto().getWidth();
+        float h = photo.getHeight();
 
         moveOnlyWhenFingerOnImage(w, h);
 
-        canvas.translate(thePhoto.centerX, thePhoto.centerY);
-        canvas.rotate(thePhoto.angle);
+        canvas.translate(photo.centerX, photo.centerY);
+        canvas.rotate(photo.angle);
         canvas.scale(scaleFactor, scaleFactor);
 
         Paint paint = new Paint();
         paint.setARGB(255, 255, 255, 255);
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, paint);
 
-        canvas.drawBitmap(image, -w / 2 + thePhoto.BORDER, -h / 2
-                + thePhoto.BORDER, null);
+        canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER,
+                null);
 
         Paint p = new Paint();
         p.setColor(Color.BLUE);
@@ -151,4 +160,9 @@ public class OurCustomView extends View {
             return true;
         }
     }
+
+    private Photo currentPhoto() {
+        return collection.getPhotos().get(0);
+    }
+
 }
