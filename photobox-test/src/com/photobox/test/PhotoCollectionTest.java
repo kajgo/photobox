@@ -1,20 +1,16 @@
 package com.photobox.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import android.test.AndroidTestCase;
 
 import com.photobox.Photo;
 import com.photobox.PhotoCollection;
 
-public class PhotoCollectionTest {
+public class PhotoCollectionTest extends AndroidTestCase {
 
-    @Test
-    public void containsPhotos() {
+    public void testContainsPhotos() {
         PhotoCollection collection = new PhotoCollection();
         Photo p = new Photo(0, 0, null);
         collection.addPhoto(p);
@@ -24,8 +20,7 @@ public class PhotoCollectionTest {
         assertEquals(l, collection.getPhotos());
     }
 
-    @Test
-    public void remembersWhichPhotoIsActive_isNullWhenNoPhotoActivated() {
+    public void testRemembersWhichPhotoIsActive_isNullWhenNoPhotoActivated() {
         PhotoCollection collection = new PhotoCollection();
         Photo p = new Photo(0, 0, null);
         collection.addPhoto(p);
@@ -33,8 +28,7 @@ public class PhotoCollectionTest {
         assertNull(collection.getActive());
     }
 
-    @Test
-    public void remembersWhichPhotoIsActive_isThePhotoWhichWasPressed() {
+    public void testRemembersWhichPhotoIsActive_isThePhotoWhichWasPressed() {
         PhotoCollection collection = new PhotoCollection();
         Photo p = new Photo(10, 10, null);
         p.centerX = 0;
@@ -45,8 +39,7 @@ public class PhotoCollectionTest {
         assertEquals(p, collection.getActive());
     }
 
-    @Test
-    public void remembersWhichPhotoIsActive_isNullIfPressingOutsiedeAllPhotos() {
+    public void testRemembersWhichPhotoIsActive_isNullIfPressingOutsiedeAllPhotos() {
         PhotoCollection collection = new PhotoCollection();
         Photo p = new Photo(10, 10, null);
         p.centerX = 0;
