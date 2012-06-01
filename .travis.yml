@@ -1,0 +1,7 @@
+language: java
+before_script:
+    - export DISPLAY=:99.0
+    - export PATH="$(pwd)/android-sdk-linux/tools:$PATH"
+    - export PATH="$(pwd)/android-sdk-linux/platform-tools:$PATH"
+    - ./setup-travis-env.sh
+script: ./run-tests.sh
