@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -64,12 +65,32 @@ public class OurCustomView extends View {
     }
 
     private Point toWorld(Point point) {
-        return point;
+        Matrix m = new Matrix();
+        m = setToWorld(m);
+
+        float[] dst = new float[] { 0, 0 };
+        float[] src = new float[] { point.x, point.y };
+        m.mapPoints(dst, src);
+        float newX = dst[0];
+        float newY = dst[1];
+
+        return new Point(newX, newY);
+    }
+    
+    private Matrix setToWorld(Matrix m) {
+        m.preScale(1/scaleFactor, 1/scaleFactor);
+        return m;
+    }
+    
+    private Matrix setFromWorld(Matrix m) {
+        m.preScale(scaleFactor, scaleFactor);
+        return m;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.setMatrix(setFromWorld(canvas.getMatrix()));
         renderBackground(canvas);
         for (Photo photo : collection.getPhotos()) {
             renderPhoto(canvas, photo);
@@ -112,7 +133,6 @@ public class OurCustomView extends View {
 
         canvas.translate(photo.centerX, photo.centerY);
         canvas.rotate(photo.angle);
-        canvas.scale(scaleFactor, scaleFactor);
 
         Paint paint = new Paint();
         paint.setARGB(255, 255, 255, 255);
