@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 public class Photo {
 
     public int BORDER = 10;
-    public float centerX;
-    public float centerY;
+    public float centerX = 0;
+    public float centerY = 0;
     public float width;
     public float height;
     public float angle;
