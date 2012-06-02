@@ -20,13 +20,13 @@ public class PhotoCollection {
         return active;
     }
 
-    public void fingerDown(float x, float y) {
-        active = findPhotoAt(x, y);
+    public void fingerDown(Point p) {
+        active = findPhotoAt(p);
     }
 
-    private Photo findPhotoAt(float x, float y) {
+    private Photo findPhotoAt(Point p) {
         for (Photo photo : photos) {
-            if (photo.pointInside(x, y)) {
+            if (photo.pointInside(p)) {
                 return photo;
             }
         }

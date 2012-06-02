@@ -1,7 +1,6 @@
 package com.photobox;
 
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 
 public class Photo {
 
@@ -30,25 +29,16 @@ public class Photo {
         return height + BORDER * 2;
     }
 
-    public boolean pointInside(float x, float y) {
-        Matrix m = new Matrix();
-        m.setRotate(-angle, 0, 0);
-
-        float[] dst = new float[] { 0, 0, 0, 0 };
-        float[] src = new float[] { x, y, centerX, centerY };
-        m.mapPoints(dst, src);
-        float x1 = dst[0];
-        float y1 = dst[1];
-        float x2 = dst[2];
-        float y2 = dst[3];
-
-        if (x1 < x2 - width / 2)
+    public boolean pointInside(Point p) {
+        Point p1 = Rotator.rotatePoint(p, angle);
+        Point p2 = Rotator.rotatePoint(new Point(centerX, centerY), angle);
+        if (p1.x < p2.x - width / 2)
             return false;
-        else if (x1 > x2 + width / 2)
+        else if (p1.x > p2.x + width / 2)
             return false;
-        else if (y1 < y2 - height / 2)
+        else if (p1.y < p2.y - height / 2)
             return false;
-        else if (y1 > y2 + height / 2)
+        else if (p1.y > p2.y + height / 2)
             return false;
         else
             return true;

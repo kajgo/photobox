@@ -3,6 +3,7 @@ package com.photobox.test;
 import android.test.AndroidTestCase;
 
 import com.photobox.Photo;
+import com.photobox.Point;
 
 public class PhotoTest extends AndroidTestCase {
 
@@ -10,8 +11,8 @@ public class PhotoTest extends AndroidTestCase {
         Photo p = new Photo(10, 10, null);
         p.centerX = 0;
         p.centerY = 0;
-        assertTrue(p.pointInside(0, 0));
-        assertFalse(p.pointInside(0, 100));
+        assertTrue(p.pointInside(new Point(0, 0)));
+        assertFalse(p.pointInside(new Point(0, 100)));
     }
 
     public void testKnowsIfAPointIsInsideOfItWhenRotated() {
@@ -19,8 +20,8 @@ public class PhotoTest extends AndroidTestCase {
         p.centerX = 0;
         p.centerY = 0;
         p.angle = 90;
-        assertTrue(p.pointInside(0, 25));
-        assertFalse(p.pointInside(25, 0));
+        assertTrue(p.pointInside(new Point(0, 25)));
+        assertFalse(p.pointInside(new Point(25, 0)));
     }
 
     public void testKnowsIfAPointIsInsideOfItWhenRotatedNotSoEasy() {
@@ -28,7 +29,7 @@ public class PhotoTest extends AndroidTestCase {
         p.centerX = 0;
         p.centerY = 0;
         p.angle = -45;
-        assertTrue(p.pointInside(-25, 25));
-        assertFalse(p.pointInside(25, 0));
+        assertTrue(p.pointInside(new Point(-25, 25)));
+        assertFalse(p.pointInside(new Point(25, 0)));
     }
 }

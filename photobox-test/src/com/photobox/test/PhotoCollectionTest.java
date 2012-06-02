@@ -7,6 +7,7 @@ import android.test.AndroidTestCase;
 
 import com.photobox.Photo;
 import com.photobox.PhotoCollection;
+import com.photobox.Point;
 
 public class PhotoCollectionTest extends AndroidTestCase {
 
@@ -34,7 +35,7 @@ public class PhotoCollectionTest extends AndroidTestCase {
         p.centerX = 0;
         p.centerY = 0;
         collection.addPhoto(p);
-        collection.fingerDown(0, 0);
+        collection.fingerDown(new Point(0, 0));
 
         assertEquals(p, collection.getActive());
     }
@@ -45,8 +46,8 @@ public class PhotoCollectionTest extends AndroidTestCase {
         p.centerX = 0;
         p.centerY = 0;
         collection.addPhoto(p);
-        collection.fingerDown(0, 0);
-        collection.fingerDown(100, 100);
+        collection.fingerDown(new Point(0, 0));
+        collection.fingerDown(new Point(100, 100));
 
         assertNull(collection.getActive());
     }
