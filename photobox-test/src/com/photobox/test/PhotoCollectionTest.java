@@ -13,7 +13,7 @@ public class PhotoCollectionTest extends AndroidTestCase {
 
     public void testContainsPhotos() {
         PhotoCollection collection = new PhotoCollection();
-        Photo p = new Photo(0, 0, null);
+        Photo p = new Photo();
         collection.addPhoto(p);
 
         List<Photo> l = new ArrayList<Photo>();
@@ -23,7 +23,7 @@ public class PhotoCollectionTest extends AndroidTestCase {
 
     public void testRemembersWhichPhotoIsActive_isNullWhenNoPhotoActivated() {
         PhotoCollection collection = new PhotoCollection();
-        Photo p = new Photo(0, 0, null);
+        Photo p = new Photo();
         collection.addPhoto(p);
 
         assertNull(collection.getActive());
@@ -31,9 +31,7 @@ public class PhotoCollectionTest extends AndroidTestCase {
 
     public void testRemembersWhichPhotoIsActive_isThePhotoWhichWasPressed() {
         PhotoCollection collection = new PhotoCollection();
-        Photo p = new Photo(10, 10, null);
-        p.centerX = 0;
-        p.centerY = 0;
+        Photo p = new Photo().withCenterAt(0, 0).withSize(10, 10);
         collection.addPhoto(p);
         collection.fingerDown(new Point(0, 0));
 
@@ -42,9 +40,7 @@ public class PhotoCollectionTest extends AndroidTestCase {
 
     public void testRemembersWhichPhotoIsActive_isNullIfPressingOutsiedeAllPhotos() {
         PhotoCollection collection = new PhotoCollection();
-        Photo p = new Photo(10, 10, null);
-        p.centerX = 0;
-        p.centerY = 0;
+        Photo p = new Photo().withCenterAt(0, 0).withSize(10, 10);
         collection.addPhoto(p);
         collection.fingerDown(new Point(0, 0));
         collection.fingerDown(new Point(100, 100));

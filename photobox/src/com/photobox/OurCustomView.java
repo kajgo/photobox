@@ -43,9 +43,9 @@ public class OurCustomView extends View {
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
         initializePxPy(context);
         collection = new PhotoCollection();
-        Bitmap p = BitmapFactory.decodeResource(getResources(),
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
-        collection.addPhoto(new Photo(p.getWidth(), p.getHeight(), p));
+        collection.addPhoto(new Photo().withBitmap(bitmap));
     }
 
     @Override
@@ -109,8 +109,8 @@ public class OurCustomView extends View {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
 
-        float w = currentPhoto().getWidth();
-        float h = photo.getHeight();
+        float w = currentPhoto().width;
+        float h = photo.height;
 
         moveOnlyWhenFingerOnImage(w, h);
 

@@ -12,21 +12,28 @@ public class Photo {
     public float angle;
     public Bitmap image;
 
-    public Photo(float width, float height, Bitmap anImage) {
-        this.width = width;
-        this.height = height;
-        centerX = 0;
-        centerY = 0;
-        angle = 0;
-        image = anImage;
+    public Photo withSize(float w, float h) {
+        this.width = w;
+        this.height = h;
+        return this;
     }
 
-    public float getWidth() {
-        return width + BORDER * 2;
+    public Photo withAngle(float angle) {
+        this.angle = angle;
+        return this;
     }
 
-    public float getHeight() {
-        return height + BORDER * 2;
+    public Photo withCenterAt(float x, float y) {
+        this.centerX = x;
+        this.centerY = y;
+        return this;
+    }
+    
+    public Photo withBitmap(Bitmap bitmap) {
+        this.image = bitmap;
+        this.width = bitmap.getWidth() + BORDER * 2;
+        this.height = bitmap.getHeight() + BORDER * 2;
+        return this;
     }
 
     public boolean pointInside(Point p) {
@@ -43,4 +50,5 @@ public class Photo {
         else
             return true;
     }
+
 }
