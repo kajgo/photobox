@@ -7,14 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.View;
-import android.view.WindowManager;
 
 public class OurCustomView extends View {
 
@@ -23,10 +20,6 @@ public class OurCustomView extends View {
 
     private PhotoCollection collection;
 
-    private float px = 0;
-    private float py = 0;
-    private float previousPx = 0;
-    private float previousPy = 0;
     private Float previousFingerAngle = null;
 
     public OurCustomView(Context context) {
@@ -41,7 +34,6 @@ public class OurCustomView extends View {
         super(context, attrs, defStyle);
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
-        initializePxPy(context);
         collection = new PhotoCollection();
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
@@ -95,11 +87,8 @@ public class OurCustomView extends View {
         } else {
             previousFingerAngle = null;
         }
-        px = event.getX();
-        py = event.getY();
-        collection.getActive().centerX = px;
-        collection.getActive().centerY = py;
-        Log.d("coords", "px=" + px + ", py=" + py);
+        collection.getActive().centerX = event.getX();
+        collection.getActive().centerY = event.getY();
     }
 
     private void renderBackground(Canvas canvas) {
@@ -115,8 +104,6 @@ public class OurCustomView extends View {
         float w = photo.width;
         float h = photo.height;
 
-        moveOnlyWhenFingerOnImage(w, h);
-
         canvas.translate(photo.centerX, photo.centerY);
         canvas.rotate(photo.angle);
         canvas.scale(scaleFactor, scaleFactor);
@@ -131,33 +118,6 @@ public class OurCustomView extends View {
         Paint p = new Paint();
         p.setColor(Color.BLUE);
         canvas.drawCircle(0, 0, 10, p);
-    }
-
-    private void moveOnlyWhenFingerOnImage(float w, float h) {
-        float scaledWidth = w * scaleFactor;
-        float scaledHeight = h * scaleFactor;
-        if (previousPx - scaledWidth / 2 > px
-                || previousPx + scaledWidth / 2 < px
-                || previousPy - scaledHeight / 2 > py
-                || previousPy + scaledHeight / 2 < py) {
-            px = previousPx;
-            py = previousPy;
-        }
-        previousPx = px;
-        previousPy = py;
-    }
-
-    private void initializePxPy(Context context) {
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-
-        px = metrics.widthPixels / 2;
-        py = metrics.heightPixels / 2;
-        previousPx = metrics.widthPixels / 2;
-        previousPy = metrics.heightPixels / 2;
     }
 
     private class ScaleListener extends
