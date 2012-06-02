@@ -109,7 +109,7 @@ public class OurCustomView extends View {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
 
-        float w = currentPhoto().width;
+        float w = photo.width;
         float h = photo.height;
 
         moveOnlyWhenFingerOnImage(w, h);
