@@ -47,6 +47,7 @@ public class OurCustomView extends View {
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             Log.d("iiiih!", "don't push it...");
+            collection.fingerDown(new Point(event.getX(), event.getY()));
             break;
         case MotionEvent.ACTION_UP:
             Log.d("phiew!", "back again!");
