@@ -47,7 +47,7 @@ public class OurCustomView extends View {
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             Log.d("iiiih!", "don't push it...");
-            collection.fingerDown(new Point(event.getX(), event.getY()));
+            collection.fingerDown(toWorld(new Point(event.getX(), event.getY())));
             break;
         case MotionEvent.ACTION_UP:
             Log.d("phiew!", "back again!");
@@ -61,6 +61,10 @@ public class OurCustomView extends View {
         }
         invalidate();
         return true;
+    }
+
+    private Point toWorld(Point point) {
+        return point;
     }
 
     @Override
@@ -88,8 +92,9 @@ public class OurCustomView extends View {
         } else {
             previousFingerAngle = null;
         }
-        collection.getActive().centerX = event.getX();
-        collection.getActive().centerY = event.getY();
+        Point worldPoint = toWorld(new Point(event.getX(), event.getY()));
+        collection.getActive().centerX = worldPoint.x;
+        collection.getActive().centerY = worldPoint.y;
     }
 
     private void renderBackground(Canvas canvas) {
