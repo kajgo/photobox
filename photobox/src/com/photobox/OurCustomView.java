@@ -107,9 +107,10 @@ public class OurCustomView extends View {
             return;
         }
         if (event.getPointerCount() > 1) {
-            double dy = event.getY(1) - event.getY(0);
-            double dx = event.getX(1) - event.getX(0);
-            double currentFingerAngle = Math.toDegrees(Math.atan2(dy, dx));
+            Point p1 = new Point(event.getX(0), event.getY(0));
+            Point p2 = new Point(event.getX(1), event.getY(1));
+            Point pDiff = toWorld(p2.minus(p1));
+            double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
             if (previousFingerAngle != null) {
                 double diffAngle = currentFingerAngle - previousFingerAngle;
                 collection.getActive().angle += (float) diffAngle;
