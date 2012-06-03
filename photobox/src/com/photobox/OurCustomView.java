@@ -7,24 +7,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.View;
 import android.view.WindowManager;
 
 public class OurCustomView extends View {
 
     private GraphicalDebugger debugger;
-    
-    private ScaleGestureDetector scaleDetector;
-
     private PhotoCollection collection;
-    private WorldMapping mapping = new WorldMapping();
-
-    private Float previousFingerAngle = null;
+    private WorldMapping mapping;
+    private InputHandler inputHandler;
 
     public OurCustomView(Context context) {
         this(context, null, 0);
@@ -36,10 +29,11 @@ public class OurCustomView extends View {
 
     public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        debugger = new GraphicalDebugger(mapping);
-        SimpleOnScaleGestureListener scaleListener = new ScaleListener();
-        scaleDetector = new ScaleGestureDetector(context, scaleListener);
+        mapping = new WorldMapping();
         collection = new PhotoCollection();
+        inputHandler = new InputHandler(context, mapping, collection);
+        debugger = new GraphicalDebugger(mapping);
+        
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
         collection.addPhoto(new Photo().withBitmap(bitmap));
@@ -49,24 +43,8 @@ public class OurCustomView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        inputHandler.onTouchEvent(event);
         debugger.storeFingerPoints(event);
-        Log.d("panic", "someone is touching me... help!!");
-        scaleDetector.onTouchEvent(event);
-        switch (event.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-            Log.d("iiiih!", "don't push it...");
-            collection.fingerDown(mapping.toWorld(new Point(event.getX(), event.getY())));
-            break;
-        case MotionEvent.ACTION_UP:
-            Log.d("phiew!", "back again!");
-            previousFingerAngle = null;
-            break;
-        case MotionEvent.ACTION_MOVE:
-            movePhoto(event);
-            break;
-        default:
-            break;
-        }
         invalidate();
         return true;
     }
@@ -91,26 +69,6 @@ public class OurCustomView extends View {
         
         mapping.SCREEN_CETNER_X = metrics.widthPixels / 2;
         mapping.SCREEN_CETNER_Y = metrics.heightPixels / 2;
-    }
-
-    private void movePhoto(MotionEvent event) {
-        if (collection.getActive() == null) {
-            return;
-        }
-        if (event.getPointerCount() > 1) {
-            Point p1 = mapping.toWorld(new Point(event.getX(0), event.getY(0)));
-            Point p2 = mapping.toWorld(new Point(event.getX(1), event.getY(1)));
-            Point pDiff = p2.minus(p1);
-            double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
-            if (previousFingerAngle != null) {
-                double diffAngle = currentFingerAngle - previousFingerAngle;
-                collection.getActive().angle += (float) diffAngle;
-            }
-            previousFingerAngle = new Float(currentFingerAngle);
-        } else {
-            previousFingerAngle = null;
-        }
-        collection.getActive().setCenterPoint(mapping.toWorld(new Point(event.getX(), event.getY())));
     }
 
     private void renderBackground(Canvas canvas) {
@@ -140,15 +98,6 @@ public class OurCustomView extends View {
         debugger.drawCenterPoint(canvas);
         debugger.printAngle(canvas, photo);
         canvas.restore();
-    }
-
-    private class ScaleListener extends
-            ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleDetector) {
-            mapping.scaleFactor *= scaleDetector.getScaleFactor();
-            return true;
-        }
     }
 
 }
