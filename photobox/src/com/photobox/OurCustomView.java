@@ -80,14 +80,14 @@ public class OurCustomView extends View {
     }
 
     private Matrix setToWorld(Matrix m) {
-        m.preScale(1/scaleFactor, 1/scaleFactor);
+        m.preScale(1/scaleFactor, -1/scaleFactor);
         m.preTranslate(-50, -50);
         return m;
     }
 
     private Matrix setFromWorld(Matrix m) {
         m.preTranslate(50, 50);
-        m.preScale(scaleFactor, scaleFactor);
+        m.preScale(scaleFactor, -scaleFactor);
         return m;
     }
 
