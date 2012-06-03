@@ -16,6 +16,8 @@ import android.view.View;
 
 public class OurCustomView extends View {
 
+    public boolean IN_DEBUG_MODE = true;
+    
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
 
@@ -76,13 +78,15 @@ public class OurCustomView extends View {
 
         return new Point(newX, newY);
     }
-    
+
     private Matrix setToWorld(Matrix m) {
         m.preScale(1/scaleFactor, 1/scaleFactor);
+        m.preTranslate(-50, -50);
         return m;
     }
-    
+
     private Matrix setFromWorld(Matrix m) {
+        m.preTranslate(50, 50);
         m.preScale(scaleFactor, scaleFactor);
         return m;
     }
@@ -95,6 +99,7 @@ public class OurCustomView extends View {
         for (Photo photo : collection.getPhotos()) {
             renderPhoto(canvas, photo);
         }
+        renderAxis(canvas);
     }
 
     private void movePhoto(MotionEvent event) {
@@ -123,6 +128,22 @@ public class OurCustomView extends View {
         bgPaint.setARGB(255, 255, 255, 0);
         canvas.drawPaint(bgPaint);
     }
+    
+    private void renderAxis(Canvas canvas) {
+        if (!IN_DEBUG_MODE) {
+            return;
+        }
+        Paint xAxisPaint = new Paint();
+        xAxisPaint.setARGB(255, 0, 0, 255);
+        Paint yAxisPaint = new Paint();
+        yAxisPaint.setARGB(255, 255, 0, 0);
+        float SIZE = 10 + 10;
+        float RADIUS = 3;
+        canvas.drawLine(-SIZE, 0, SIZE, 0, xAxisPaint);
+        canvas.drawCircle(SIZE, 0, RADIUS, xAxisPaint);
+        canvas.drawLine(0, -SIZE, 0, SIZE, yAxisPaint);
+        canvas.drawCircle(0, SIZE, RADIUS, yAxisPaint);
+    }
 
     private void renderPhoto(Canvas canvas, Photo photo) {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
@@ -131,6 +152,7 @@ public class OurCustomView extends View {
         float w = photo.width;
         float h = photo.height;
 
+        canvas.save();
         canvas.translate(photo.centerX, photo.centerY);
         canvas.rotate(photo.angle);
 
@@ -144,6 +166,7 @@ public class OurCustomView extends View {
         Paint p = new Paint();
         p.setColor(Color.BLUE);
         canvas.drawCircle(0, 0, 10, p);
+        canvas.restore();
     }
 
     private class ScaleListener extends
