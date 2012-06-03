@@ -7,11 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.View;
+import android.view.WindowManager;
 
 public class OurCustomView extends View {
 
@@ -23,6 +26,10 @@ public class OurCustomView extends View {
     private PhotoCollection collection;
 
     private Float previousFingerAngle = null;
+
+    private int SCREEN_CETNER_X;
+
+    private int SCREEN_CETNER_Y;
 
     public OurCustomView(Context context) {
         this(context, null, 0);
@@ -41,6 +48,8 @@ public class OurCustomView extends View {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
         collection.addPhoto(new Photo().withBitmap(bitmap));
+        
+        extractScreenCenter(context);
     }
 
     @Override
@@ -79,6 +88,16 @@ public class OurCustomView extends View {
         debugger.renderFingers(canvas);
     }
 
+    private void extractScreenCenter(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        
+        SCREEN_CETNER_X = metrics.widthPixels / 2;
+        SCREEN_CETNER_Y = metrics.heightPixels / 2;
+    }
+
     public Point toWorld(Point point) {
         Matrix m = new Matrix();
         m = setToWorld(m);
@@ -94,12 +113,12 @@ public class OurCustomView extends View {
 
     private Matrix setToWorld(Matrix m) {
         m.preScale(1/scaleFactor, -1/scaleFactor);
-        m.preTranslate(-50, -50);
+        m.preTranslate(-SCREEN_CETNER_X, -SCREEN_CETNER_Y);
         return m;
     }
 
     private Matrix setFromWorld(Matrix m) {
-        m.preTranslate(50, 50);
+        m.preTranslate(SCREEN_CETNER_X, SCREEN_CETNER_Y);
         m.preScale(scaleFactor, -scaleFactor);
         return m;
     }
