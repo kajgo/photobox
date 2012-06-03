@@ -66,6 +66,17 @@ public class OurCustomView extends View {
         return true;
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.setMatrix(setFromWorld(canvas.getMatrix()));
+        renderBackground(canvas);
+        for (Photo photo : collection.getPhotos()) {
+            renderPhoto(canvas, photo);
+        }
+        renderAxis(canvas);
+    }
+
     private Point toWorld(Point point) {
         Matrix m = new Matrix();
         m = setToWorld(m);
@@ -89,17 +100,6 @@ public class OurCustomView extends View {
         m.preTranslate(50, 50);
         m.preScale(scaleFactor, -scaleFactor);
         return m;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.setMatrix(setFromWorld(canvas.getMatrix()));
-        renderBackground(canvas);
-        for (Photo photo : collection.getPhotos()) {
-            renderPhoto(canvas, photo);
-        }
-        renderAxis(canvas);
     }
 
     private void movePhoto(MotionEvent event) {
