@@ -18,10 +18,10 @@ public class GraphicalDebugger {
     
     private List<Point> fingerPoints = new ArrayList<Point>();
     
-    private OurCustomView view;
+    private WorldMapping mapper;
     
-    public GraphicalDebugger(OurCustomView view) {
-        this.view = view;
+    public GraphicalDebugger(WorldMapping mapper) {
+        this.mapper = mapper;
     }
     
     public void storeFingerPoints(MotionEvent event) {
@@ -30,7 +30,7 @@ public class GraphicalDebugger {
         }
         fingerPoints.clear();
         for (int i = 0; i < event.getPointerCount(); i++) {
-           fingerPoints.add(view.toWorld(new Point(event.getX(i), event.getY(i))));
+           fingerPoints.add(mapper.toWorld(new Point(event.getX(i), event.getY(i))));
         }
     }
 

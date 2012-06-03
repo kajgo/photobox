@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -21,15 +20,11 @@ public class OurCustomView extends View {
     private GraphicalDebugger debugger;
     
     private ScaleGestureDetector scaleDetector;
-    private float scaleFactor = 1.f;
 
     private PhotoCollection collection;
+    private WorldMapping mapping = new WorldMapping();
 
     private Float previousFingerAngle = null;
-
-    private int SCREEN_CETNER_X;
-
-    private int SCREEN_CETNER_Y;
 
     public OurCustomView(Context context) {
         this(context, null, 0);
@@ -41,7 +36,7 @@ public class OurCustomView extends View {
 
     public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        debugger = new GraphicalDebugger(this);
+        debugger = new GraphicalDebugger(mapping);
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
         collection = new PhotoCollection();
@@ -60,7 +55,7 @@ public class OurCustomView extends View {
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             Log.d("iiiih!", "don't push it...");
-            collection.fingerDown(toWorld(new Point(event.getX(), event.getY())));
+            collection.fingerDown(mapping.toWorld(new Point(event.getX(), event.getY())));
             break;
         case MotionEvent.ACTION_UP:
             Log.d("phiew!", "back again!");
@@ -79,7 +74,7 @@ public class OurCustomView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.setMatrix(setFromWorld(canvas.getMatrix()));
+        canvas.setMatrix(mapping.setFromWorld(canvas.getMatrix()));
         renderBackground(canvas);
         for (Photo photo : collection.getPhotos()) {
             renderPhoto(canvas, photo);
@@ -94,33 +89,8 @@ public class OurCustomView extends View {
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         
-        SCREEN_CETNER_X = metrics.widthPixels / 2;
-        SCREEN_CETNER_Y = metrics.heightPixels / 2;
-    }
-
-    public Point toWorld(Point point) {
-        Matrix m = new Matrix();
-        m = setToWorld(m);
-
-        float[] dst = new float[] { 0, 0 };
-        float[] src = new float[] { point.x, point.y };
-        m.mapPoints(dst, src);
-        float newX = dst[0];
-        float newY = dst[1];
-
-        return new Point(newX, newY);
-    }
-
-    private Matrix setToWorld(Matrix m) {
-        m.preScale(1/scaleFactor, -1/scaleFactor);
-        m.preTranslate(-SCREEN_CETNER_X, -SCREEN_CETNER_Y);
-        return m;
-    }
-
-    private Matrix setFromWorld(Matrix m) {
-        m.preTranslate(SCREEN_CETNER_X, SCREEN_CETNER_Y);
-        m.preScale(scaleFactor, -scaleFactor);
-        return m;
+        mapping.SCREEN_CETNER_X = metrics.widthPixels / 2;
+        mapping.SCREEN_CETNER_Y = metrics.heightPixels / 2;
     }
 
     private void movePhoto(MotionEvent event) {
@@ -128,8 +98,8 @@ public class OurCustomView extends View {
             return;
         }
         if (event.getPointerCount() > 1) {
-            Point p1 = toWorld(new Point(event.getX(0), event.getY(0)));
-            Point p2 = toWorld(new Point(event.getX(1), event.getY(1)));
+            Point p1 = mapping.toWorld(new Point(event.getX(0), event.getY(0)));
+            Point p2 = mapping.toWorld(new Point(event.getX(1), event.getY(1)));
             Point pDiff = p2.minus(p1);
             double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
             if (previousFingerAngle != null) {
@@ -140,7 +110,7 @@ public class OurCustomView extends View {
         } else {
             previousFingerAngle = null;
         }
-        collection.getActive().setCenterPoint(toWorld(new Point(event.getX(), event.getY())));
+        collection.getActive().setCenterPoint(mapping.toWorld(new Point(event.getX(), event.getY())));
     }
 
     private void renderBackground(Canvas canvas) {
@@ -176,7 +146,7 @@ public class OurCustomView extends View {
             ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleDetector) {
-            scaleFactor *= scaleDetector.getScaleFactor();
+            mapping.scaleFactor *= scaleDetector.getScaleFactor();
             return true;
         }
     }
