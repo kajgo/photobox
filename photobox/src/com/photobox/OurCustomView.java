@@ -163,9 +163,16 @@ public class OurCustomView extends View {
         canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER,
                 null);
 
-        Paint p = new Paint();
-        p.setColor(Color.BLUE);
-        canvas.drawCircle(0, 0, 10, p);
+        if (IN_DEBUG_MODE) {
+            Paint p = new Paint();
+            p.setColor(Color.BLUE);
+            canvas.drawCircle(0, 0, 10, p);
+            
+            Paint textPaint = new Paint();
+            textPaint.setColor(Color.BLACK);
+            canvas.drawText("angle: " + photo.angle, 0, -photo.height/2, textPaint);
+        }
+        
         canvas.restore();
     }
 
