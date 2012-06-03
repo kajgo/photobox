@@ -1,13 +1,9 @@
 package com.photobox;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -19,7 +15,7 @@ import android.view.View;
 
 public class OurCustomView extends View {
 
-    public boolean IN_DEBUG_MODE = true;
+    private GraphicalDebugger debugger;
     
     private ScaleGestureDetector scaleDetector;
     private float scaleFactor = 1.f;
@@ -27,7 +23,6 @@ public class OurCustomView extends View {
     private PhotoCollection collection;
 
     private Float previousFingerAngle = null;
-    private List<Point> fingerPoints = new ArrayList<Point>();
 
     public OurCustomView(Context context) {
         this(context, null, 0);
@@ -39,6 +34,7 @@ public class OurCustomView extends View {
 
     public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        debugger = new GraphicalDebugger(this);
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
         collection = new PhotoCollection();
@@ -49,7 +45,7 @@ public class OurCustomView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        storeFingerPoints(event);
+        debugger.storeFingerPoints(event);
         Log.d("panic", "someone is touching me... help!!");
         scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
@@ -71,16 +67,6 @@ public class OurCustomView extends View {
         return true;
     }
 
-    private void storeFingerPoints(MotionEvent event) {
-        if (!IN_DEBUG_MODE) {
-            return;
-        }
-        fingerPoints.clear();
-        for (int i = 0; i < event.getPointerCount(); i++) {
-           fingerPoints.add(toWorld(new Point(event.getX(i), event.getY(i))));
-        }
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -89,11 +75,11 @@ public class OurCustomView extends View {
         for (Photo photo : collection.getPhotos()) {
             renderPhoto(canvas, photo);
         }
-        renderAxis(canvas);
-        renderFingers(canvas);
+        debugger.renderAxis(canvas);
+        debugger.renderFingers(canvas);
     }
 
-    private Point toWorld(Point point) {
+    public Point toWorld(Point point) {
         Matrix m = new Matrix();
         m = setToWorld(m);
 
@@ -144,34 +130,6 @@ public class OurCustomView extends View {
         canvas.drawPaint(bgPaint);
     }
     
-    private void renderAxis(Canvas canvas) {
-        if (!IN_DEBUG_MODE) {
-            return;
-        }
-        Paint xAxisPaint = new Paint();
-        xAxisPaint.setARGB(255, 0, 0, 255);
-        Paint yAxisPaint = new Paint();
-        yAxisPaint.setARGB(255, 255, 0, 0);
-        float SIZE = 10 + 10;
-        float RADIUS = 3;
-        canvas.drawLine(-SIZE, 0, SIZE, 0, xAxisPaint);
-        canvas.drawCircle(SIZE, 0, RADIUS, xAxisPaint);
-        canvas.drawLine(0, -SIZE, 0, SIZE, yAxisPaint);
-        canvas.drawCircle(0, SIZE, RADIUS, yAxisPaint);
-    }
-
-    private void renderFingers(Canvas canvas) {
-        if (!IN_DEBUG_MODE) {
-            return;
-        }
-        Paint fingerPaint = new Paint();
-        fingerPaint.setColor(Color.GREEN);
-        float RADIUS = 3;
-        for (Point p : fingerPoints) {
-            canvas.drawCircle(p.x, p.y, RADIUS, fingerPaint);
-        }
-    }
-    
     private void renderPhoto(Canvas canvas, Photo photo) {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
@@ -190,16 +148,8 @@ public class OurCustomView extends View {
         canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER,
                 null);
 
-        if (IN_DEBUG_MODE) {
-            Paint p = new Paint();
-            p.setColor(Color.BLUE);
-            canvas.drawCircle(0, 0, 10, p);
-            
-            Paint textPaint = new Paint();
-            textPaint.setColor(Color.BLACK);
-            canvas.drawText("angle: " + photo.angle, 0, -photo.height/2, textPaint);
-        }
-        
+        debugger.drawCenterPoint(canvas);
+        debugger.printAngle(canvas, photo);
         canvas.restore();
     }
 
