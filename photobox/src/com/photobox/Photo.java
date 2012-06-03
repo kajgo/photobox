@@ -24,15 +24,15 @@ public class Photo {
     }
 
     public Photo withCenterAt(float x, float y) {
-        this.centerX = x;
-        this.centerY = y;
+        centerX = x;
+        centerY = y;
         return this;
     }
     
     public Photo withBitmap(Bitmap bitmap) {
-        this.image = bitmap;
-        this.width = bitmap.getWidth() + BORDER * 2;
-        this.height = bitmap.getHeight() + BORDER * 2;
+        image = bitmap;
+        width = bitmap.getWidth() + BORDER * 2;
+        height = bitmap.getHeight() + BORDER * 2;
         return this;
     }
 
@@ -49,6 +49,11 @@ public class Photo {
             return false;
         else
             return true;
+    }
+
+    public void setCenterPoint(Point p) {
+        centerX = p.x;
+        centerY = p.y;
     }
 
 }

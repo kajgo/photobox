@@ -119,9 +119,7 @@ public class OurCustomView extends View {
         } else {
             previousFingerAngle = null;
         }
-        Point worldPoint = toWorld(new Point(event.getX(), event.getY()));
-        collection.getActive().centerX = worldPoint.x;
-        collection.getActive().centerY = worldPoint.y;
+        collection.getActive().setCenterPoint(toWorld(new Point(event.getX(), event.getY())));
     }
 
     private void renderBackground(Canvas canvas) {
