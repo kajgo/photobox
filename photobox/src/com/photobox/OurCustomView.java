@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -18,6 +17,7 @@ public class OurCustomView extends View {
     private PhotoCollection collection;
     private WorldMapping mapping;
     private InputHandler inputHandler;
+    private Renderer renderer;
 
     public OurCustomView(Context context) {
         this(context, null, 0);
@@ -33,6 +33,7 @@ public class OurCustomView extends View {
         collection = new PhotoCollection();
         inputHandler = new InputHandler(context, mapping, collection);
         debugger = new GraphicalDebugger(mapping);
+        renderer = new Renderer(debugger, mapping, collection);
         
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
@@ -52,13 +53,7 @@ public class OurCustomView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.setMatrix(mapping.setFromWorld(canvas.getMatrix()));
-        renderBackground(canvas);
-        for (Photo photo : collection.getPhotos()) {
-            renderPhoto(canvas, photo);
-        }
-        debugger.renderAxis(canvas);
-        debugger.renderFingers(canvas);
+        renderer.onDraw(canvas);
     }
 
     private void extractScreenCenter(Context context) {
@@ -70,34 +65,4 @@ public class OurCustomView extends View {
         mapping.SCREEN_CETNER_X = metrics.widthPixels / 2;
         mapping.SCREEN_CETNER_Y = metrics.heightPixels / 2;
     }
-
-    private void renderBackground(Canvas canvas) {
-        Paint bgPaint = new Paint();
-        bgPaint.setARGB(255, 255, 255, 0);
-        canvas.drawPaint(bgPaint);
-    }
-    
-    private void renderPhoto(Canvas canvas, Photo photo) {
-        Bitmap image = BitmapFactory.decodeResource(getResources(),
-                R.drawable.testimage_x);
-
-        float w = photo.width;
-        float h = photo.height;
-
-        canvas.save();
-        canvas.translate(photo.centerX, photo.centerY);
-        canvas.rotate(photo.angle);
-
-        Paint paint = new Paint();
-        paint.setARGB(255, 255, 255, 255);
-        canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, paint);
-
-        canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER,
-                null);
-
-        debugger.drawCenterPoint(canvas);
-        debugger.printAngle(canvas, photo);
-        canvas.restore();
-    }
-
 }
