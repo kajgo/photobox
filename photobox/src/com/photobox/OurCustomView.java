@@ -1,5 +1,8 @@
 package com.photobox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +27,7 @@ public class OurCustomView extends View {
     private PhotoCollection collection;
 
     private Float previousFingerAngle = null;
+    private List<Point> fingerPoints = new ArrayList<Point>();
 
     public OurCustomView(Context context) {
         this(context, null, 0);
@@ -45,6 +49,7 @@ public class OurCustomView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        storeFingerPoints(event);
         Log.d("panic", "someone is touching me... help!!");
         scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
@@ -66,6 +71,16 @@ public class OurCustomView extends View {
         return true;
     }
 
+    private void storeFingerPoints(MotionEvent event) {
+        if (!IN_DEBUG_MODE) {
+            return;
+        }
+        fingerPoints.clear();
+        for (int i = 0; i < event.getPointerCount(); i++) {
+           fingerPoints.add(toWorld(new Point(event.getX(i), event.getY(i))));
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -75,6 +90,7 @@ public class OurCustomView extends View {
             renderPhoto(canvas, photo);
         }
         renderAxis(canvas);
+        renderFingers(canvas);
     }
 
     private Point toWorld(Point point) {
@@ -144,6 +160,18 @@ public class OurCustomView extends View {
         canvas.drawCircle(0, SIZE, RADIUS, yAxisPaint);
     }
 
+    private void renderFingers(Canvas canvas) {
+        if (!IN_DEBUG_MODE) {
+            return;
+        }
+        Paint fingerPaint = new Paint();
+        fingerPaint.setColor(Color.GREEN);
+        float RADIUS = 3;
+        for (Point p : fingerPoints) {
+            canvas.drawCircle(p.x, p.y, RADIUS, fingerPaint);
+        }
+    }
+    
     private void renderPhoto(Canvas canvas, Photo photo) {
         Bitmap image = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
