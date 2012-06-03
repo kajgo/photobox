@@ -128,9 +128,9 @@ public class OurCustomView extends View {
             return;
         }
         if (event.getPointerCount() > 1) {
-            Point p1 = new Point(event.getX(0), event.getY(0));
-            Point p2 = new Point(event.getX(1), event.getY(1));
-            Point pDiff = toWorld(p2.minus(p1));
+            Point p1 = toWorld(new Point(event.getX(0), event.getY(0)));
+            Point p2 = toWorld(new Point(event.getX(1), event.getY(1)));
+            Point pDiff = p2.minus(p1);
             double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
             if (previousFingerAngle != null) {
                 double diffAngle = currentFingerAngle - previousFingerAngle;
