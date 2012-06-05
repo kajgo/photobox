@@ -24,7 +24,6 @@ public class InputHandler {
     }
 
     public void onTouchEvent(MotionEvent event) {
-        scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setActivePhoto(extractWorldPoint(event, 0));
@@ -38,10 +37,17 @@ public class InputHandler {
             default:
                 break;
         }
+        if (noActivePhoto()) {
+            scaleDetector.onTouchEvent(event);
+        }
     }
 
     private Point extractWorldPoint(MotionEvent event, int which) {
         return mapping.toWorld(new Point(event.getX(which), event.getY(which)));
+    }
+
+    private boolean noActivePhoto() {
+        return activePhoto == null;
     }
 
     private void setActivePhoto(Point fingerPoint) {
@@ -54,7 +60,7 @@ public class InputHandler {
     }
 
     private void movePhoto(MotionEvent event) {
-        if (activePhoto == null) {
+        if (noActivePhoto()) {
             return;
         }
         if (event.getPointerCount() > 1) {

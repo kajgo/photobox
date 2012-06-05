@@ -1,6 +1,7 @@
-Undersök hur flyttning och rotation ska funka för flera bilder.
-Importera foton.
+BUG: scalefactor kan bli 0 om man zoomar ut mycket
 Fira med öl.
-Epic: Vrida och zooma i olika rörelser
+Attraktivare bakgrund
+DEMO
+Importera foton.
 Epic: Kategorisera foton i flera boxar.
 Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
