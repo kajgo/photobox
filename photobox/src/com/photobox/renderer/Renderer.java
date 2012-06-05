@@ -27,26 +27,23 @@ public class Renderer {
         float w = photo.width;
         float h = photo.height;
 
-        canvas.save();
-        canvas.translate(photo.centerX, photo.centerY);
-        canvas.rotate(photo.angle);
+        Paint borderPaint = new Paint();
+        borderPaint.setARGB(255, 255, 255, 255);
 
-        Paint paint = new Paint();
-        paint.setARGB(255, 255, 255, 255);
-        canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, paint);
-
+        canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
         canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, null);
-
         debugger.drawCenterPoint(canvas);
         debugger.printAngle(canvas, photo);
-        canvas.restore();
     }
 
     public void onDraw(Canvas canvas) {
-        canvas.setMatrix(mapping.setFromWorld(canvas.getMatrix()));
+        mapping.setWorldToScreenTransformation(canvas);
         renderBackground(canvas);
         for (Photo photo : collection.getPhotos()) {
+            canvas.save();
+            mapping.setPhotoToViewportTransformation(canvas, photo);
             renderPhoto(canvas, photo);
+            canvas.restore();
         }
         debugger.renderAxis(canvas);
         debugger.renderFingers(canvas);

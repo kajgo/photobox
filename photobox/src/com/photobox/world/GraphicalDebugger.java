@@ -71,7 +71,7 @@ public class GraphicalDebugger {
         if(IN_DEBUG_MODE) {
             Paint textPaint = new Paint();
             textPaint.setColor(Color.BLACK);
-            canvas.drawText("angle: " + photo.angle, 0, -photo.height/2, textPaint);
+            canvas.drawText("angle: " + photo.angle, 0, photo.height/2, textPaint);
         }
     }
 

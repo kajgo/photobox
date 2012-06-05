@@ -1,6 +1,7 @@
 package com.photobox.world;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -39,6 +40,16 @@ public class WorldMapping {
         m.preTranslate(SCREEN_CETNER_X, SCREEN_CETNER_Y);
         m.preScale(scaleFactor, -scaleFactor);
         return m;
+    }
+
+    public void setPhotoToViewportTransformation(Canvas c, Photo p) {
+        c.translate(p.centerX, p.centerY);
+        c.rotate(p.angle);
+        c.scale(1, -1);
+    }
+
+    public void setWorldToScreenTransformation(Canvas c) {
+        c.setMatrix(setFromWorld(c.getMatrix()));
     }
 
     public void extractScreenCenter(Context context) {
