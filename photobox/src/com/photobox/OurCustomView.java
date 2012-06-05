@@ -31,7 +31,7 @@ public class OurCustomView extends View {
         inputHandler = new InputHandler(context, mapping, collection);
         debugger = new GraphicalDebugger(mapping);
         renderer = new Renderer(debugger, mapping, collection);
-        
+
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
         collection.addPhoto(new Photo().withBitmap(bitmap));
