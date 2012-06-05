@@ -25,7 +25,8 @@ public class PhotoCollection {
     }
 
     private Photo findPhotoAt(Point p) {
-        for (Photo photo : photos) {
+        for (int i = photos.size() - 1; i >= 0; i--) {
+            Photo photo = photos.get(i);
             if (photo.pointInside(p)) {
                 return photo;
             }

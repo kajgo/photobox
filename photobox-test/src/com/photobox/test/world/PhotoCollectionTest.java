@@ -46,4 +46,14 @@ public class PhotoCollectionTest extends AndroidTestCase {
         assertNull(collection.getActive());
     }
 
+    public void testFingerDownLocatesTopmostPhoto() {
+        PhotoCollection collection = new PhotoCollection();
+        Photo bottommostPhoto = new Photo().withCenterAt(0, 0).withSize(10, 10);
+        Photo topmostPhoto = new Photo().withCenterAt(0, 0).withSize(10, 10);
+        collection.addPhoto(bottommostPhoto);
+        collection.addPhoto(topmostPhoto);
+
+        collection.fingerDown(new Point(0, 0));
+        assertEquals(collection.getActive(), topmostPhoto);
+    }
 }
