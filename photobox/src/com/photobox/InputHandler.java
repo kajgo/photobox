@@ -11,10 +11,10 @@ public class InputHandler {
 
     public ScaleGestureDetector scaleDetector;
     public WorldMapping mapping;
-    public Float previousFingerAngle = null;
+    public Double previousFingerAngle = null;
     public PhotoCollection collection;
 
-    public Point photoOffset;
+    public ActivePhoto activePhoto;
 
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
@@ -27,11 +27,7 @@ public class InputHandler {
         scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Point fingerPoint = mapping.toWorld(new Point(event.getX(), event.getY()));
-                collection.fingerDown(fingerPoint);
-                if (collection.getActive() != null) {
-                    photoOffset = fingerPoint.minus(collection.getActive().getCenterPoint());
-                }
+                setActivePhoto(extractWorldPoint(event, 0));
                 break;
             case MotionEvent.ACTION_UP:
                 previousFingerAngle = null;
@@ -44,24 +40,37 @@ public class InputHandler {
         }
     }
 
-    private void movePhoto(MotionEvent event) {
+    private Point extractWorldPoint(MotionEvent event, int which) {
+        return mapping.toWorld(new Point(event.getX(which), event.getY(which)));
+    }
+
+    private void setActivePhoto(Point fingerPoint) {
+        collection.fingerDown(fingerPoint);
         if (collection.getActive() == null) {
+            activePhoto = null;
+        } else {
+            activePhoto = ActivePhoto.fromFingerPoint(fingerPoint, collection.getActive());
+        }
+    }
+
+    private void movePhoto(MotionEvent event) {
+        if (activePhoto == null) {
             return;
         }
         if (event.getPointerCount() > 1) {
-            Point p1 = mapping.toWorld(new Point(event.getX(0), event.getY(0)));
-            Point p2 = mapping.toWorld(new Point(event.getX(1), event.getY(1)));
+            Point p1 = extractWorldPoint(event, 0);
+            Point p2 = extractWorldPoint(event, 1);
             Point pDiff = p2.minus(p1);
             double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
             if (previousFingerAngle != null) {
                 double diffAngle = currentFingerAngle - previousFingerAngle;
-                collection.getActive().angle += (float) diffAngle;
+                activePhoto.addAngle((float) diffAngle);
             }
-            previousFingerAngle = new Float(currentFingerAngle);
+            previousFingerAngle = new Double(currentFingerAngle);
         } else {
             previousFingerAngle = null;
         }
-        collection.getActive().setCenterPoint(mapping.toWorld(new Point(event.getX(), event.getY())).minus(photoOffset));
+        activePhoto.move(mapping.toWorld(new Point(event.getX(), event.getY())));
     }
 
     private class ScaleListener extends
