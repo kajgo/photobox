@@ -7,7 +7,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 public class WorldMapping {
-    
+
     public float scaleFactor = 1.f;
     public int SCREEN_CETNER_X;
     public int SCREEN_CETNER_Y;
