@@ -1,5 +1,4 @@
 #!/bin/sh
-# kill old
 
 pidfile=lastpid.txt
 
@@ -11,6 +10,6 @@ fi
 echo $$ > $pidfile
 
 ./run-tests.sh &&
-(cd photobox && adb shell am start -n com.photobox/com.photobox.PhotoboxActivity)
+(echo "starting app" && cd photobox && adb shell am start -n com.photobox/com.photobox.PhotoboxActivity) &&
 
 rm $pidfile
