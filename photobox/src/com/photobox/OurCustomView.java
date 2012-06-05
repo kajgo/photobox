@@ -37,6 +37,8 @@ public class OurCustomView extends View {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.testimage_x);
         collection.addPhoto(new Photo().withBitmap(bitmap));
+        collection.addPhoto(new Photo().withBitmap(bitmap));
+        collection.addPhoto(new Photo().withBitmap(bitmap));
     }
 
     @Override
