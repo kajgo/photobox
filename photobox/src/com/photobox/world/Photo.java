@@ -56,4 +56,8 @@ public class Photo {
         centerY = p.y;
     }
 
+    public Point getCenterPoint() {
+        return new Point(centerX, centerY);
+    }
+
 }

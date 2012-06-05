@@ -14,6 +14,8 @@ public class InputHandler {
     public Float previousFingerAngle = null;
     public PhotoCollection collection;
 
+    public Point photoOffset;
+
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
@@ -25,7 +27,11 @@ public class InputHandler {
         scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                collection.fingerDown(mapping.toWorld(new Point(event.getX(), event.getY())));
+                Point fingerPoint = mapping.toWorld(new Point(event.getX(), event.getY()));
+                collection.fingerDown(fingerPoint);
+                if (collection.getActive() != null) {
+                    photoOffset = fingerPoint.minus(collection.getActive().getCenterPoint());
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 previousFingerAngle = null;
@@ -55,7 +61,7 @@ public class InputHandler {
         } else {
             previousFingerAngle = null;
         }
-        collection.getActive().setCenterPoint(mapping.toWorld(new Point(event.getX(), event.getY())));
+        collection.getActive().setCenterPoint(mapping.toWorld(new Point(event.getX(), event.getY())).minus(photoOffset));
     }
 
     private class ScaleListener extends
