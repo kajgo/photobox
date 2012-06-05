@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.world;
 
 public class Point {
 

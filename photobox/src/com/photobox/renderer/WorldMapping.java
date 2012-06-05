@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.world;
 
 import android.content.Context;
 import android.graphics.Matrix;

@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.world;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +9,21 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 public class GraphicalDebugger {
-    
+
     public static final boolean IN_DEBUG_MODE = true;
-    
+
     private static final float SMALL_RADIUS = 3;
     private static final float BIG_RADIUS = 10;
     private static final float HALF_AXIS_LENGTH = 20;
-    
+
     private List<Point> fingerPoints = new ArrayList<Point>();
-    
+
     private WorldMapping mapper;
-    
+
     public GraphicalDebugger(WorldMapping mapper) {
         this.mapper = mapper;
     }
-    
+
     public void storeFingerPoints(MotionEvent event) {
         if (!IN_DEBUG_MODE) {
             return;
@@ -44,7 +44,7 @@ public class GraphicalDebugger {
             canvas.drawCircle(p.x, p.y, BIG_RADIUS, fingerPaint);
         }
     }
-    
+
     public void renderAxis(Canvas canvas) {
         if (!IN_DEBUG_MODE) {
             return;

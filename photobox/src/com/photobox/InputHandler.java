@@ -1,5 +1,7 @@
 package com.photobox;
 
+import com.photobox.world.*;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -39,7 +41,7 @@ public class InputHandler {
             break;
         }
     }
-    
+
     private void movePhoto(MotionEvent event) {
         if (collection.getActive() == null) {
             return;

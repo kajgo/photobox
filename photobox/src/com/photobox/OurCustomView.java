@@ -1,5 +1,7 @@
 package com.photobox;
 
+import com.photobox.world.*;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

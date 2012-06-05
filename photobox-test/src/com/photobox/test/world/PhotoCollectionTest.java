@@ -5,9 +5,7 @@ import java.util.List;
 
 import android.test.AndroidTestCase;
 
-import com.photobox.Photo;
-import com.photobox.PhotoCollection;
-import com.photobox.Point;
+import com.photobox.world.*;
 
 public class PhotoCollectionTest extends AndroidTestCase {
 

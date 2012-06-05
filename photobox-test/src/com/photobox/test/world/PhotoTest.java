@@ -2,8 +2,7 @@ package com.photobox.test;
 
 import android.test.AndroidTestCase;
 
-import com.photobox.Photo;
-import com.photobox.Point;
+import com.photobox.world.*;
 
 public class PhotoTest extends AndroidTestCase {
 

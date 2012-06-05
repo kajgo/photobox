@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.world;
 
 import android.graphics.Bitmap;
 
@@ -28,7 +28,7 @@ public class Photo {
         centerY = y;
         return this;
     }
-    
+
     public Photo withBitmap(Bitmap bitmap) {
         image = bitmap;
         width = bitmap.getWidth() + BORDER * 2;

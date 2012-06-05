@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.world;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

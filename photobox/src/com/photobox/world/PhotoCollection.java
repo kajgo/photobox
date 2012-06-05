@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.world;
 
 import java.util.ArrayList;
 import java.util.List;
