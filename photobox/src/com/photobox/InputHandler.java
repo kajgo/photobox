@@ -3,7 +3,6 @@ package com.photobox;
 import com.photobox.world.*;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
@@ -23,22 +22,19 @@ public class InputHandler {
     }
 
     public void onTouchEvent(MotionEvent event) {
-        Log.d("panic", "someone is touching me... help!!");
         scaleDetector.onTouchEvent(event);
         switch (event.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-            Log.d("iiiih!", "don't push it...");
-            collection.fingerDown(mapping.toWorld(new Point(event.getX(), event.getY())));
-            break;
-        case MotionEvent.ACTION_UP:
-            Log.d("phiew!", "back again!");
-            previousFingerAngle = null;
-            break;
-        case MotionEvent.ACTION_MOVE:
-            movePhoto(event);
-            break;
-        default:
-            break;
+            case MotionEvent.ACTION_DOWN:
+                collection.fingerDown(mapping.toWorld(new Point(event.getX(), event.getY())));
+                break;
+            case MotionEvent.ACTION_UP:
+                previousFingerAngle = null;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                movePhoto(event);
+                break;
+            default:
+                break;
         }
     }
 
