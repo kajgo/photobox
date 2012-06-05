@@ -12,4 +12,4 @@ echo $$ > $pidfile
 ./run-tests.sh &&
 (echo "starting app" && cd photobox && adb shell am start -n com.photobox/com.photobox.PhotoboxActivity) &&
 
-rm $pidfile
+rm -f $pidfile
