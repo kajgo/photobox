@@ -29,9 +29,14 @@ public class Renderer {
 
         Paint borderPaint = new Paint();
         borderPaint.setARGB(255, 255, 255, 255);
+        borderPaint.setAntiAlias(true);
+
+        Paint photoPaint = new Paint();
+        photoPaint.setAntiAlias(true);
+        photoPaint.setFilterBitmap(true);
 
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
-        canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, null);
+        canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, photoPaint);
         debugger.drawCenterPoint(canvas);
         debugger.printAngle(canvas, photo);
     }
