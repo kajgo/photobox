@@ -83,7 +83,8 @@ public class InputHandler {
             ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleDetector) {
-            mapping.scaleFactor *= scaleDetector.getScaleFactor();
+            float newScaleFactor = mapping.scaleFactor * scaleDetector.getScaleFactor();
+            mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
             return true;
         }
     }
