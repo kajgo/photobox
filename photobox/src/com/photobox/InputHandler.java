@@ -4,23 +4,20 @@ import com.photobox.world.*;
 
 import android.content.Context;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 
 public class InputHandler {
 
-    public ScaleGestureDetector scaleDetector;
     public WorldMapping mapping;
     public Double previousFingerAngle = null;
     public PhotoCollection collection;
+    public ScaleHandler scaleHandler;
 
     public ActivePhoto activePhoto;
 
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
-        SimpleOnScaleGestureListener scaleListener = new ScaleListener();
-        scaleDetector = new ScaleGestureDetector(context, scaleListener);
         this.mapping = mapping;
         this.collection = collection;
+        scaleHandler = new ScaleHandler(context, mapping);
     }
 
     public void onTouchEvent(MotionEvent event) {
@@ -38,7 +35,7 @@ public class InputHandler {
                 break;
         }
         if (noActivePhoto()) {
-            scaleDetector.onTouchEvent(event);
+            scaleHandler.onTouchEvent(event);
         }
     }
 
@@ -77,16 +74,6 @@ public class InputHandler {
             previousFingerAngle = null;
         }
         activePhoto.move(mapping.toWorld(new Point(event.getX(), event.getY())));
-    }
-
-    private class ScaleListener extends
-            ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleDetector) {
-            float newScaleFactor = mapping.scaleFactor * scaleDetector.getScaleFactor();
-            mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
-            return true;
-        }
     }
 
 }
