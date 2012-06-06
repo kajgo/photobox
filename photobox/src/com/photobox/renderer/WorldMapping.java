@@ -10,11 +10,14 @@ import android.view.WindowManager;
 public class WorldMapping {
 
     public float scaleFactor = 1.f;
-    public int SCREEN_CETNER_X;
-    public int SCREEN_CETNER_Y;
+    public Point originScreenPosition = new Point(0, 0);
 
     public WorldMapping(Context context) {
         extractScreenCenter(context);
+    }
+
+    public void moveOriginScreenPositionBy(Point offset) {
+        originScreenPosition = originScreenPosition.plus(offset);
     }
 
     public Point toWorld(Point point) {
@@ -32,12 +35,12 @@ public class WorldMapping {
 
     public Matrix setToWorld(Matrix m) {
         m.preScale(1/scaleFactor, -1/scaleFactor);
-        m.preTranslate(-SCREEN_CETNER_X, -SCREEN_CETNER_Y);
+        m.preTranslate(-originScreenPosition.x, -originScreenPosition.y);
         return m;
     }
 
     public Matrix setFromWorld(Matrix m) {
-        m.preTranslate(SCREEN_CETNER_X, SCREEN_CETNER_Y);
+        m.preTranslate(originScreenPosition.x, originScreenPosition.y);
         m.preScale(scaleFactor, -scaleFactor);
         return m;
     }
@@ -57,8 +60,7 @@ public class WorldMapping {
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        SCREEN_CETNER_X = metrics.widthPixels / 2;
-        SCREEN_CETNER_Y = metrics.heightPixels / 2;
+        originScreenPosition = new Point(metrics.widthPixels / 2, metrics.heightPixels / 2);
     }
 
 }

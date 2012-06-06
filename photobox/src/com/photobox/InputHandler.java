@@ -11,6 +11,7 @@ public class InputHandler {
     public Double previousFingerAngle = null;
     public PhotoCollection collection;
     public ScaleHandler scaleHandler;
+    private OffsetTracker offsetTracker = new OffsetTracker();
 
     public ActivePhoto activePhoto;
 
@@ -21,6 +22,7 @@ public class InputHandler {
     }
 
     public void onTouchEvent(MotionEvent event) {
+        offsetTracker.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setActivePhoto(extractWorldPoint(event, 0));
@@ -29,7 +31,11 @@ public class InputHandler {
                 previousFingerAngle = null;
                 break;
             case MotionEvent.ACTION_MOVE:
-                movePhoto(event);
+                if (noActivePhoto()) {
+                    mapping.moveOriginScreenPositionBy(offsetTracker.getOffset());
+                } else {
+                    movePhoto(event);
+                }
                 break;
             default:
                 break;
@@ -57,9 +63,6 @@ public class InputHandler {
     }
 
     private void movePhoto(MotionEvent event) {
-        if (noActivePhoto()) {
-            return;
-        }
         if (event.getPointerCount() > 1) {
             Point p1 = extractWorldPoint(event, 0);
             Point p2 = extractWorldPoint(event, 1);

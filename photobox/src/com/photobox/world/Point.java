@@ -14,4 +14,8 @@ public class Point {
         return new Point(x - point.x, y - point.y);
     }
 
+    public Point plus(Point point) {
+        return new Point(x + point.x, y + point.y);
+    }
+
 }
