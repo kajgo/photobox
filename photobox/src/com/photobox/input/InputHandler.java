@@ -12,6 +12,7 @@ public class InputHandler {
 
     private Double previousFingerAngle = null;
     private ScaleHandler scaleHandler;
+    private ThrowHandler throwHandler;
     private OffsetTracker offsetTracker = new OffsetTracker();
     private ActivePhoto activePhoto;
 
@@ -19,6 +20,7 @@ public class InputHandler {
         this.mapping = mapping;
         this.collection = collection;
         scaleHandler = new ScaleHandler(context, mapping);
+        throwHandler = new ThrowHandler(context);
     }
 
     public void onTouchEvent(MotionEvent event) {
@@ -44,6 +46,7 @@ public class InputHandler {
         }
         if (noActivePhoto()) {
             scaleHandler.onTouchEvent(event);
+            throwHandler.onTouchEvent(event);
         }
     }
 
