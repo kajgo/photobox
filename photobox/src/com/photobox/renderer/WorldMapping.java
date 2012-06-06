@@ -11,6 +11,7 @@ public class WorldMapping {
 
     public float scaleFactor = 1.f;
     public Point originScreenPosition = new Point(0, 0);
+    public Point screenCenterPoint = new Point(0, 0);
 
     public WorldMapping(Context context) {
         extractScreenCenter(context);
@@ -55,12 +56,18 @@ public class WorldMapping {
         c.setMatrix(setFromWorld(c.getMatrix()));
     }
 
+    public void reset() {
+        scaleFactor = 1.f;
+        originScreenPosition = screenCenterPoint;
+    }
+
     public void extractScreenCenter(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         originScreenPosition = new Point(metrics.widthPixels / 2, metrics.heightPixels / 2);
+        screenCenterPoint = originScreenPosition;
     }
 
 }

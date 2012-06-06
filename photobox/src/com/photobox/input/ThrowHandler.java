@@ -11,9 +11,11 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 public class ThrowHandler {
 
     public GestureDetector gestureDetector;
+    public WorldMapping mapping;
 
-    public ThrowHandler(Context context) {
+    public ThrowHandler(Context context, WorldMapping mapping) {
         gestureDetector = new GestureDetector(context, new GestureListener());
+        this.mapping = mapping;
     }
 
     public void onTouchEvent(MotionEvent event) {
@@ -29,6 +31,7 @@ public class ThrowHandler {
         @Override
         public boolean onDoubleTap(MotionEvent event) {
             Log.d("Pip!", "DoubleTap detected.");
+            mapping.reset();
             return true;
         }
     }

@@ -20,7 +20,7 @@ public class InputHandler {
         this.mapping = mapping;
         this.collection = collection;
         scaleHandler = new ScaleHandler(context, mapping);
-        throwHandler = new ThrowHandler(context);
+        throwHandler = new ThrowHandler(context, mapping);
     }
 
     public void onTouchEvent(MotionEvent event) {
