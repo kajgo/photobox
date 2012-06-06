@@ -1,11 +1,9 @@
-package com.photobox.test;
+package com.photobox.world;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.test.AndroidTestCase;
-
-import com.photobox.world.*;
 
 public class PhotoCollectionTest extends AndroidTestCase {
 

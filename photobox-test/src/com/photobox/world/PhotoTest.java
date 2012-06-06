@@ -1,8 +1,6 @@
-package com.photobox.test;
+package com.photobox.world;
 
 import android.test.AndroidTestCase;
-
-import com.photobox.world.*;
 
 public class PhotoTest extends AndroidTestCase {
 
