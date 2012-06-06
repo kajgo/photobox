@@ -22,6 +22,9 @@ public class PhotoCollection {
 
     public void fingerDown(Point p) {
         active = findPhotoAt(p);
+        if (active != null) {
+            moveElementToEndOfList(active);
+        }
     }
 
     private Photo findPhotoAt(Point p) {
@@ -32,6 +35,11 @@ public class PhotoCollection {
             }
         }
         return null;
+    }
+
+    private void moveElementToEndOfList(Photo element) {
+        photos.remove(element);
+        photos.add(element);
     }
 
 }
