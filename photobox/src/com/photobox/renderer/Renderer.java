@@ -37,8 +37,7 @@ public class Renderer {
 
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
         canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, photoPaint);
-        debugger.drawCenterPoint(canvas);
-        debugger.printAngle(canvas, photo);
+        debugger.debugPhoto(canvas, photo);
     }
 
     public void onDraw(Canvas canvas) {
@@ -50,7 +49,6 @@ public class Renderer {
             renderPhoto(canvas, photo);
             canvas.restore();
         }
-        debugger.renderAxis(canvas);
-        debugger.renderFingers(canvas);
+        debugger.debugWorld(canvas);
     }
 }

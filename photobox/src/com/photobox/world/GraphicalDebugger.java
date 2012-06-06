@@ -16,9 +16,9 @@ public class GraphicalDebugger {
     private static final float BIG_RADIUS = 10;
     private static final float HALF_AXIS_LENGTH = 20;
 
-    private List<Point> fingerPoints = new ArrayList<Point>();
-
     private WorldMapping mapper;
+
+    private List<Point> fingerPoints = new ArrayList<Point>();
 
     public GraphicalDebugger(WorldMapping mapper) {
         this.mapper = mapper;
@@ -34,21 +34,23 @@ public class GraphicalDebugger {
         }
     }
 
-    public void renderFingers(Canvas canvas) {
+    public void debugWorld(Canvas canvas) {
         if (!IN_DEBUG_MODE) {
             return;
         }
-        Paint fingerPaint = new Paint();
-        fingerPaint.setColor(Color.GREEN);
-        for (Point p : fingerPoints) {
-            canvas.drawCircle(p.x, p.y, BIG_RADIUS, fingerPaint);
-        }
+        renderAxis(canvas);
+        renderFingers(canvas);
     }
 
-    public void renderAxis(Canvas canvas) {
+    public void debugPhoto(Canvas canvas, Photo photo) {
         if (!IN_DEBUG_MODE) {
             return;
         }
+        drawCenterPoint(canvas);
+        printAngle(canvas, photo);
+    }
+
+    private void renderAxis(Canvas canvas) {
         Paint xAxisPaint = new Paint();
         xAxisPaint.setARGB(255, 0, 0, 255);
         Paint yAxisPaint = new Paint();
@@ -59,20 +61,24 @@ public class GraphicalDebugger {
         canvas.drawCircle(0, HALF_AXIS_LENGTH, SMALL_RADIUS, yAxisPaint);
     }
 
-    public void drawCenterPoint(Canvas canvas) {
-        if (IN_DEBUG_MODE) {
-            Paint p = new Paint();
-            p.setColor(Color.BLUE);
-            canvas.drawCircle(0, 0, SMALL_RADIUS, p);
+    private void renderFingers(Canvas canvas) {
+        Paint fingerPaint = new Paint();
+        fingerPaint.setColor(Color.GREEN);
+        for (Point p : fingerPoints) {
+            canvas.drawCircle(p.x, p.y, BIG_RADIUS, fingerPaint);
         }
     }
 
-    public void printAngle(Canvas canvas, Photo photo) {
-        if(IN_DEBUG_MODE) {
-            Paint textPaint = new Paint();
-            textPaint.setColor(Color.BLACK);
-            canvas.drawText("angle: " + photo.angle, 0, photo.height/2, textPaint);
-        }
+    private void drawCenterPoint(Canvas canvas) {
+        Paint p = new Paint();
+        p.setColor(Color.BLUE);
+        canvas.drawCircle(0, 0, SMALL_RADIUS, p);
+    }
+
+    private void printAngle(Canvas canvas, Photo photo) {
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.BLACK);
+        canvas.drawText("angle: " + photo.angle, 0, photo.height/2, textPaint);
     }
 
 }
