@@ -1,5 +1,5 @@
 #!/bin/sh
-LOGNAME=test.log
+LOGNAME="test_$$.log"
 (
     cd photobox-test &&
     ant debug install test 2>&1 | tee $LOGNAME &&
