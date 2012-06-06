@@ -1,4 +1,4 @@
-package com.photobox;
+package com.photobox.input;
 
 import com.photobox.world.*;
 

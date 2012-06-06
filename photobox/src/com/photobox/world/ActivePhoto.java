@@ -1,6 +1,4 @@
-package com.photobox;
-
-import com.photobox.world.*;
+package com.photobox.world;
 
 public class ActivePhoto {
 

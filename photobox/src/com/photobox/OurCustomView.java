@@ -1,5 +1,6 @@
 package com.photobox;
 
+import com.photobox.input.*;
 import com.photobox.world.*;
 
 import android.content.Context;
