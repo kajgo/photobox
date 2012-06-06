@@ -7,13 +7,13 @@ import android.view.MotionEvent;
 
 public class InputHandler {
 
-    public WorldMapping mapping;
-    public Double previousFingerAngle = null;
-    public PhotoCollection collection;
-    public ScaleHandler scaleHandler;
-    private OffsetTracker offsetTracker = new OffsetTracker();
+    private WorldMapping mapping;
+    private PhotoCollection collection;
 
-    public ActivePhoto activePhoto;
+    private Double previousFingerAngle = null;
+    private ScaleHandler scaleHandler;
+    private OffsetTracker offsetTracker = new OffsetTracker();
+    private ActivePhoto activePhoto;
 
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
         this.mapping = mapping;
