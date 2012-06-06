@@ -18,7 +18,7 @@ public class Renderer {
 
     public void renderBackground(Canvas canvas) {
         Paint bgPaint = new Paint();
-        bgPaint.setARGB(255, 255, 255, 0);
+        bgPaint.setARGB(255, 180, 180, 180);
         canvas.drawPaint(bgPaint);
     }
 

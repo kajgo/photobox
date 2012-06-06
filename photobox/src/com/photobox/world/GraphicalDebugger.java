@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 
 public class GraphicalDebugger {
 
-    public static final boolean IN_DEBUG_MODE = true;
+    public static final boolean IN_DEBUG_MODE = false;
 
     private static final float SMALL_RADIUS = 3;
     private static final float BIG_RADIUS = 10;
