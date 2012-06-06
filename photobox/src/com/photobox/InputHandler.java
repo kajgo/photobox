@@ -32,7 +32,9 @@ public class InputHandler {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (noActivePhoto()) {
-                    mapping.moveOriginScreenPositionBy(offsetTracker.getOffset());
+                    if (event.getPointerCount() == 1) {
+                        mapping.moveOriginScreenPositionBy(offsetTracker.getOffset());
+                    }
                 } else {
                     movePhoto(event);
                 }
