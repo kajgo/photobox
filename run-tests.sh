@@ -1,6 +1,8 @@
 #!/bin/sh
 LOGNAME="test_$$.log"
 (
+    (cd photobox && ant clean) &&
+    (cd photobox-test && ant clean) &&
     cd photobox-test &&
     ant debug install test 2>&1 | tee $LOGNAME &&
     (
