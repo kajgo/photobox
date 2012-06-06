@@ -5,6 +5,7 @@ remove_class_files_with_no_java_file() {
     classdir="$proj/bin/classes"
     srcdir="$proj/src"
     for classfile in $(find_class_files_in "$classdir"); do
+        echo "Examining $classfile"
         java_file_name=$(echo "$classfile" | sed 's/\.class/\.java/')
         java_file_full_path=$(join_paths "$srcdir" "$java_file_name")
         if [ ! -e "$java_file_full_path" ]; then
@@ -19,7 +20,7 @@ remove_class_files_with_no_java_file() {
 find_class_files_in() {
     classdir="$1"
     if [ -e "$classdir" ]; then
-        cd "$classdir"
+        cd "$classdir" > /dev/null
         find . -name '*.class'
     fi
 }
