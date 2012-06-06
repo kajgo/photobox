@@ -31,8 +31,10 @@ join_paths() {
 
 LOGNAME="test_$$.log"
 (
-    remove_class_files_with_no_java_file photobox &&
-    remove_class_files_with_no_java_file photobox-test &&
+    #remove_class_files_with_no_java_file photobox &&
+    #remove_class_files_with_no_java_file photobox-test &&
+    (cd photobox && ant clean) &&
+    (cd photobox-test && ant clean) &&
     cd photobox-test &&
     ant debug install test 2>&1 | tee $LOGNAME &&
     (
