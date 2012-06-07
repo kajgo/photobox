@@ -1,5 +1,7 @@
 package com.photobox;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,11 +41,20 @@ public class OurCustomView extends View {
         debugger = new GraphicalDebugger(mapping);
         renderer = new Renderer(debugger, mapping, collection);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.testimage_x);
-        collection.addPhoto(new Photo().withBitmap(bitmap));
-        collection.addPhoto(new Photo().withBitmap(bitmap));
-        collection.addPhoto(new Photo().withBitmap(bitmap));
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.a, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.b, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.c, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.d, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.e, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.f, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.g, options));
+        imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.h, options));
+        for(int i = 0; i<imageList.size(); i++) {
+            collection.addPhoto(new Photo().withBitmap(imageList.get(i)));
+        }
     }
 
     @Override
