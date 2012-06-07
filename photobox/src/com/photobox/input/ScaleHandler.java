@@ -1,11 +1,11 @@
 package com.photobox.input;
 
-import com.photobox.world.*;
-
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
+
+import com.photobox.renderer.WorldMapping;
 
 public class ScaleHandler {
 

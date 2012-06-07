@@ -1,8 +1,8 @@
 package com.photobox.input;
 
-import com.photobox.world.*;
-
 import android.view.MotionEvent;
+
+import com.photobox.world.Point;
 
 public class OffsetTracker {
 

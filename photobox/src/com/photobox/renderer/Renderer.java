@@ -1,8 +1,12 @@
-package com.photobox.world;
+package com.photobox.renderer;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.photobox.world.GraphicalDebugger;
+import com.photobox.world.Photo;
+import com.photobox.world.PhotoCollection;
 
 public class Renderer {
 

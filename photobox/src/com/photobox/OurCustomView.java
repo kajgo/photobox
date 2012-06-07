@@ -1,8 +1,5 @@
 package com.photobox;
 
-import com.photobox.input.*;
-import com.photobox.world.*;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +7,13 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.photobox.input.InputHandler;
+import com.photobox.renderer.Renderer;
+import com.photobox.renderer.WorldMapping;
+import com.photobox.world.GraphicalDebugger;
+import com.photobox.world.Photo;
+import com.photobox.world.PhotoCollection;
 
 public class OurCustomView extends View {
 

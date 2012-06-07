@@ -1,4 +1,4 @@
-package com.photobox.world;
+package com.photobox.renderer;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,6 +6,9 @@ import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.photobox.world.Photo;
+import com.photobox.world.Point;
 
 public class WorldMapping {
 

@@ -1,12 +1,11 @@
 package com.photobox.input;
 
-import com.photobox.world.*;
-
 import android.content.Context;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
+
+import com.photobox.renderer.WorldMapping;
 
 public class ThrowHandler {
 

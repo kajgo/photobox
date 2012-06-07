@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
+import com.photobox.renderer.WorldMapping;
+
 public class GraphicalDebugger {
 
     public static final boolean IN_DEBUG_MODE = false;

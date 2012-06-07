@@ -1,9 +1,12 @@
 package com.photobox.input;
 
-import com.photobox.world.*;
-
 import android.content.Context;
 import android.view.MotionEvent;
+
+import com.photobox.renderer.WorldMapping;
+import com.photobox.world.ActivePhoto;
+import com.photobox.world.PhotoCollection;
+import com.photobox.world.Point;
 
 public class InputHandler {
 
