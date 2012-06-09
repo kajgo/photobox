@@ -18,7 +18,7 @@ public class InputHandler {
     private ActivePhoto activePhoto;
 
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
-        inputState = new InputState(context);
+        inputState = new InputState(context, mapping);
         this.mapping = mapping;
         this.collection = collection;
     }
@@ -27,7 +27,7 @@ public class InputHandler {
         inputState.onTouchEvent(event);
 
         if (inputState.isDown()) {
-            setActivePhoto(extractWorldPoint(event, 0));
+            setActivePhoto(inputState.worldFingerPoints().get(0));
         }
         if (inputState.isUp()) {
             previousFingerAngle = null;
@@ -38,7 +38,7 @@ public class InputHandler {
                     mapping.moveOriginScreenPositionBy(inputState.getMoveOffset());
                 }
             } else {
-                movePhoto(event);
+                movePhoto();
             }
         }
         if (noActivePhoto()) {
@@ -58,10 +58,6 @@ public class InputHandler {
         }
     }
 
-    private Point extractWorldPoint(MotionEvent event, int which) {
-        return mapping.toWorld(new Point(event.getX(which), event.getY(which)));
-    }
-
     private boolean noActivePhoto() {
         return activePhoto == null;
     }
@@ -75,10 +71,10 @@ public class InputHandler {
         }
     }
 
-    private void movePhoto(MotionEvent event) {
-        if (event.getPointerCount() > 1) {
-            Point p1 = extractWorldPoint(event, 0);
-            Point p2 = extractWorldPoint(event, 1);
+    private void movePhoto() {
+        if (inputState.worldFingerPoints().size() > 1) {
+            Point p1 = inputState.worldFingerPoints().get(0);
+            Point p2 = inputState.worldFingerPoints().get(1);
             Point pDiff = p2.minus(p1);
             double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
             if (previousFingerAngle != null) {
@@ -89,7 +85,7 @@ public class InputHandler {
         } else {
             previousFingerAngle = null;
         }
-        activePhoto.move(mapping.toWorld(new Point(event.getX(), event.getY())));
+        activePhoto.move(inputState.worldFingerPoints().get(0));
     }
 
 }
