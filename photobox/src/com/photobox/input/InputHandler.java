@@ -22,12 +22,13 @@ public class InputHandler {
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
         this.mapping = mapping;
         this.collection = collection;
-        scaleHandler = new ScaleHandler(context, mapping);
+        scaleHandler = new ScaleHandler(context);
         throwHandler = new ThrowHandler(context, mapping);
     }
 
     public void onTouchEvent(MotionEvent event) {
         offsetTracker.onTouchEvent(event);
+        scaleHandler.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setActivePhoto(extractWorldPoint(event, 0));
@@ -48,9 +49,14 @@ public class InputHandler {
                 break;
         }
         if (noActivePhoto()) {
-            scaleHandler.onTouchEvent(event);
+            scaleWorld();
             throwHandler.onTouchEvent(event);
         }
+    }
+
+    private void scaleWorld() {
+        float newScaleFactor = mapping.scaleFactor * scaleHandler.getRegisteredScaleFactor();
+        mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
     }
 
     private Point extractWorldPoint(MotionEvent event, int which) {

@@ -5,29 +5,35 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 
-import com.photobox.renderer.WorldMapping;
-
 public class ScaleHandler {
 
     public ScaleGestureDetector scaleDetector;
-    public WorldMapping mapping;
+    private float registeredScaleFactor;
 
-    public ScaleHandler(Context context, WorldMapping mapping) {
-        this.mapping = mapping;
+    public ScaleHandler(Context context) {
+        resetScaleFactor();
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);
     }
 
     public void onTouchEvent(MotionEvent event) {
+        resetScaleFactor();
         scaleDetector.onTouchEvent(event);
+    }
+
+    public float getRegisteredScaleFactor() {
+        return registeredScaleFactor;
+    }
+
+    private void resetScaleFactor() {
+        registeredScaleFactor = 1;
     }
 
     private class ScaleListener extends
             ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleDetector) {
-            float newScaleFactor = mapping.scaleFactor * scaleDetector.getScaleFactor();
-            mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
+            registeredScaleFactor = scaleDetector.getScaleFactor();
             return true;
         }
     }
