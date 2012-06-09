@@ -1,24 +1,29 @@
 package com.photobox.input;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-
-import com.photobox.renderer.WorldMapping;
 
 public class ThrowHandler {
 
     public GestureDetector gestureDetector;
-    public WorldMapping mapping;
+    boolean doubleTap = false;
 
-    public ThrowHandler(Context context, WorldMapping mapping) {
+    public ThrowHandler(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
-        this.mapping = mapping;
     }
 
     public void onTouchEvent(MotionEvent event) {
+        resetDoubleTap();
         gestureDetector.onTouchEvent(event);
+    }
+
+    public boolean getRegistredDoubleTap () {
+        return doubleTap;
+    }
+
+    private void resetDoubleTap() {
+        doubleTap = false;
     }
 
     private class GestureListener extends
@@ -29,8 +34,7 @@ public class ThrowHandler {
         }
         @Override
         public boolean onDoubleTap(MotionEvent event) {
-            Log.d("Pip!", "DoubleTap detected.");
-            mapping.reset();
+            doubleTap = true;
             return true;
         }
     }
