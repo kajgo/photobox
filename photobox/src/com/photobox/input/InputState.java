@@ -67,6 +67,10 @@ public class InputState {
         return points;
     }
 
+    public boolean isOneFingerDown() {
+        return worldFingerPoints().size() == 1;
+    }
+
     private Point extractWorldPoint(MotionEvent event, int which) {
         return mapping.toWorld(new Point(event.getX(which), event.getY(which)));
     }

@@ -34,7 +34,7 @@ public class InputHandler {
         }
         if (inputState.isMove()) {
             if (noActivePhoto()) {
-                if (event.getPointerCount() == 1) {
+                if (inputState.isOneFingerDown()) {
                     mapping.moveOriginScreenPositionBy(inputState.getMoveOffset());
                 }
             } else {
