@@ -25,24 +25,21 @@ public class InputHandler {
 
     public void onTouchEvent(MotionEvent event) {
         inputState.onTouchEvent(event);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                setActivePhoto(extractWorldPoint(event, 0));
-                break;
-            case MotionEvent.ACTION_UP:
-                previousFingerAngle = null;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (noActivePhoto()) {
-                    if (event.getPointerCount() == 1) {
-                        mapping.moveOriginScreenPositionBy(inputState.getMoveOffset());
-                    }
-                } else {
-                    movePhoto(event);
+
+        if (inputState.isDown()) {
+            setActivePhoto(extractWorldPoint(event, 0));
+        }
+        if (inputState.isUp()) {
+            previousFingerAngle = null;
+        }
+        if (inputState.isMove()) {
+            if (noActivePhoto()) {
+                if (event.getPointerCount() == 1) {
+                    mapping.moveOriginScreenPositionBy(inputState.getMoveOffset());
                 }
-                break;
-            default:
-                break;
+            } else {
+                movePhoto(event);
+            }
         }
         if (noActivePhoto()) {
             scaleWorld();
