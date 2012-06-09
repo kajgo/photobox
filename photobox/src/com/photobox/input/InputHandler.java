@@ -25,7 +25,10 @@ public class InputHandler {
 
     public void onTouchEvent(MotionEvent event) {
         inputState.onTouchEvent(event);
+        actOnInput();
+    }
 
+    private void actOnInput() {
         if (inputState.isDown()) {
             setActivePhoto(inputState.worldFingerPoints().get(0));
         }
