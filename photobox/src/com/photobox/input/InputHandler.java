@@ -13,23 +13,18 @@ public class InputHandler {
     private WorldMapping mapping;
     private PhotoCollection collection;
 
+    private InputState inputState;
     private Double previousFingerAngle = null;
-    private ScaleHandler scaleHandler;
-    private ThrowHandler throwHandler;
-    private OffsetTracker offsetTracker = new OffsetTracker();
     private ActivePhoto activePhoto;
 
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
+        inputState = new InputState(context);
         this.mapping = mapping;
         this.collection = collection;
-        scaleHandler = new ScaleHandler(context);
-        throwHandler = new ThrowHandler(context);
     }
 
     public void onTouchEvent(MotionEvent event) {
-        offsetTracker.onTouchEvent(event);
-        throwHandler.onTouchEvent(event);
-        scaleHandler.onTouchEvent(event);
+        inputState.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setActivePhoto(extractWorldPoint(event, 0));
@@ -40,7 +35,7 @@ public class InputHandler {
             case MotionEvent.ACTION_MOVE:
                 if (noActivePhoto()) {
                     if (event.getPointerCount() == 1) {
-                        mapping.moveOriginScreenPositionBy(offsetTracker.getOffset());
+                        mapping.moveOriginScreenPositionBy(inputState.getMoveOffset());
                     }
                 } else {
                     movePhoto(event);
@@ -56,12 +51,12 @@ public class InputHandler {
     }
 
     private void scaleWorld() {
-        float newScaleFactor = mapping.scaleFactor * scaleHandler.getRegisteredScaleFactor();
+        float newScaleFactor = mapping.scaleFactor * inputState.getRegisteredScaleFactor();
         mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
     }
 
     private void resetWorld() {
-        if (throwHandler.getRegistredDoubleTap() == true) {
+        if (inputState.getRegistredDoubleTap() == true) {
             mapping.reset();
         }
     }
