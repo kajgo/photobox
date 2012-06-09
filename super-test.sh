@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if ! which adb; then
+    echo "adb not found"
+    exit 1
+fi
+
 pidfile=lastpid.txt
 
 if [ -e $pidfile ]; then
@@ -10,6 +15,10 @@ fi
 echo $$ > $pidfile
 
 ./run-tests.sh &&
-(echo "starting app" && cd photobox && adb shell am start -n com.photobox/com.photobox.PhotoboxActivity) &&
+(
+    echo "starting app" &&
+    adb shell am start -n com.photobox/com.photobox.PhotoboxActivity &&
+    echo "app started"
+) &&
 
 rm -f $pidfile
