@@ -71,9 +71,8 @@ public class InputHandler {
     }
 
     private void movePhoto() {
-        Double twoFingerRotationDelta = inputState.getTwoFingerRotationDelta();
-        if (twoFingerRotationDelta != null) {
-            activePhoto.addAngle(twoFingerRotationDelta.floatValue());
+        if (inputState.hasTwoFingerRotationDelta()) {
+            activePhoto.addAngle(inputState.getTwoFingerRotationDelta().floatValue());
         }
         activePhoto.move(inputState.worldFingerPoints().get(0));
     }

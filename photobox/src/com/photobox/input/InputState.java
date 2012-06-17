@@ -87,6 +87,10 @@ public class InputState {
         }
     }
 
+    public boolean hasTwoFingerRotationDelta() {
+        return twoFingerRotationDelta != null;
+    }
+
     public Double getTwoFingerRotationDelta () {
         return twoFingerRotationDelta;
     }
