@@ -15,7 +15,6 @@ public class InputState {
     private ScaleHandler scaleHandler;
     private ThrowHandler throwHandler;
     private boolean isDown;
-    private boolean isUp;
     private boolean isMove;
     private WorldMapping mapping;
     private List<Point> points;
@@ -37,8 +36,10 @@ public class InputState {
         scaleHandler.onTouchEvent(event);
         throwHandler.onTouchEvent(event);
         isDown = event.getAction() == MotionEvent.ACTION_DOWN;
-        isUp = event.getAction() == MotionEvent.ACTION_UP;
         isMove = event.getAction() == MotionEvent.ACTION_MOVE;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            resetTwoFingerRotation();
+        }
         calculateFingerRotation();
     }
 
@@ -56,10 +57,6 @@ public class InputState {
 
     public boolean isDown() {
         return isDown;
-    }
-
-    public boolean isUp() {
-        return isUp;
     }
 
     public boolean isMove() {

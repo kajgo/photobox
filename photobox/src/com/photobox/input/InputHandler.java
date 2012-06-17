@@ -31,9 +31,6 @@ public class InputHandler {
         if (inputState.isDown()) {
             setActivePhoto(inputState.worldFingerPoints().get(0));
         }
-        if (inputState.isUp()) {
-            inputState.resetTwoFingerRotation();
-        }
         if (inputState.isMove()) {
             if (noActivePhoto()) {
                 if (inputState.isOneFingerDown()) {
