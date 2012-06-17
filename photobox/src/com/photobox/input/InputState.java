@@ -19,6 +19,8 @@ public class InputState {
     private boolean isMove;
     private WorldMapping mapping;
     private List<Point> points;
+    private Double twoFingerRotation;
+    private Double twoFingerRotationDelta;
 
     public InputState(Context context, WorldMapping mapping) {
         scaleHandler = new ScaleHandler(context);
@@ -37,6 +39,7 @@ public class InputState {
         isDown = event.getAction() == MotionEvent.ACTION_DOWN;
         isUp = event.getAction() == MotionEvent.ACTION_UP;
         isMove = event.getAction() == MotionEvent.ACTION_MOVE;
+        calculateFingerRotation();
     }
 
     public Point getMoveOffset() {
@@ -69,6 +72,30 @@ public class InputState {
 
     public boolean isOneFingerDown() {
         return worldFingerPoints().size() == 1;
+    }
+
+    public void calculateFingerRotation() {
+        twoFingerRotationDelta = null;
+        if (worldFingerPoints().size() > 1) {
+            Point p1 = worldFingerPoints().get(0);
+            Point p2 = worldFingerPoints().get(1);
+            Point pDiff = p2.minus(p1);
+            double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
+            if (twoFingerRotation != null) {
+                twoFingerRotationDelta = currentFingerAngle - twoFingerRotation;
+            }
+            twoFingerRotation = new Double(currentFingerAngle);
+        } else {
+            twoFingerRotation = null;
+        }
+    }
+
+    public Double getTwoFingerRotationDelta () {
+        return twoFingerRotationDelta;
+    }
+
+    public void resetTwoFingerRotation () {
+        twoFingerRotation = null;
     }
 
     private Point extractWorldPoint(MotionEvent event, int which) {

@@ -14,7 +14,6 @@ public class InputHandler {
     private PhotoCollection collection;
 
     private InputState inputState;
-    private Double previousFingerAngle = null;
     private ActivePhoto activePhoto;
 
     public InputHandler(Context context, WorldMapping mapping, PhotoCollection collection) {
@@ -33,7 +32,7 @@ public class InputHandler {
             setActivePhoto(inputState.worldFingerPoints().get(0));
         }
         if (inputState.isUp()) {
-            previousFingerAngle = null;
+            inputState.resetTwoFingerRotation();
         }
         if (inputState.isMove()) {
             if (noActivePhoto()) {
@@ -75,18 +74,9 @@ public class InputHandler {
     }
 
     private void movePhoto() {
-        if (inputState.worldFingerPoints().size() > 1) {
-            Point p1 = inputState.worldFingerPoints().get(0);
-            Point p2 = inputState.worldFingerPoints().get(1);
-            Point pDiff = p2.minus(p1);
-            double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
-            if (previousFingerAngle != null) {
-                double diffAngle = currentFingerAngle - previousFingerAngle;
-                activePhoto.addAngle((float) diffAngle);
-            }
-            previousFingerAngle = new Double(currentFingerAngle);
-        } else {
-            previousFingerAngle = null;
+        Double twoFingerRotationDelta = inputState.getTwoFingerRotationDelta();
+        if (twoFingerRotationDelta != null) {
+            activePhoto.addAngle(twoFingerRotationDelta.floatValue());
         }
         activePhoto.move(inputState.worldFingerPoints().get(0));
     }
