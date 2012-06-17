@@ -1,0 +1,69 @@
+package com.photobox.input;
+
+import com.photobox.renderer.WorldMapping;
+import com.photobox.world.ActivePhoto;
+import com.photobox.world.PhotoCollection;
+import com.photobox.world.Point;
+
+public class InputActor {
+
+    private WorldMapping mapping;
+    private PhotoCollection collection;
+    private ActivePhoto activePhoto;
+
+    public InputActor(WorldMapping mapping, PhotoCollection collection) {
+        this.mapping = mapping;
+        this.collection = collection;
+    }
+
+    public void act(InputState inputState) {
+        if (inputState.isDown()) {
+            setActivePhoto(inputState.worldFingerPoints().get(0));
+        }
+        if (inputState.isMove()) {
+            if (noActivePhoto()) {
+                if (inputState.isOneFingerDown()) {
+                    mapping.moveOriginScreenPositionBy(inputState.getMoveOffset());
+                }
+            } else {
+                movePhoto(inputState);
+            }
+        }
+        if (noActivePhoto()) {
+            scaleWorld(inputState);
+            resetWorld(inputState);
+        }
+    }
+
+    private void scaleWorld(InputState inputState) {
+        float newScaleFactor = mapping.scaleFactor * inputState.getRegisteredScaleFactor();
+        mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
+    }
+
+    private void resetWorld(InputState inputState) {
+        if (inputState.getRegistredDoubleTap() == true) {
+            mapping.reset();
+        }
+    }
+
+    private boolean noActivePhoto() {
+        return activePhoto == null;
+    }
+
+    private void setActivePhoto(Point fingerPoint) {
+        collection.fingerDown(fingerPoint);
+        if (collection.getActive() == null) {
+            activePhoto = null;
+        } else {
+            activePhoto = ActivePhoto.fromFingerPoint(fingerPoint, collection.getActive());
+        }
+    }
+
+    private void movePhoto(InputState inputState) {
+        if (inputState.hasTwoFingerRotationDelta()) {
+            activePhoto.addAngle(inputState.getTwoFingerRotationDelta().floatValue());
+        }
+        activePhoto.move(inputState.worldFingerPoints().get(0));
+    }
+
+}
