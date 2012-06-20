@@ -5,6 +5,7 @@ import android.graphics.Matrix;
 
 import com.photobox.world.Photo;
 import com.photobox.world.Point;
+import com.photobox.world.Rotator;
 
 public class WorldMapping {
 
@@ -32,27 +33,13 @@ public class WorldMapping {
     public Point toWorld(Point point) {
         Matrix m = new Matrix();
         m = setToWorld(m);
-
-        float[] dst = new float[] { 0, 0 };
-        float[] src = new float[] { point.x, point.y };
-        m.mapPoints(dst, src);
-        float newX = dst[0];
-        float newY = dst[1];
-
-        return new Point(newX, newY);
+        return Rotator.translatePoint(m, point);
     }
 
     public Point fromWorld(Point point) {
         Matrix m = new Matrix();
         m = setFromWorld(m);
-
-        float[] dst = new float[] { 0, 0 };
-        float[] src = new float[] { point.x, point.y };
-        m.mapPoints(dst, src);
-        float newX = dst[0];
-        float newY = dst[1];
-
-        return new Point(newX, newY);
+        return Rotator.translatePoint(m, point);
     }
 
     public Matrix setToWorld(Matrix m) {
