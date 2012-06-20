@@ -7,13 +7,17 @@ import com.photobox.renderer.Renderer;
 import com.photobox.renderer.WorldMapping;
 import com.photobox.world.GraphicalDebugger;
 import com.photobox.world.PhotoCollection;
+import com.photobox.world.Point;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 public class OurCustomView extends View {
 
@@ -34,7 +38,7 @@ public class OurCustomView extends View {
 
     public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mapping = new WorldMapping(context);
+        mapping = new WorldMapping(extractScreenCenter(context));
         collection = new PhotoCollection();
         debugger = new GraphicalDebugger(mapping);
         renderer = new Renderer(debugger, mapping, collection);
@@ -59,6 +63,14 @@ public class OurCustomView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         renderer.onDraw(canvas);
+    }
+
+    private Point extractScreenCenter(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        return new Point(metrics.widthPixels / 2, metrics.heightPixels / 2);
     }
 
 }
