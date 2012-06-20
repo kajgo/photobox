@@ -18,4 +18,14 @@ public class Point {
         return new Point(x + point.x, y + point.y);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Point) && ((Point)other).x == this.x && ((Point)other).y == this.y;
+    }
+
+    @Override
+    public String toString() {
+        return "Point<" + x + ", " + y + ">";
+    }
+
 }
