@@ -21,13 +21,30 @@ public class WorldMapping {
         originScreenPosition = originScreenPosition.plus(offset);
     }
 
-    public void zoomAround(float newScaleFactor, Point around) {
+    public void zoomAround(float newScaleFactor, Point aroundScreenPoint) {
+        Point aroundInWorld = toWorld(aroundScreenPoint);
         scaleFactor = newScaleFactor;
+        Point aroundNewScreenPoint = fromWorld(aroundInWorld);
+        Point aroundMoveDelta = aroundNewScreenPoint.minus(aroundScreenPoint);
+        originScreenPosition = originScreenPosition.minus(aroundMoveDelta);
     }
 
     public Point toWorld(Point point) {
         Matrix m = new Matrix();
         m = setToWorld(m);
+
+        float[] dst = new float[] { 0, 0 };
+        float[] src = new float[] { point.x, point.y };
+        m.mapPoints(dst, src);
+        float newX = dst[0];
+        float newY = dst[1];
+
+        return new Point(newX, newY);
+    }
+
+    public Point fromWorld(Point point) {
+        Matrix m = new Matrix();
+        m = setFromWorld(m);
 
         float[] dst = new float[] { 0, 0 };
         float[] src = new float[] { point.x, point.y };

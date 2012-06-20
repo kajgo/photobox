@@ -11,8 +11,16 @@ public class WorldMappingTest extends AndroidTestCase {
 
         mapping.zoomAround(2, new Point(50, 50));
 
-        assertEquals(mapping.scaleFactor, 2.f);
-        assertEquals(mapping.originScreenPosition, new Point(50, 50));
+        assertEquals(2.f, mapping.scaleFactor);
+        assertEquals(new Point(50, 50), mapping.originScreenPosition);
     }
 
+    public void testZoomsAroundADifferentPointFromOrigin() {
+        WorldMapping mapping = new WorldMapping(new Point(50, 50));
+
+        mapping.zoomAround(2, new Point(100, 100));
+
+        assertEquals(2.f, mapping.scaleFactor);
+        assertEquals(new Point(0, 0), mapping.originScreenPosition);
+    }
 }
