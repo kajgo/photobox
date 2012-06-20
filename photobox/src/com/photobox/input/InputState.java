@@ -51,6 +51,10 @@ public class InputState {
         return scaleHandler.getRegisteredScaleFactor();
     }
 
+    public Point getScalePoint() {
+        return scaleHandler.getScalePoint();
+    }
+
     public boolean getRegistredDoubleTap() {
         return throwHandler.getRegistredDoubleTap();
     }

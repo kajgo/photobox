@@ -18,6 +18,10 @@ public class Point {
         return new Point(x + point.x, y + point.y);
     }
 
+    public Point halfWayTo(Point point) {
+        return new Point((x + point.x) / 2, (y + point.y) / 2);
+    }
+
     @Override
     public boolean equals(Object other) {
         return (other instanceof Point) && ((Point)other).x == this.x && ((Point)other).y == this.y;

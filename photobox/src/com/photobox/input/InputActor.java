@@ -37,7 +37,8 @@ public class InputActor {
 
     private void scaleWorld(InputState inputState) {
         float newScaleFactor = mapping.scaleFactor * inputState.getRegisteredScaleFactor();
-        mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
+        newScaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
+        mapping.zoomAround(newScaleFactor, inputState.getScalePoint());
     }
 
     private boolean noActivePhoto() {
