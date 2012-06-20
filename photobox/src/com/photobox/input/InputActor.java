@@ -17,6 +17,7 @@ public class InputActor {
     }
 
     public void act(InputState inputState) {
+        scaleWorld(inputState);
         if (inputState.isDown()) {
             setActivePhoto(inputState.worldFingerPoints().get(0));
         }
@@ -29,21 +30,14 @@ public class InputActor {
                 movePhoto(inputState);
             }
         }
-        if (noActivePhoto()) {
-            scaleWorld(inputState);
-            resetWorld(inputState);
+        if (noActivePhoto() && inputState.getRegistredDoubleTap() == true) {
+            mapping.reset();
         }
     }
 
     private void scaleWorld(InputState inputState) {
         float newScaleFactor = mapping.scaleFactor * inputState.getRegisteredScaleFactor();
         mapping.scaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
-    }
-
-    private void resetWorld(InputState inputState) {
-        if (inputState.getRegistredDoubleTap() == true) {
-            mapping.reset();
-        }
     }
 
     private boolean noActivePhoto() {
@@ -60,10 +54,13 @@ public class InputActor {
     }
 
     private void movePhoto(InputState inputState) {
-        if (inputState.hasTwoFingerRotationDelta()) {
-            activePhoto.addAngle(inputState.getTwoFingerRotationDelta().floatValue());
+        if (inputState.hasThreeFingerRotationDelta()) {
+            activePhoto.addAngle(inputState.getThreeFingerRotationDelta().floatValue());
         }
-        activePhoto.move(inputState.worldFingerPoints().get(0));
+        if (inputState.getNumberOfFingers() == 1 ||
+            inputState.getNumberOfFingers() == 3) {
+            activePhoto.move(inputState.worldFingerPoints().get(0));
+        }
     }
 
 }

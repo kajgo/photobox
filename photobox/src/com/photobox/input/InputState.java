@@ -18,8 +18,8 @@ public class InputState {
     private boolean isMove;
     private WorldMapping mapping;
     private List<Point> points;
-    private Double twoFingerRotation;
-    private Double twoFingerRotationDelta;
+    private Double threeFingerRotation;
+    private Double threeFingerRotationDelta;
 
     public InputState(Context context, WorldMapping mapping) {
         scaleHandler = new ScaleHandler(context);
@@ -38,7 +38,7 @@ public class InputState {
         isDown = event.getAction() == MotionEvent.ACTION_DOWN;
         isMove = event.getAction() == MotionEvent.ACTION_MOVE;
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            resetTwoFingerRotation();
+            resetThreeFingerRotation();
         }
         calculateFingerRotation();
     }
@@ -72,31 +72,35 @@ public class InputState {
     }
 
     public void calculateFingerRotation() {
-        twoFingerRotationDelta = null;
-        if (worldFingerPoints().size() > 1) {
+        threeFingerRotationDelta = null;
+        if (worldFingerPoints().size() > 2) {
             Point p1 = worldFingerPoints().get(0);
-            Point p2 = worldFingerPoints().get(1);
+            Point p2 = worldFingerPoints().get(2);
             Point pDiff = p2.minus(p1);
             double currentFingerAngle = Math.toDegrees(Math.atan2(pDiff.y, pDiff.x));
-            if (twoFingerRotation != null) {
-                twoFingerRotationDelta = currentFingerAngle - twoFingerRotation;
+            if (threeFingerRotation != null) {
+                threeFingerRotationDelta = currentFingerAngle - threeFingerRotation;
             }
-            twoFingerRotation = new Double(currentFingerAngle);
+            threeFingerRotation = new Double(currentFingerAngle);
         } else {
-            twoFingerRotation = null;
+            threeFingerRotation = null;
         }
     }
 
-    public boolean hasTwoFingerRotationDelta() {
-        return twoFingerRotationDelta != null;
+    public boolean hasThreeFingerRotationDelta() {
+        return threeFingerRotationDelta != null;
     }
 
-    public Double getTwoFingerRotationDelta () {
-        return twoFingerRotationDelta;
+    public Double getThreeFingerRotationDelta () {
+        return threeFingerRotationDelta;
     }
 
-    public void resetTwoFingerRotation () {
-        twoFingerRotation = null;
+    public void resetThreeFingerRotation () {
+        threeFingerRotation = null;
+    }
+
+    public int getNumberOfFingers() {
+        return worldFingerPoints().size();
     }
 
     private Point extractWorldPoint(MotionEvent event, int which) {

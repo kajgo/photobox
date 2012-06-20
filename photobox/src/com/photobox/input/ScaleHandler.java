@@ -19,6 +19,9 @@ public class ScaleHandler {
     public void onTouchEvent(MotionEvent event) {
         resetScaleFactor();
         scaleDetector.onTouchEvent(event);
+        if (event.getPointerCount() != 2) {
+            resetScaleFactor();
+        }
     }
 
     public float getRegisteredScaleFactor() {
