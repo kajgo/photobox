@@ -36,7 +36,11 @@ public class InputActor {
     }
 
     private void scaleWorld(InputState inputState) {
-        float newScaleFactor = mapping.scaleFactor * inputState.getRegisteredScaleFactor();
+        if (inputState.getScalePoint() == null) {
+            return;
+        }
+        float newScaleFactor =
+           mapping.scaleFactor * inputState.getRegisteredScaleFactor();
         newScaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
         mapping.zoomAround(newScaleFactor, inputState.getScalePoint());
     }
