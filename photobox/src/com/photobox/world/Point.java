@@ -24,7 +24,8 @@ public class Point {
 
     @Override
     public boolean equals(Object other) {
-        return (other instanceof Point) && ((Point)other).x == this.x && ((Point)other).y == this.y;
+        return (other instanceof Point) &&
+            ((Point)other).x == this.x && ((Point)other).y == this.y;
     }
 
     @Override
