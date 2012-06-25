@@ -1,8 +1,6 @@
 package com.photobox.app;
 
 import com.photobox.R;
-import com.photobox.R.id;
-import com.photobox.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 public class PhotoboxActivity extends Activity {
     @Override
@@ -19,7 +18,15 @@ public class PhotoboxActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.main);
+        setContentView(R.layout.intro);
+
+
+        final Button button = (Button)findViewById(R.id.showPicturesButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setContentView(R.layout.main);
+            }
+        });
     }
 
     @Override
