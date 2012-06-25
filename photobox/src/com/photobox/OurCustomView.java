@@ -1,6 +1,6 @@
 package com.photobox;
 
-import com.photobox.input.ImportHandler;
+import com.photobox.files.ImportHandler;
 import com.photobox.input.InputActor;
 import com.photobox.input.InputState;
 import com.photobox.renderer.Renderer;

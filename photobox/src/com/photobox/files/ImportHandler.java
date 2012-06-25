@@ -1,4 +1,4 @@
-package com.photobox.input;
+package com.photobox.files;
 
 import java.util.ArrayList;
 
