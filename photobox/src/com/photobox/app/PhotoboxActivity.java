@@ -20,13 +20,13 @@ public class PhotoboxActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.intro);
 
-
-        final Button button = (Button)findViewById(R.id.showPicturesButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                setContentView(R.layout.main);
+        ((Button)findViewById(R.id.showPicturesButton)).setOnClickListener(
+            new View.OnClickListener() {
+                public void onClick(View v) {
+                    setContentView(R.layout.photo);
+                }
             }
-        });
+        );
     }
 
     @Override
