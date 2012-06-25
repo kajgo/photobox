@@ -1,5 +1,7 @@
 package com.photobox.world;
 
+import android.graphics.Matrix;
+
 public class Point {
 
     public final float x;
@@ -20,6 +22,21 @@ public class Point {
 
     public Point halfWayTo(Point point) {
         return new Point((x + point.x) / 2, (y + point.y) / 2);
+    }
+
+    public Point rotate(float angle) {
+        Matrix m = new Matrix();
+        m.setRotate(-angle, 0, 0);
+        return translate(m);
+    }
+
+    public Point translate(Matrix m) {
+        float[] dst = new float[] { 0, 0 };
+        float[] src = new float[] { x, y };
+        m.mapPoints(dst, src);
+        float newX = dst[0];
+        float newY = dst[1];
+        return new Point(newX, newY);
     }
 
     @Override

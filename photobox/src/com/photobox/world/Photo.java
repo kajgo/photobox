@@ -37,8 +37,8 @@ public class Photo {
     }
 
     public boolean pointInside(Point p) {
-        Point p1 = Rotator.rotatePoint(p, angle);
-        Point p2 = Rotator.rotatePoint(new Point(centerX, centerY), angle);
+        Point p1 = p.rotate(angle);
+        Point p2 = new Point(centerX, centerY).rotate(angle);
         if (p1.x < p2.x - width / 2)
             return false;
         else if (p1.x > p2.x + width / 2)
