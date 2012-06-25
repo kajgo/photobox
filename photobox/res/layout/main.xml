@@ -4,8 +4,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <com.photobox.OurCustomView
-        android:id="@+id/ourCustomView1"
+    <com.photobox.app.PhotoView
+        android:id="@+id/photoView"
         android:layout_width="wrap_content"
         android:layout_height="363dp"
         android:layout_weight="0.78" />

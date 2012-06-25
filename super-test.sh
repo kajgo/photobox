@@ -17,7 +17,7 @@ echo $$ > $pidfile
 ./run-tests.sh &&
 (
     echo "starting app" &&
-    adb shell am start -n com.photobox/com.photobox.PhotoboxActivity &&
+    adb shell am start -n com.photobox/.app.PhotoboxActivity &&
     echo "app started"
 ) &&
 

@@ -26,7 +26,7 @@ public class PhotoboxActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-        cleanOldViews(findViewById(R.id.ourCustomView1));
+        cleanOldViews(findViewById(R.id.photoView));
         System.gc();
     }
 
