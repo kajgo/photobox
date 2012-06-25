@@ -1,19 +1,19 @@
 package com.photobox.input;
 
-import android.content.Context;
-import android.view.MotionEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import com.photobox.world.Point;
+import android.content.Context;
+import android.view.MotionEvent;
+
 import com.photobox.renderer.WorldMapping;
+import com.photobox.world.Point;
 
 public class InputState {
 
-    private OffsetTracker offsetTracker = new OffsetTracker();
-    private ScaleHandler scaleHandler;
-    private ThrowHandler throwHandler;
+    private FingerMoveDetector fingerMoveDetector = new FingerMoveDetector();
+    private PinchDetector pinchDetector;
+    private DoubleTapDetector doubleTapDetector;
     private boolean isDown;
     private boolean isMove;
     private WorldMapping mapping;
@@ -22,8 +22,8 @@ public class InputState {
     private Double threeFingerRotationDelta;
 
     public InputState(Context context, WorldMapping mapping) {
-        scaleHandler = new ScaleHandler(context);
-        throwHandler = new ThrowHandler(context);
+        pinchDetector = new PinchDetector(context);
+        doubleTapDetector = new DoubleTapDetector(context);
         this.mapping = mapping;
     }
 
@@ -32,9 +32,9 @@ public class InputState {
         for (int i=0; i<event.getPointerCount(); i++) {
             points.add(extractWorldPoint(event, i));
         }
-        offsetTracker.onTouchEvent(event);
-        scaleHandler.onTouchEvent(event);
-        throwHandler.onTouchEvent(event);
+        fingerMoveDetector.onTouchEvent(event);
+        pinchDetector.onTouchEvent(event);
+        doubleTapDetector.onTouchEvent(event);
         isDown = event.getAction() == MotionEvent.ACTION_DOWN;
         isMove = event.getAction() == MotionEvent.ACTION_MOVE;
         if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -44,19 +44,19 @@ public class InputState {
     }
 
     public Point getMoveOffset() {
-        return offsetTracker.getOffset();
+        return fingerMoveDetector.getOffset();
     }
 
     public float getRegisteredScaleFactor() {
-        return scaleHandler.getRegisteredScaleFactor();
+        return pinchDetector.getRegisteredScaleFactor();
     }
 
     public Point getScalePoint() {
-        return scaleHandler.getScalePoint();
+        return pinchDetector.getScalePoint();
     }
 
     public boolean getRegistredDoubleTap() {
-        return throwHandler.getRegistredDoubleTap();
+        return doubleTapDetector.isDoubleTapDetected();
     }
 
     public boolean isDown() {

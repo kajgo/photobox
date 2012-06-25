@@ -16,7 +16,7 @@ public class InputActor {
         this.collection = collection;
     }
 
-    public void act(InputState inputState) {
+    public void takeAction(InputState inputState) {
         scaleWorld(inputState);
         if (inputState.isDown()) {
             setActivePhoto(inputState.worldFingerPoints().get(0));

@@ -1,4 +1,4 @@
-package com.photobox.world;
+package com.photobox.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
-import com.photobox.renderer.WorldMapping;
+import com.photobox.world.Photo;
+import com.photobox.world.Point;
 
 public class GraphicalDebugger {
 

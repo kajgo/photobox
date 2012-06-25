@@ -1,11 +1,11 @@
-package com.photobox;
+package com.photobox.app;
 
 import com.photobox.files.ImportHandler;
 import com.photobox.input.InputActor;
 import com.photobox.input.InputState;
+import com.photobox.renderer.GraphicalDebugger;
 import com.photobox.renderer.Renderer;
 import com.photobox.renderer.WorldMapping;
-import com.photobox.world.GraphicalDebugger;
 import com.photobox.world.PhotoCollection;
 import com.photobox.world.Point;
 
@@ -19,7 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-public class OurCustomView extends View {
+public class PhotoView extends View {
 
     private GraphicalDebugger debugger;
     private PhotoCollection collection;
@@ -28,15 +28,15 @@ public class OurCustomView extends View {
     private InputState inputState;
     private InputActor inputActor;
 
-    public OurCustomView(Context context) {
+    public PhotoView(Context context) {
         this(context, null, 0);
     }
 
-    public OurCustomView(Context context, AttributeSet attrs) {
+    public PhotoView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public OurCustomView(Context context, AttributeSet attrs, int defStyle) {
+    public PhotoView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mapping = new WorldMapping(extractScreenCenter(context));
         collection = new PhotoCollection();
@@ -53,7 +53,7 @@ public class OurCustomView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         inputState.onTouchEvent(event);
-        inputActor.act(inputState);
+        inputActor.takeAction(inputState);
         debugger.storeFingerPoints(event);
         invalidate();
         return true;

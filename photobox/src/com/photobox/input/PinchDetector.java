@@ -7,13 +7,13 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 
-public class ScaleHandler {
+public class PinchDetector {
 
     private ScaleGestureDetector scaleDetector;
     private float registeredScaleFactor;
     private Point scalePoint;
 
-    public ScaleHandler(Context context) {
+    public PinchDetector(Context context) {
         resetScaleFactor();
         SimpleOnScaleGestureListener scaleListener = new ScaleListener();
         scaleDetector = new ScaleGestureDetector(context, scaleListener);

@@ -4,12 +4,12 @@ import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-public class ThrowHandler {
+public class DoubleTapDetector {
 
     public GestureDetector gestureDetector;
     boolean doubleTap = false;
 
-    public ThrowHandler(Context context) {
+    public DoubleTapDetector(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
@@ -18,7 +18,7 @@ public class ThrowHandler {
         gestureDetector.onTouchEvent(event);
     }
 
-    public boolean getRegistredDoubleTap () {
+    public boolean isDoubleTapDetected () {
         return doubleTap;
     }
 

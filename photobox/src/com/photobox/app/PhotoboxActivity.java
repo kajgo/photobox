@@ -1,4 +1,8 @@
-package com.photobox;
+package com.photobox.app;
+
+import com.photobox.R;
+import com.photobox.R.id;
+import com.photobox.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

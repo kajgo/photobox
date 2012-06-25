@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 
 import com.photobox.world.Point;
 
-public class OffsetTracker {
+public class FingerMoveDetector {
 
     private Point previousPoint = null;
     private Point offset = null;

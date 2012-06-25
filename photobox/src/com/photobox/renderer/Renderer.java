@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.photobox.world.GraphicalDebugger;
 import com.photobox.world.Photo;
 import com.photobox.world.PhotoCollection;
 
