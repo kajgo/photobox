@@ -13,9 +13,9 @@ import com.photobox.world.PhotoCollection;
 
 public class ImportHandler {
 
-    public void importPhotos(PhotoCollection collection, Resources resources) {
+    public void importDemoPhotos(PhotoCollection collection, Resources resources) {
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
+        options.inSampleSize = 16;
         ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();
         imageList.add(BitmapFactory.decodeResource(resources, R.drawable.a, options));
         imageList.add(BitmapFactory.decodeResource(resources, R.drawable.b, options));

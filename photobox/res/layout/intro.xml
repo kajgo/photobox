@@ -12,8 +12,15 @@
         android:layout_weight="0.78" />
 
     <android.widget.Button
-        android:text="show me pictures!"
-        android:id="@+id/showPicturesButton"
+        android:text="sdcard pictures"
+        android:id="@+id/showSdcardPicturesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="363dp"
+        android:layout_weight="0.78" />
+
+    <android.widget.Button
+        android:text="demo pictures"
+        android:id="@+id/showDemoPicturesButton"
         android:layout_width="wrap_content"
         android:layout_height="363dp"
         android:layout_weight="0.78" />

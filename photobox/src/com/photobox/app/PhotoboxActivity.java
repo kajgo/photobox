@@ -23,12 +23,20 @@ public class PhotoboxActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.intro);
 
-        ((Button)findViewById(R.id.showPicturesButton)).setOnClickListener(
+        ((Button)findViewById(R.id.showDemoPicturesButton)).setOnClickListener(
             new View.OnClickListener() {
                 public void onClick(View v) {
                     setContentView(R.layout.photo);
-                    File[] photos = new File(Environment.getExternalStorageDirectory(), "photobox").listFiles();
-                    ((PhotoView)findViewById(R.id.photoView)).loadPhotos(photos);
+                    ((PhotoView)findViewById(R.id.photoView)).loadDemoPhotos();
+                }
+            }
+        );
+        ((Button)findViewById(R.id.showSdcardPicturesButton)).setOnClickListener(
+            new View.OnClickListener() {
+                public void onClick(View v) {
+                    setContentView(R.layout.photo);
+                    File photoDir = new File(Environment.getExternalStorageDirectory(), "photobox");
+                    ((PhotoView)findViewById(R.id.photoView)).loadPhotosFromDir(photoDir);
                 }
             }
         );

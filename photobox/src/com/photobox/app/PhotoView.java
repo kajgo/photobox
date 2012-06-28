@@ -63,9 +63,14 @@ public class PhotoView extends View {
         renderer.onDraw(canvas);
     }
 
-    public void loadPhotos(File[] photos) {
+    public void loadDemoPhotos() {
         ImportHandler importHandler = new ImportHandler();
-        importHandler.importPhotosFromFiles(collection, photos);
+        importHandler.importDemoPhotos(collection, getResources());
+    }
+
+    public void loadPhotosFromDir(File photoDir) {
+        ImportHandler importHandler = new ImportHandler();
+        importHandler.importPhotosFromFiles(collection, photoDir.listFiles());
     }
 
     private Point extractScreenCenter(Context context) {
