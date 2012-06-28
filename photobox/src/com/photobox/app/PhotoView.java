@@ -1,5 +1,7 @@
 package com.photobox.app;
 
+import java.io.File;
+
 import com.photobox.files.ImportHandler;
 import com.photobox.input.InputActor;
 import com.photobox.input.InputState;
@@ -44,10 +46,6 @@ public class PhotoView extends View {
         renderer = new Renderer(debugger, mapping, collection);
         inputState = new InputState(context, mapping);
         inputActor = new InputActor(mapping, collection);
-
-        ImportHandler importHandler = new ImportHandler();
-        Resources resources = getResources();
-        importHandler.importPhotos(collection, resources);
     }
 
     @Override
@@ -63,6 +61,11 @@ public class PhotoView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         renderer.onDraw(canvas);
+    }
+
+    public void loadPhotos(File[] photos) {
+        ImportHandler importHandler = new ImportHandler();
+        importHandler.importPhotosFromFiles(collection, photos);
     }
 
     private Point extractScreenCenter(Context context) {

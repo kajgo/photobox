@@ -1,7 +1,7 @@
-Importera foton.
-    - import from hard coded directory
-    - choose from directorys
-Undersök minnesproblem med bilder.
+Investigate image out of memory errors
+Import photos
+    - choose directory in gui
+    - demo mode (hard coded images)
 Produktifiera appen.
 Fira med öl!
 Marknadsför.

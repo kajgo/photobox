@@ -2,12 +2,16 @@ package com.photobox.app;
 
 import com.photobox.R;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class PhotoboxActivity extends Activity {
 
@@ -23,6 +27,8 @@ public class PhotoboxActivity extends Activity {
             new View.OnClickListener() {
                 public void onClick(View v) {
                     setContentView(R.layout.photo);
+                    File[] photos = new File(Environment.getExternalStorageDirectory(), "photobox").listFiles();
+                    ((PhotoView)findViewById(R.id.photoView)).loadPhotos(photos);
                 }
             }
         );

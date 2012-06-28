@@ -1,6 +1,7 @@
 package com.photobox.files;
 
 import java.util.ArrayList;
+import java.io.File;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -26,6 +27,15 @@ public class ImportHandler {
         imageList.add(BitmapFactory.decodeResource(resources, R.drawable.h, options));
         for(int i = 0; i<imageList.size(); i++) {
             collection.addPhoto(new Photo().withBitmap(imageList.get(i)));
+        }
+    }
+
+    public void importPhotosFromFiles(PhotoCollection collection, File[] photos) {
+        for (File f : photos) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 16;
+            Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
+            collection.addPhoto(new Photo().withBitmap(b));
         }
     }
 
