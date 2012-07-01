@@ -2,6 +2,15 @@ package com.photobox.app;
 
 import java.io.File;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+
 import com.photobox.files.ImportHandler;
 import com.photobox.input.InputActor;
 import com.photobox.input.InputState;
@@ -10,16 +19,6 @@ import com.photobox.renderer.Renderer;
 import com.photobox.renderer.WorldMapping;
 import com.photobox.world.PhotoCollection;
 import com.photobox.world.Point;
-
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
 
 public class PhotoView extends View {
 
