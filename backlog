@@ -1,3 +1,4 @@
+Handle null pointer crash when photo dir not found
 Investigate image out of memory errors
 Use one activity per activity
 Import photos
