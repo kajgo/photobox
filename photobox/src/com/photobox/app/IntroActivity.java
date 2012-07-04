@@ -36,7 +36,7 @@ public class IntroActivity extends Activity {
             new View.OnClickListener() {
                 public void onClick(View v) {
                     File photoDir = new File(Environment.getExternalStorageDirectory(), "photobox");
-                    Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
+                    Intent intent = new Intent(getBaseContext(), ListActivity.class);
                     intent.putExtra("action", "dir");
                     intent.putExtra("dir", photoDir.getAbsolutePath());
                     startActivity(intent);
