@@ -2,6 +2,7 @@ package com.photobox.app;
 
 import java.io.File;
 
+import android.util.Log;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,25 +21,15 @@ public class PhotoboxActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.intro);
+        setContentView(R.layout.photo);
 
-        ((Button)findViewById(R.id.showDemoPicturesButton)).setOnClickListener(
-            new View.OnClickListener() {
-                public void onClick(View v) {
-                    setContentView(R.layout.photo);
-                    ((PhotoView)findViewById(R.id.photoView)).loadDemoPhotos();
-                }
-            }
-        );
-        ((Button)findViewById(R.id.showSdcardPicturesButton)).setOnClickListener(
-            new View.OnClickListener() {
-                public void onClick(View v) {
-                    setContentView(R.layout.photo);
-                    File photoDir = new File(Environment.getExternalStorageDirectory(), "photobox");
-                    ((PhotoView)findViewById(R.id.photoView)).loadPhotosFromDir(photoDir);
-                }
-            }
-        );
+        String action = getIntent().getStringExtra("action");
+        if (action.equals("demo")) {
+            ((PhotoView)findViewById(R.id.photoView)).loadDemoPhotos();
+        } else if (action.equals("dir")) {
+            String dir = getIntent().getStringExtra("dir");
+            ((PhotoView)findViewById(R.id.photoView)).loadPhotosFromDir(new File(dir));
+        }
     }
 
 }
