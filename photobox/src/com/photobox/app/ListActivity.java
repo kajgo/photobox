@@ -3,6 +3,7 @@ package com.photobox.app;
 import java.io.File;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -28,7 +29,8 @@ public class ListActivity extends Activity {
         setContentView(R.layout.files);
 
         ListView list = (ListView)findViewById(R.id.fileList);
-        final String[] items = new String[] { "foo", "bar" };
+        final File sdcardDir = Environment.getExternalStorageDirectory();
+        final String[] items = sdcardDir.list();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
@@ -41,7 +43,10 @@ public class ListActivity extends Activity {
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), items[position], Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
+                intent.putExtra("action", "dir");
+                intent.putExtra("dir", new File(sdcardDir, items[position]).getAbsolutePath());
+                startActivity(intent);
             }
         });
     }
