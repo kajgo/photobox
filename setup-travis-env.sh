@@ -16,13 +16,13 @@ log 'unzipping sdk'
 tar xfz android-sdk_r18-linux.tgz
 
 log 'installing additional sdk components'
-android update sdk --no-ui --filter tools,platform-tools,android-8
+android update sdk --no-ui --filter tools,platform-tools,android-12
 
 log 'listing targets'
 android list targets
 
 log 'creating device'
-echo no | android create avd -n test -t android-8 --force
+echo no | android create avd -n test -t android-12 --force
 
 log 'starting emulator'
 nohup emulator -avd test &
