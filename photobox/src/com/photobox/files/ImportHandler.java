@@ -13,8 +13,6 @@ import com.photobox.R;
 import com.photobox.world.Photo;
 import com.photobox.world.PhotoCollection;
 
-import android.util.Log;
-
 public class ImportHandler {
 
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
@@ -35,9 +33,7 @@ public class ImportHandler {
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
-        Log.d("HEJ HOPP", "Adding files");
         for (File f : photosInDir(dir)) {
-            Log.d("HEJ HOPP", "In Loop!");
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 16;
             Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
@@ -49,7 +45,6 @@ public class ImportHandler {
         ArrayList<File> photoFiles = new ArrayList<File>();
         for (File f : dir.listFiles()) {
             if (isPhoto(f)) {
-                Log.d("HEJ HOPP", "Adding file: " + f.getAbsolutePath());
                 photoFiles.add(f);
             }
         }
