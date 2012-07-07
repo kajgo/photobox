@@ -17,7 +17,7 @@ public class ImportHandler {
 
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 16;
+        options.inSampleSize = 2;
         ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();
         imageList.add(BitmapFactory.decodeResource(resources, R.drawable.a, options));
         imageList.add(BitmapFactory.decodeResource(resources, R.drawable.b, options));
@@ -35,7 +35,7 @@ public class ImportHandler {
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
         for (File f : photosInDir(dir)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 16;
+            options.inSampleSize = 2;
             Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
             collection.addPhoto(new Photo().withBitmap(b));
         }
