@@ -69,7 +69,7 @@ public class PhotoView extends View {
 
     public void loadPhotosFromDir(File photoDir) {
         ImportHandler importHandler = new ImportHandler();
-        importHandler.importPhotosFromFiles(collection, photoDir.listFiles());
+        importHandler.importPhotosFromDir(collection, photoDir);
     }
 
     private Point extractScreenCenter(Context context) {
