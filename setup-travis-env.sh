@@ -24,6 +24,9 @@ echo no | android create avd -n test -t android-8 --force
 log 'starting emulator'
 nohup emulator -avd test &
 
+log 'log: adb devices'
+adb devices
+
 while ! (adb devices | grep '^emulator-.*device$'); do
     log 'waiting for emulator to start'
     sleep 5
