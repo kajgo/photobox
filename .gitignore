@@ -10,4 +10,5 @@
 /tags
 /photobox-test/*.log
 /lastpid.txt
+/codemonitor.errors
 *.swp
