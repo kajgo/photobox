@@ -4,25 +4,74 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <android.widget.TextView
-        android:text="hello, this is photobox"
-        android:id="@+id/blah"
-        android:layout_width="wrap_content"
-        android:layout_height="363dp"
-        android:layout_weight="0.78" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.45"
+        android:scaleType="fitXY"
+        android:src="@drawable/photoboxbanner" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:scaleType="center"
+        android:background="#cccccc"
+        android:src="@drawable/logo" />
 
-    <android.widget.Button
-        android:text="sdcard pictures"
-        android:id="@+id/showSdcardPicturesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="363dp"
-        android:layout_weight="0.78" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.45"
+        android:orientation="horizontal">
 
-    <android.widget.Button
-        android:text="demo pictures"
-        android:id="@+id/showDemoPicturesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="363dp"
-        android:layout_weight="0.78" />
+	    <LinearLayout
+	        android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+	        android:orientation="vertical" >
 
+		    <android.widget.Button
+		        android:id="@+id/showSdcardPicturesButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.78"
+		        android:text="Select folder" />
+
+		    <TextView
+		        android:id="@+id/textView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.78"
+		        android:singleLine="false"
+		        android:text="View photos \n on SD-card" />
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_height="wrap_content"
+	        android:layout_width="0dp"
+            android:layout_weight="0.2"
+	        android:orientation="vertical" >
+
+		    <android.widget.Button
+		        android:text="Demo"
+		        android:id="@+id/showDemoPicturesButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.78" />
+
+		    <TextView
+		        android:id="@+id/textView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.78"
+		        android:text="Take a tour" />
+	    </LinearLayout>
+	    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	    </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
