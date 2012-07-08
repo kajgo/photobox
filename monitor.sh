@@ -1,5 +1,5 @@
 #!/bin/sh
 ~/.cabal/bin/codemonitor <<EOF
 .
-tests \.java$ sh super-test.sh
+tests \.xml$|\.java$ sh super-test.sh
 EOF
