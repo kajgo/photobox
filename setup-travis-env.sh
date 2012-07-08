@@ -6,26 +6,29 @@ function log() {
     echo "~~ $1 ~~"
 }
 
+ANDROID_VERSION="android-12"
+SDK_NAME="android-sdk_r20-linux.tgz"
+
 log 'starting xvfb'
 sh -e /etc/init.d/xvfb start
 
 log 'downloading sdk'
-wget http://dl.google.com/android/android-sdk_r20-linux.tgz
+wget http://dl.google.com/android/$SDK_NAME
 
 log 'unzipping sdk'
-tar xfz android-sdk_r20-linux.tgz
+tar xfz $SDK_NAME
 
 log 'listing extended'
 android list sdk --extended
 
 log 'installing additional sdk components'
-android update sdk --no-ui --filter tools,platform-tools,android-12
+android update sdk --no-ui --filter tools,platform-tools,$ANDROID_VERSION
 
 log 'listing targets'
 android list targets
 
 log 'creating device'
-echo no | android create avd -n test -t android-12 --force
+echo no | android create avd -n test -t $ANDROID_VERSION --force
 
 log 'starting emulator'
 nohup emulator -avd test &
