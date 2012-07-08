@@ -15,6 +15,9 @@ wget http://dl.google.com/android/android-sdk_r18-linux.tgz
 log 'unzipping sdk'
 tar xfz android-sdk_r18-linux.tgz
 
+log 'listing extended'
+android list sdk --extended
+
 log 'installing additional sdk components'
 android update sdk --no-ui --filter tools,platform-tools,android-12
 
