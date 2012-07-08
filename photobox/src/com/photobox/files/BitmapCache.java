@@ -1,15 +1,11 @@
 package com.photobox.files;
 
-import java.io.File;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Bitmap;
-
 import com.photobox.world.Photo;
 
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 
 public class BitmapCache {
 
