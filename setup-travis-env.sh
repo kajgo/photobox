@@ -13,7 +13,7 @@ log 'downloading sdk'
 wget http://dl.google.com/android/android-sdk_r20-linux.tgz
 
 log 'unzipping sdk'
-tar xfz android-sdk_r18-linux.tgz
+tar xfz android-sdk_r20-linux.tgz
 
 log 'listing extended'
 android list sdk --extended
