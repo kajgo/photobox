@@ -6,7 +6,7 @@ function log() {
     echo "~~ $1 ~~"
 }
 
-ANDROID_VERSION="android-12"
+ANDROID_VERSION="android-8"
 SDK_NAME="android-sdk_r20-linux.tgz"
 
 log 'starting xvfb'
