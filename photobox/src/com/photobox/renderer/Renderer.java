@@ -1,5 +1,7 @@
 package com.photobox.renderer;
 
+import com.photobox.files.BitmapCache;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,16 +9,20 @@ import android.graphics.Paint;
 import com.photobox.world.Photo;
 import com.photobox.world.PhotoCollection;
 
+import android.graphics.RectF;
+
 public class Renderer {
 
     private GraphicalDebugger debugger;
     private WorldMapping mapping;
     private PhotoCollection collection;
+    private BitmapCache bitmapCache;
 
-    public Renderer(GraphicalDebugger debugger, WorldMapping mapping, PhotoCollection collection) {
+    public Renderer(GraphicalDebugger debugger, WorldMapping mapping, PhotoCollection collection, BitmapCache bitmapCache) {
         this.debugger = debugger;
         this.mapping = mapping;
         this.collection = collection;
+        this.bitmapCache = bitmapCache;
     }
 
     public void renderBackground(Canvas canvas) {
@@ -26,7 +32,7 @@ public class Renderer {
     }
 
     public void renderPhoto(Canvas canvas, Photo photo) {
-        Bitmap image = photo.image;
+        Bitmap image = bitmapCache.get(photo);
         float w = photo.width;
         float h = photo.height;
 
@@ -39,7 +45,13 @@ public class Renderer {
         photoPaint.setFilterBitmap(true);
 
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
-        canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, photoPaint);
+        //canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, photoPaint);
+        canvas.drawBitmap(image, null, new RectF(
+                    -w / 2 + photo.BORDER,
+                    -h / 2 + photo.BORDER,
+                     w / 2 - photo.BORDER,
+                     h / 2 - photo.BORDER
+                    ), photoPaint);
         debugger.debugPhoto(canvas, photo);
     }
 

@@ -2,7 +2,7 @@ package com.photobox.world;
 
 public class ActivePhoto {
 
-    private Photo photo;
+    public Photo photo;
     private Point fingerOffset;
 
     public ActivePhoto(Photo photo, Point fingerOffset) {

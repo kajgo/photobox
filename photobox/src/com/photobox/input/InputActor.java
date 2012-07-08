@@ -1,5 +1,7 @@
 package com.photobox.input;
 
+import com.photobox.files.BitmapCache;
+
 import com.photobox.renderer.WorldMapping;
 import com.photobox.world.ActivePhoto;
 import com.photobox.world.PhotoCollection;
@@ -10,10 +12,12 @@ public class InputActor {
     private WorldMapping mapping;
     private PhotoCollection collection;
     private ActivePhoto activePhoto;
+    private BitmapCache bitmapCache;
 
-    public InputActor(WorldMapping mapping, PhotoCollection collection) {
+    public InputActor(WorldMapping mapping, PhotoCollection collection, BitmapCache bitmapCache) {
         this.mapping = mapping;
         this.collection = collection;
+        this.bitmapCache = bitmapCache;
     }
 
     public void takeAction(InputState inputState) {
@@ -55,6 +59,7 @@ public class InputActor {
             activePhoto = null;
         } else {
             activePhoto = ActivePhoto.fromFingerPoint(fingerPoint, collection.getActive());
+            bitmapCache.setHighRes(activePhoto.photo);
         }
     }
 

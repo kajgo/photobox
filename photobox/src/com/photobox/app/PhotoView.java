@@ -2,6 +2,8 @@ package com.photobox.app;
 
 import java.io.File;
 
+import com.photobox.files.BitmapCache;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -28,6 +30,7 @@ public class PhotoView extends View {
     private Renderer renderer;
     private InputState inputState;
     private InputActor inputActor;
+    private BitmapCache bitmapCache;
 
     public PhotoView(Context context) {
         this(context, null, 0);
@@ -42,9 +45,10 @@ public class PhotoView extends View {
         mapping = new WorldMapping(extractScreenCenter(context));
         collection = new PhotoCollection();
         debugger = new GraphicalDebugger(mapping);
-        renderer = new Renderer(debugger, mapping, collection);
+        bitmapCache = new BitmapCache();
+        renderer = new Renderer(debugger, mapping, collection, bitmapCache);
         inputState = new InputState(context, mapping);
-        inputActor = new InputActor(mapping, collection);
+        inputActor = new InputActor(mapping, collection, bitmapCache);
     }
 
     @Override
@@ -63,12 +67,12 @@ public class PhotoView extends View {
     }
 
     public void loadDemoPhotos() {
-        ImportHandler importHandler = new ImportHandler();
+        ImportHandler importHandler = new ImportHandler(bitmapCache);
         importHandler.importDemoPhotos(collection, getResources());
     }
 
     public void loadPhotosFromDir(File photoDir) {
-        ImportHandler importHandler = new ImportHandler();
+        ImportHandler importHandler = new ImportHandler(bitmapCache);
         importHandler.importPhotosFromDir(collection, photoDir);
     }
 

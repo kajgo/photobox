@@ -13,8 +13,9 @@ public class Photo {
     public Bitmap image;
 
     public Photo withSize(float w, float h) {
-        this.width = w;
-        this.height = h;
+        BORDER = (int)Math.round(0.02 * Math.max(w, h));
+        this.width = w + BORDER * 2;
+        this.height = h + BORDER * 2;
         return this;
     }
 

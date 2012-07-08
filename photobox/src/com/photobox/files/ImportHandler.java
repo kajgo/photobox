@@ -5,6 +5,8 @@ import java.io.File;
 
 import java.util.List;
 
+import com.photobox.files.BitmapCache;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,29 +17,38 @@ import com.photobox.world.PhotoCollection;
 
 public class ImportHandler {
 
+    private BitmapCache bitmapCache;
+
+    public ImportHandler(BitmapCache bitmapCache) {
+        this.bitmapCache = bitmapCache;
+    }
+
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.a, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.b, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.c, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.d, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.e, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.f, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.g, options));
-        imageList.add(BitmapFactory.decodeResource(resources, R.drawable.h, options));
-        for(int i = 0; i<imageList.size(); i++) {
-            collection.addPhoto(new Photo().withBitmap(imageList.get(i)));
+        List<Integer> imageList = new ArrayList<Integer>();
+        imageList.add(R.drawable.a);
+        imageList.add(R.drawable.b);
+        imageList.add(R.drawable.c);
+        imageList.add(R.drawable.d);
+        imageList.add(R.drawable.e);
+        imageList.add(R.drawable.f);
+        imageList.add(R.drawable.g);
+        imageList.add(R.drawable.h);
+        for (Integer which : imageList) {
+            ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
+            BitmapSize size = loader.getSize();
+            Photo p = new Photo().withSize(size.width, size.height);
+            collection.addPhoto(p);
+            bitmapCache.add(p, loader);
         }
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
         for (File f : photosInDir(dir)) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
-            Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
-            collection.addPhoto(new Photo().withBitmap(b));
+            FileBitmapLoader loader = new FileBitmapLoader(f);
+            BitmapSize size = loader.getSize();
+            Photo p = new Photo().withSize(size.width, size.height);
+            collection.addPhoto(p);
+            bitmapCache.add(p, loader);
         }
     }
 
