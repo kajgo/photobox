@@ -7,11 +7,11 @@ import android.graphics.BitmapFactory;
 
 public class ResourceBitmapLoader implements BitmapLoader {
 
-    private Resources ressources;
+    private Resources resources;
     private int which;
 
-    public ResourceBitmapLoader(Resources ressources, int which) {
-        this.ressources = ressources;
+    public ResourceBitmapLoader(Resources resources, int which) {
+        this.resources = resources;
         this.which = which;
     }
 
@@ -26,13 +26,13 @@ public class ResourceBitmapLoader implements BitmapLoader {
     private Bitmap loadWithRes(int res) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = res;
-        return BitmapFactory.decodeResource(ressources, which, options);
+        return BitmapFactory.decodeResource(resources, which, options);
     }
 
     public BitmapSize getSize() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(ressources, which, options);
+        BitmapFactory.decodeResource(resources, which, options);
         return new BitmapSize(options.outWidth, options.outHeight);
     }
 

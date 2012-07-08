@@ -45,13 +45,12 @@ public class Renderer {
         photoPaint.setFilterBitmap(true);
 
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
-        //canvas.drawBitmap(image, -w / 2 + photo.BORDER, -h / 2 + photo.BORDER, photoPaint);
-        canvas.drawBitmap(image, null, new RectF(
-                    -w / 2 + photo.BORDER,
-                    -h / 2 + photo.BORDER,
-                     w / 2 - photo.BORDER,
-                     h / 2 - photo.BORDER
-                    ), photoPaint);
+        RectF rect = new RectF(
+            -w / 2 + photo.BORDER,
+            -h / 2 + photo.BORDER,
+             w / 2 - photo.BORDER,
+             h / 2 - photo.BORDER);
+        canvas.drawBitmap(image, null, rect, photoPaint);
         debugger.debugPhoto(canvas, photo);
     }
 

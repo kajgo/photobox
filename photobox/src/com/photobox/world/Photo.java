@@ -30,14 +30,6 @@ public class Photo {
         return this;
     }
 
-    public Photo withBitmap(Bitmap bitmap) {
-        image = bitmap;
-        BORDER = (int)Math.round(0.02 * Math.max(bitmap.getWidth(), bitmap.getHeight()));
-        width = bitmap.getWidth() + BORDER * 2;
-        height = bitmap.getHeight() + BORDER * 2;
-        return this;
-    }
-
     public boolean pointInside(Point p) {
         Point p1 = p.rotate(angle);
         Point p2 = new Point(centerX, centerY).rotate(angle);
