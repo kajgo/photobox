@@ -23,4 +23,8 @@ public class ActivePhoto {
         photo.angle += diffAngle;
     }
 
+    public Photo getPhoto() {
+        return photo;
+    }
+
 }

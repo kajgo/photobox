@@ -59,7 +59,7 @@ public class InputActor {
             activePhoto = null;
         } else {
             activePhoto = ActivePhoto.fromFingerPoint(fingerPoint, collection.getActive());
-            bitmapCache.setHighRes(activePhoto.photo);
+            bitmapCache.setHighRes(activePhoto.getPhoto());
         }
     }
 
