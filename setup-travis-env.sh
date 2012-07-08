@@ -10,7 +10,7 @@ log 'starting xvfb'
 sh -e /etc/init.d/xvfb start
 
 log 'downloading sdk'
-wget http://dl.google.com/android/android-sdk_r18-linux.tgz
+wget http://dl.google.com/android/android-sdk_r20-linux.tgz
 
 log 'unzipping sdk'
 tar xfz android-sdk_r18-linux.tgz
