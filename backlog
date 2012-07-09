@@ -1,5 +1,7 @@
 Investigate image out of memory errors
     - High res should not be bigger than screen
+    - Are Bitmaps garbage collected when we exit activity or change high res
+      image?
 Produktifiera appen.
     - Info text to the right of buttons
     - Upload to market
