@@ -17,6 +17,7 @@ public class WorldMappingTest extends AndroidTestCase {
 
     public void testZoomsAroundADifferentPointFromOrigin() {
         WorldMapping mapping = new WorldMapping(new Point(50, 50));
+        mapping.scaleFactor = 1;
 
         mapping.zoomAround(2, new Point(100, 100));
 

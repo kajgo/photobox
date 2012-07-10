@@ -45,7 +45,7 @@ public class InputActor {
         }
         float newScaleFactor =
            mapping.scaleFactor * inputState.getRegisteredScaleFactor();
-        newScaleFactor = (float)Math.max((double)newScaleFactor, 0.1);
+        newScaleFactor = (float)Math.max((double)newScaleFactor, 0.01);
         mapping.zoomAround(newScaleFactor, inputState.getScalePoint());
     }
 

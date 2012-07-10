@@ -8,13 +8,13 @@ import com.photobox.world.Point;
 
 public class WorldMapping {
 
-    public float scaleFactor = 1.f;
-    public Point originScreenPosition = new Point(0, 0);
-    public Point screenCenterPoint = new Point(0, 0);
+    public float scaleFactor;
+    public Point originScreenPosition;
+    public Point screenCenterPoint;
 
     public WorldMapping(Point screenCenterPoint) {
-        originScreenPosition = screenCenterPoint;
         this.screenCenterPoint = screenCenterPoint;
+        reset();
     }
 
     public void moveOriginScreenPositionBy(Point offset) {
@@ -64,7 +64,7 @@ public class WorldMapping {
     }
 
     public void reset() {
-        scaleFactor = 1.f;
+        scaleFactor = 0.1f;
         originScreenPosition = screenCenterPoint;
     }
 
