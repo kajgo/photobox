@@ -1,9 +1,10 @@
 package com.photobox.files;
 
 import android.content.res.Resources;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.photobox.files.BitmapSize;
 
 public class ResourceBitmapLoader implements BitmapLoader {
 
@@ -15,25 +16,21 @@ public class ResourceBitmapLoader implements BitmapLoader {
         this.which = which;
     }
 
-    public Bitmap loadLowRes() {
-        return loadWithRes(16);
+    public Bitmap loadWithRes(BitmapSize reqSize) {
+        return loadWithRes(SampleSizeCalculator.calculate(getBitmapSize(), reqSize));
     }
 
-    public Bitmap loadHighRes() {
-        return loadWithRes(1);
+    public BitmapSize getBitmapSize() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(resources, which, options);
+        return new BitmapSize(options.outWidth, options.outHeight);
     }
 
     private Bitmap loadWithRes(int res) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = res;
         return BitmapFactory.decodeResource(resources, which, options);
-    }
-
-    public BitmapSize getSize() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(resources, which, options);
-        return new BitmapSize(options.outWidth, options.outHeight);
     }
 
 }

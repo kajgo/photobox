@@ -23,9 +23,11 @@ public class BitmapCache {
     private List<Pair> bitmaps;
     private Photo highResPhoto;
     private Bitmap highResBitmap;
+    private BitmapSize screenSize;
 
-    public BitmapCache() {
+    public BitmapCache(BitmapSize screenSize) {
         bitmaps = new ArrayList<Pair>();
+        this.screenSize = screenSize;
     }
 
     public void setHighRes(Photo p) {
@@ -36,13 +38,17 @@ public class BitmapCache {
     }
 
     public void add(Photo p, BitmapLoader b) {
-        bitmaps.add(new Pair(p, b.loadLowRes(), b));
+        bitmaps.add(new Pair(p, b.loadWithRes(lowResSize()), b));
+    }
+
+    private BitmapSize lowResSize() {
+        return new BitmapSize(screenSize.width / 4, screenSize.height / 4);
     }
 
     public Bitmap getHighRes(Photo p) {
         for (Pair pair : bitmaps) {
             if (pair.photo == p) {
-                return pair.loader.loadHighRes();
+                return pair.loader.loadWithRes(screenSize);
             }
         }
         return null;

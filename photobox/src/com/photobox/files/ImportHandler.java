@@ -35,7 +35,7 @@ public class ImportHandler {
         imageList.add(R.drawable.h);
         for (Integer which : imageList) {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
-            BitmapSize size = loader.getSize();
+            BitmapSize size = loader.getBitmapSize();
             Photo p = new Photo().withSize(size.width, size.height);
             collection.addPhoto(p);
             bitmapCache.add(p, loader);
@@ -45,7 +45,7 @@ public class ImportHandler {
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
         for (File f : photosInDir(dir)) {
             FileBitmapLoader loader = new FileBitmapLoader(f);
-            BitmapSize size = loader.getSize();
+            BitmapSize size = loader.getBitmapSize();
             Photo p = new Photo().withSize(size.width, size.height);
             collection.addPhoto(p);
             bitmapCache.add(p, loader);

@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.photobox.files.BitmapSize;
 import com.photobox.files.ImportHandler;
 import com.photobox.input.InputActor;
 import com.photobox.input.InputState;
@@ -45,7 +46,7 @@ public class PhotoView extends View {
         mapping = new WorldMapping(extractScreenCenter(context));
         collection = new PhotoCollection();
         debugger = new GraphicalDebugger(mapping);
-        bitmapCache = new BitmapCache();
+        bitmapCache = new BitmapCache(getScreenSize(context));
         renderer = new Renderer(debugger, mapping, collection, bitmapCache);
         inputState = new InputState(context, mapping);
         inputActor = new InputActor(mapping, collection, bitmapCache);
@@ -82,6 +83,14 @@ public class PhotoView extends View {
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         return new Point(metrics.widthPixels / 2, metrics.heightPixels / 2);
+    }
+
+    private BitmapSize getScreenSize(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        return new BitmapSize(metrics.widthPixels, metrics.heightPixels);
     }
 
 }
