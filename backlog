@@ -1,12 +1,11 @@
 Investigate image out of memory errors
-    - Better box for low res images.
-    - Release old high res bitmap before generating the new one.
     - Load high res on start.
 Produktifiera appen.
     - Info text to the right of buttons
     - Upload to market
 Fira med öl!
 Marknadsför.
+Release old high res bitmap before generating the new one.
 Load high res in background.
 Throw photos on start.
     - om man touchar på 10 punkter
