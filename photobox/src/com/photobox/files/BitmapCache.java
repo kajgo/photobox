@@ -38,11 +38,7 @@ public class BitmapCache {
     }
 
     public void add(Photo p, BitmapLoader b) {
-        bitmaps.add(new Pair(p, b.loadWithRes(lowResSize()), b));
-    }
-
-    private BitmapSize lowResSize() {
-        return new BitmapSize(screenSize.width / 4, screenSize.height / 4);
+        bitmaps.add(new Pair(p, b.loadWithRes(screenSize.scale(0.25f)), b));
     }
 
     public Bitmap getHighRes(Photo p) {

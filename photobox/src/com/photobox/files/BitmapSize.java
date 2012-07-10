@@ -10,4 +10,10 @@ public class BitmapSize {
         height = h;
     }
 
+    public BitmapSize scale(float factor) {
+        return new BitmapSize(
+            (int)Math.round(width * factor),
+            (int)Math.round(height * factor));
+    }
+
 }
