@@ -78,19 +78,21 @@ public class PhotoView extends View {
     }
 
     private Point extractScreenCenter(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
+        DisplayMetrics metrics = getDisplayMetrics(context);
         return new Point(metrics.widthPixels / 2, metrics.heightPixels / 2);
     }
 
     private BitmapSize getScreenSize(Context context) {
+        DisplayMetrics metrics = getDisplayMetrics(context);
+        return new BitmapSize(metrics.widthPixels, metrics.heightPixels);
+    }
+
+    private DisplayMetrics getDisplayMetrics(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        return new BitmapSize(metrics.widthPixels, metrics.heightPixels);
+        return metrics;
     }
 
 }
