@@ -15,8 +15,10 @@ public class FileBitmapLoader implements BitmapLoader {
         this.file = file;
     }
 
-    public Bitmap loadWithRes(BitmapSize reqSize) {
-        return loadWithRes(SampleSizeCalculator.calculate(getBitmapSize(), reqSize));
+    public Bitmap loadWithRes(int maxSize) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = SampleSizeCalculator.calculate(getBitmapSize(), maxSize);
+        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
     public BitmapSize getBitmapSize() {
@@ -24,12 +26,6 @@ public class FileBitmapLoader implements BitmapLoader {
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         return new BitmapSize(options.outWidth, options.outHeight);
-    }
-
-    private Bitmap loadWithRes(int res) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = res;
-        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
 }

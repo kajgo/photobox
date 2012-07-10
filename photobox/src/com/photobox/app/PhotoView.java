@@ -46,7 +46,7 @@ public class PhotoView extends View {
         mapping = new WorldMapping(extractScreenCenter(context));
         collection = new PhotoCollection();
         debugger = new GraphicalDebugger(mapping);
-        bitmapCache = new BitmapCache(getScreenSize(context));
+        bitmapCache = new BitmapCache(getScreenSize(context).max());
         renderer = new Renderer(debugger, mapping, collection, bitmapCache);
         inputState = new InputState(context, mapping);
         inputActor = new InputActor(mapping, collection, bitmapCache);

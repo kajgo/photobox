@@ -16,4 +16,8 @@ public class BitmapSize {
             (int)Math.round(height * factor));
     }
 
+    public int max() {
+        return Math.max(width, height);
+    }
+
 }
