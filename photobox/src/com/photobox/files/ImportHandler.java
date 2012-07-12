@@ -33,16 +33,20 @@ public class ImportHandler {
         imageList.add(R.drawable.f);
         imageList.add(R.drawable.g);
         imageList.add(R.drawable.h);
+        Photo latestPhoto = new Photo();
         for (Integer which : imageList) {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
             BitmapSize size = loader.getBitmapSize();
             Photo p = new Photo().withSize(size.width, size.height);
             collection.addPhoto(p);
             bitmapCache.add(p, loader);
+            latestPhoto = p;
         }
+        bitmapCache.setHighRes(latestPhoto);
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
+        Photo latestPhoto = new Photo();
         for (File f : photosInDir(dir)) {
             FileBitmapLoader loader = new FileBitmapLoader(f);
             BitmapSize size = loader.getBitmapSize();
@@ -50,6 +54,7 @@ public class ImportHandler {
             collection.addPhoto(p);
             bitmapCache.add(p, loader);
         }
+        bitmapCache.setHighRes(latestPhoto);
     }
 
     private List<File> photosInDir(File dir) {
