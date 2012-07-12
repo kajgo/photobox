@@ -88,7 +88,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.6"
                 android:gravity="center_horizontal"
-                android:text="Lorem ipsum..." />
+                android:text="Use pinch motion to zoom.\nUse one finger to move photo or background.\nUse three fingers to rotate photo.\nUse double tap to reset zoom level." />
         </LinearLayout>
 
     </LinearLayout>
