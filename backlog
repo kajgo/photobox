@@ -1,12 +1,15 @@
-Produktifiera appen.
+Next items:
+    - Fira med öl!
+    - Marknadsför.
+Next release:
+    - Load high res in background.
+    - Throw photos on start.
+          - om man touchar på 10 punkter
+Backlog:
     - Upload to market
-Fira med öl!
-Marknadsför.
-Release old high res bitmap before generating the new one.
-Load high res in background.
-Throw photos on start.
-    - om man touchar på 10 punkter
-Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
-Epic: Spara positioner och rotationer för foton
-Epic: Kategorisera foton i flera boxar.
-Epic: Visa karta när man flytta viewport
+    - Release old high res bitmap before generating the new one.
+    - Recursive directory selection
+    - Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
+    - Epic: Spara positioner och rotationer för foton
+    - Epic: Kategorisera foton i flera boxar.
+    - Epic: Visa karta när man flytta viewport
