@@ -30,9 +30,6 @@ public class ImportHandler {
         imageList.add(R.drawable.c);
         imageList.add(R.drawable.d);
         imageList.add(R.drawable.e);
-        imageList.add(R.drawable.f);
-        imageList.add(R.drawable.g);
-        imageList.add(R.drawable.h);
         Photo latestPhoto = new Photo();
         for (Integer which : imageList) {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
