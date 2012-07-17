@@ -64,7 +64,7 @@ public class WorldMapping {
     }
 
     public void reset() {
-        scaleFactor = 0.1f;
+        scaleFactor = 0.4f;
         originScreenPosition = screenCenterPoint;
     }
 
