@@ -1,19 +1,18 @@
 package com.photobox.files;
 
-import java.util.ArrayList;
 import java.io.File;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.photobox.R;
 
 import com.photobox.files.BitmapCache;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.photobox.R;
 import com.photobox.world.Photo;
 import com.photobox.world.PhotoCollection;
+
+import android.content.res.Resources;
 
 public class ImportHandler {
 
@@ -55,7 +54,11 @@ public class ImportHandler {
         bitmapCache.setHighRes(latestPhoto);
     }
 
-    private List<File> photosInDir(File dir) {
+    public static boolean hasPhotos(File dir) {
+        return photosInDir(dir).size() > 0;
+    }
+
+    private static List<File> photosInDir(File dir) {
         ArrayList<File> photoFiles = new ArrayList<File>();
         for (File f : dir.listFiles()) {
             if (isPhoto(f)) {
@@ -65,7 +68,7 @@ public class ImportHandler {
         return photoFiles;
     }
 
-    private boolean isPhoto(File f) {
+    private static boolean isPhoto(File f) {
         return f.getName().toLowerCase().endsWith(".jpg")
             || f.getName().toLowerCase().endsWith(".jpeg")
             || f.getName().toLowerCase().endsWith(".png");

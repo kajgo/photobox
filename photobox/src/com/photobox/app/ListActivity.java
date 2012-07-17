@@ -2,7 +2,11 @@ package com.photobox.app;
 
 import java.io.File;
 
+import com.photobox.files.ImportHandler;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,22 +29,6 @@ public class ListActivity extends Activity {
 
     private ListView list;
     private TextView text;
-
-    private void setCurrentPath(File path) {
-        currentPath = path;
-
-        currentItems = currentPath.list();
-
-        text.setText(currentPath.getPath());
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                currentItems);
-
-        list.setAdapter(adapter);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,10 +55,14 @@ public class ListActivity extends Activity {
         Button selectFolderButton = (Button)findViewById(R.id.selectFolderButton);
         selectFolderButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
-                intent.putExtra("action", "dir");
-                intent.putExtra("dir", activity.currentPath.getAbsolutePath());
-                startActivity(intent);
+                if (ImportHandler.hasPhotos(activity.currentPath)) {
+                    Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
+                    intent.putExtra("action", "dir");
+                    intent.putExtra("dir", activity.currentPath.getAbsolutePath());
+                    startActivity(intent);
+                } else {
+                    activity.showNoPhotosPopup();
+                }
             }
         });
 
@@ -80,7 +72,33 @@ public class ListActivity extends Activity {
                 activity.setCurrentPath(activity.currentPath.getParentFile());
             }
         });
-
     }
 
+    private void showNoPhotosPopup() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("No photos found");
+        alertDialog.setMessage("No .png, .jpg, or .jpeg photos found in this directory.");
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertDialog.setIcon(R.drawable.icon);
+        alertDialog.show();
+    }
+
+    private void setCurrentPath(File path) {
+        currentPath = path;
+
+        currentItems = currentPath.list();
+
+        text.setText(currentPath.getPath());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                currentItems);
+
+        list.setAdapter(adapter);
+    }
 }
