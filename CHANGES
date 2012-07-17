@@ -4,6 +4,7 @@ photobox 1.1, released on
 New features:
 
   * .jpeg and .png image formats supported (in addition to .jpg)
+  * Select a directory anywhere on the sdcard, not just root folder
 
 Bug fixes:
 

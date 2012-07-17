@@ -14,11 +14,33 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.photobox.R;
 
 public class ListActivity extends Activity {
+
+    private File currentPath;
+    private String[] currentItems;
+
+    private ListView list;
+    private TextView text;
+
+    private void setCurrentPath(File path) {
+        currentPath = path;
+
+        currentItems = currentPath.list();
+
+        text.setText(currentPath.getPath());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                currentItems);
+
+        list.setAdapter(adapter);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,26 +50,37 @@ public class ListActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.files);
 
-        ListView list = (ListView)findViewById(R.id.fileList);
-        final File sdcardDir = Environment.getExternalStorageDirectory();
-        final String[] items = sdcardDir.list();
+        list = (ListView)findViewById(R.id.fileList);
+        text = (TextView)findViewById(R.id.pathLabel);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                items);
+        setCurrentPath(Environment.getExternalStorageDirectory());
 
-        list.setAdapter(adapter);
+        final ListActivity activity = this;
 
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                activity.setCurrentPath(new File(activity.currentPath, activity.currentItems[position]));
+            }
+        });
+
+        Button selectFolderButton = (Button)findViewById(R.id.selectFolderButton);
+        selectFolderButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
                 intent.putExtra("action", "dir");
-                intent.putExtra("dir", new File(sdcardDir, items[position]).getAbsolutePath());
+                intent.putExtra("dir", activity.currentPath.getAbsolutePath());
                 startActivity(intent);
             }
         });
+
+        Button backFolderButton = (Button)findViewById(R.id.backFolderButton);
+        backFolderButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                activity.setCurrentPath(activity.currentPath.getParentFile());
+            }
+        });
+
     }
+
 }
