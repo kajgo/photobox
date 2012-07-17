@@ -48,7 +48,10 @@ public class ListActivity extends Activity {
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activity.setCurrentPath(new File(activity.currentPath, activity.currentItems[position]));
+                File newPath = new File(activity.currentPath, activity.currentItems[position]);
+                if (newPath.isDirectory()) {
+                    activity.setCurrentPath(newPath);
+                }
             }
         });
 
