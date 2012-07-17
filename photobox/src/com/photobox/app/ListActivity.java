@@ -72,7 +72,10 @@ public class ListActivity extends Activity {
         Button backFolderButton = (Button)findViewById(R.id.backFolderButton);
         backFolderButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                activity.setCurrentPath(activity.currentPath.getParentFile());
+                File parentPath = activity.currentPath.getParentFile();
+                if (parentPath != null) {
+                    activity.setCurrentPath(parentPath);
+                }
             }
         });
     }
@@ -85,7 +88,6 @@ public class ListActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        alertDialog.setIcon(R.drawable.icon);
         alertDialog.show();
     }
 
