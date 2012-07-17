@@ -22,12 +22,15 @@ public class PhotoCollection {
     }
 
     public void throwPhotos(int throwBoxSize) {
+        final int angleDiff = 45;
         Random rnd = new Random();
         for (Photo p : photos) {
             float x = (float)rnd.nextInt(throwBoxSize)-throwBoxSize/2;
             float y = (float)rnd.nextInt(throwBoxSize)-throwBoxSize/2;
+            float angle = (float)rnd.nextInt(angleDiff)-angleDiff/2;
             p.centerX = x;
             p.centerY = y;
+            p.angle = angle;
         }
     }
 
