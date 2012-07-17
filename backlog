@@ -3,7 +3,6 @@ Next release:
     - Load high res in background.
     - Throw photos on start.
           - om man touchar på 10 punkter
-    - Add .jpeg and .png to approved image formats
 Backlog:
     - Upload to market
     - Release old high res bitmap before generating the new one.

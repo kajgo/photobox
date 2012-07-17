@@ -66,7 +66,9 @@ public class ImportHandler {
     }
 
     private boolean isPhoto(File f) {
-        return f.getName().toLowerCase().endsWith(".jpg");
+        return f.getName().toLowerCase().endsWith(".jpg")
+            || f.getName().toLowerCase().endsWith(".jpeg")
+            || f.getName().toLowerCase().endsWith(".png");
     }
 
 }

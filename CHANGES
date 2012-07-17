@@ -1,9 +1,13 @@
 photobox 1.1, released on
 =========================
 
+New features:
+
+  * .jpeg and .png image formats supported (in addition to .jpg)
+
 Bug fixes:
 
-   * Load high-res photo for sd card images at strup.
+  * Load high-res photo for sd card images at strup.
 
 photobox 1.0, released on 12 July 2012
 ======================================
