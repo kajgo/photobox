@@ -2,6 +2,7 @@ package com.photobox.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PhotoCollection {
 
@@ -18,6 +19,16 @@ public class PhotoCollection {
 
     public Photo getActive() {
         return active;
+    }
+
+    public void throwPhotos(int throwBoxSize) {
+        Random rnd = new Random();
+        for (Photo p : photos) {
+            float x = (float)rnd.nextInt(throwBoxSize)-throwBoxSize/2;
+            float y = (float)rnd.nextInt(throwBoxSize)-throwBoxSize/2;
+            p.centerX = x;
+            p.centerY = y;
+        }
     }
 
     public void fingerDown(Point p) {

@@ -43,10 +43,10 @@ public class PhotoView extends View {
 
     public PhotoView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mapping = new WorldMapping(extractScreenCenter(context));
+        mapping = new WorldMapping(extractScreenCenter());
         collection = new PhotoCollection();
         debugger = new GraphicalDebugger(mapping);
-        bitmapCache = new BitmapCache(getScreenSize(context).max());
+        bitmapCache = new BitmapCache(getScreenSize().max());
         renderer = new Renderer(debugger, mapping, collection, bitmapCache);
         inputState = new InputState(context, mapping);
         inputActor = new InputActor(mapping, collection, bitmapCache);
@@ -70,25 +70,33 @@ public class PhotoView extends View {
     public void loadDemoPhotos() {
         ImportHandler importHandler = new ImportHandler(bitmapCache);
         importHandler.importDemoPhotos(collection, getResources());
+        throwPhotos();
     }
 
     public void loadPhotosFromDir(File photoDir) {
         ImportHandler importHandler = new ImportHandler(bitmapCache);
         importHandler.importPhotosFromDir(collection, photoDir);
+        throwPhotos();
     }
 
-    private Point extractScreenCenter(Context context) {
-        DisplayMetrics metrics = getDisplayMetrics(context);
+    private void throwPhotos() {
+        BitmapSize screenSize = getScreenSize();
+        int throwBoxSize = (int)Math.round((float)screenSize.min()/mapping.scaleFactor/2);
+        collection.throwPhotos(throwBoxSize);
+    }
+
+    private Point extractScreenCenter() {
+        DisplayMetrics metrics = getDisplayMetrics();
         return new Point(metrics.widthPixels / 2, metrics.heightPixels / 2);
     }
 
-    private BitmapSize getScreenSize(Context context) {
-        DisplayMetrics metrics = getDisplayMetrics(context);
+    private BitmapSize getScreenSize() {
+        DisplayMetrics metrics = getDisplayMetrics();
         return new BitmapSize(metrics.widthPixels, metrics.heightPixels);
     }
 
-    private DisplayMetrics getDisplayMetrics(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    private DisplayMetrics getDisplayMetrics() {
+        WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);

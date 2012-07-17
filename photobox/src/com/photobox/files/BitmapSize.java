@@ -20,4 +20,8 @@ public class BitmapSize {
         return Math.max(width, height);
     }
 
+    public int min() {
+        return Math.min(width, height);
+    }
+
 }
