@@ -50,6 +50,7 @@ public class ImportHandler {
             Photo p = new Photo().withSize(size.width, size.height);
             collection.addPhoto(p);
             bitmapCache.add(p, loader);
+            latestPhoto = p;
         }
         bitmapCache.setHighRes(latestPhoto);
     }

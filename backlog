@@ -3,7 +3,6 @@ Next release:
     - Load high res in background.
     - Throw photos on start.
           - om man touchar på 10 punkter
-    - Bugfix: load high res from sd-card image at startup (80105eb1f1379fa42567dd9c86a6eaaa5e316388)
     - Add .jpeg and .png to approved image formats
 Backlog:
     - Upload to market
