@@ -23,20 +23,10 @@ public class ImportHandler {
     }
 
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
-        List<Integer> imageList = new ArrayList<Integer>();
-        imageList.add(R.drawable.a);
-        imageList.add(R.drawable.b);
-        imageList.add(R.drawable.c);
-        imageList.add(R.drawable.d);
-        imageList.add(R.drawable.e);
         Photo latestPhoto = new Photo();
-        for (Integer which : imageList) {
+        for (Integer which : photosInResources()) {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
-            BitmapSize size = loader.getBitmapSize();
-            Photo p = new Photo().withSize(size.width, size.height);
-            collection.addPhoto(p);
-            bitmapCache.add(p, loader);
-            latestPhoto = p;
+            latestPhoto = loadPhoto(loader, collection);
         }
         bitmapCache.setHighRes(latestPhoto);
     }
@@ -45,11 +35,7 @@ public class ImportHandler {
         Photo latestPhoto = new Photo();
         for (File f : photosInDir(dir)) {
             FileBitmapLoader loader = new FileBitmapLoader(f);
-            BitmapSize size = loader.getBitmapSize();
-            Photo p = new Photo().withSize(size.width, size.height);
-            collection.addPhoto(p);
-            bitmapCache.add(p, loader);
-            latestPhoto = p;
+            latestPhoto = loadPhoto(loader, collection);
         }
         bitmapCache.setHighRes(latestPhoto);
     }
@@ -74,4 +60,21 @@ public class ImportHandler {
             || f.getName().toLowerCase().endsWith(".png");
     }
 
+    private Photo loadPhoto(BitmapLoader loader, PhotoCollection collection) {
+        BitmapSize size = loader.getBitmapSize();
+        Photo p = new Photo().withSize(size.width, size.height);
+        collection.addPhoto(p);
+        bitmapCache.add(p, loader);
+        return p;
+    }
+
+    private List<Integer> photosInResources() {
+        List<Integer> imageList = new ArrayList<Integer>();
+        imageList.add(R.drawable.a);
+        imageList.add(R.drawable.b);
+        imageList.add(R.drawable.c);
+        imageList.add(R.drawable.d);
+        imageList.add(R.drawable.e);
+        return imageList;
+    }
 }
