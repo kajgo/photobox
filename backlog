@@ -1,8 +1,7 @@
 Next release:
-    - Upload to market
-Backlog:
     - Load high res in background.
     - Choose default scale factor depending on image size.
+Backlog:
     - Release old high res bitmap before generating the new one.
     - Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
     - Epic: Spara positioner och rotationer för foton
