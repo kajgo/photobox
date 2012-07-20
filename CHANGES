@@ -1,14 +1,15 @@
-photobox 1.1, released on
-=========================
+photobox 1.1, released on 20 July 2012
+======================================
 
 New features:
 
   * .jpeg and .png image formats supported (in addition to .jpg)
   * Select a directory anywhere on the sdcard, not just root folder
+  * Distribute photos at random at startup
 
 Bug fixes:
 
-  * Load high-res photo for sd card images at strup.
+  * Load high-res photo for sd card images at startup
 
 photobox 1.0, released on 12 July 2012
 ======================================
