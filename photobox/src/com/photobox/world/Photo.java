@@ -10,7 +10,6 @@ public class Photo {
     public float width;
     public float height;
     public float angle;
-    public Bitmap image;
 
     public Photo withSize(float w, float h) {
         BORDER = (int)Math.round(0.02 * Math.max(w, h));
