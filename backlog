@@ -1,9 +1,14 @@
 Next release:
+    - Don't crash when loading too many images
     - Load high res in background.
-    - Choose default scale factor depending on image size.
+    - Two finger rotation
+        - Change instruction text
+    - Investigate crash reports
 Backlog:
+    - Select subset of photos to show
+    - New photo sources: picasa, flickr, ...
+    - Only photo view should have fixed orientation
     - Release old high res bitmap before generating the new one.
     - Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
     - Epic: Spara positioner och rotationer för foton
-    - Epic: Kategorisera foton i flera boxar.
     - Epic: Visa karta när man flytta viewport
