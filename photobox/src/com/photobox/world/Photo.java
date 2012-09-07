@@ -2,6 +2,8 @@ package com.photobox.world;
 
 import android.graphics.Bitmap;
 
+import com.photobox.files.BitmapLoader;
+
 public class Photo {
 
     public int BORDER = 10;
@@ -12,6 +14,7 @@ public class Photo {
     public float angle;
     public Bitmap lowRes;
     public Bitmap highRes;
+    public BitmapLoader bitmapLoader;
 
     public Photo withSize(float w, float h) {
         BORDER = (int)Math.round(0.02 * Math.max(w, h));
