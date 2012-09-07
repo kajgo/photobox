@@ -32,7 +32,7 @@ public class Renderer {
     }
 
     public void renderPhoto(Canvas canvas, Photo photo) {
-        Bitmap image = bitmapCache.get(photo);
+        Bitmap image = photo.getBitmap();
         float w = photo.width;
         float h = photo.height;
 

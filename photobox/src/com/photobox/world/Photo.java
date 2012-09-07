@@ -10,6 +10,8 @@ public class Photo {
     public float width;
     public float height;
     public float angle;
+    public Bitmap lowRes;
+    public Bitmap highRes;
 
     public Photo withSize(float w, float h) {
         BORDER = (int)Math.round(0.02 * Math.max(w, h));
@@ -51,6 +53,13 @@ public class Photo {
 
     public Point getCenterPoint() {
         return new Point(centerX, centerY);
+    }
+
+    public Bitmap getBitmap() {
+        if (highRes != null) {
+            return highRes;
+        }
+        return lowRes;
     }
 
 }
