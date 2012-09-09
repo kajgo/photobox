@@ -1,7 +1,5 @@
 package com.photobox.renderer;
 
-import com.photobox.files.BitmapCache;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,13 +14,11 @@ public class Renderer {
     private GraphicalDebugger debugger;
     private WorldMapping mapping;
     private PhotoCollection collection;
-    private BitmapCache bitmapCache;
 
-    public Renderer(GraphicalDebugger debugger, WorldMapping mapping, PhotoCollection collection, BitmapCache bitmapCache) {
+    public Renderer(GraphicalDebugger debugger, WorldMapping mapping, PhotoCollection collection) {
         this.debugger = debugger;
         this.mapping = mapping;
         this.collection = collection;
-        this.bitmapCache = bitmapCache;
     }
 
     public void renderBackground(Canvas canvas) {

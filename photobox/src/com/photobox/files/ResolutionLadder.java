@@ -7,18 +7,32 @@ import com.photobox.world.Photo;
 
 import android.graphics.Bitmap;
 
-class ResolutionLadder {
+public class ResolutionLadder {
 
     private float resolution;
     private int maxSize;
     private ResolutionLadder nextLevel;
     private SizedQueue<Photo> photoQueue;
+    private List<Photo> photos = new ArrayList<Photo>();
 
     public ResolutionLadder(int maxPhotosAllowed, float resolution, int maxSize, ResolutionLadder nextLevel) {
         this.resolution = resolution;
         this.nextLevel = nextLevel;
         this.maxSize = maxSize;
         photoQueue = new SizedQueue<Photo>(maxPhotosAllowed);
+    }
+
+    public void setHighRes(Photo p) {
+        activate(p);
+    }
+
+    public void add(Photo p, BitmapLoader b) {
+        p.bitmapLoader = b;
+        photos.add(p);
+    }
+
+    public void loadAllBitmaps() {
+        fillQueue(photos);
     }
 
     public void fillQueue(List<Photo> p) {

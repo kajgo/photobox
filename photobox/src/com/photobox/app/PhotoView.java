@@ -2,8 +2,6 @@ package com.photobox.app;
 
 import java.io.File;
 
-import com.photobox.files.BitmapCache;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -15,6 +13,7 @@ import android.view.WindowManager;
 
 import com.photobox.files.BitmapSize;
 import com.photobox.files.ImportHandler;
+import com.photobox.files.ResolutionLadder;
 import com.photobox.input.InputActor;
 import com.photobox.input.InputState;
 import com.photobox.renderer.GraphicalDebugger;
@@ -31,7 +30,7 @@ public class PhotoView extends View {
     private Renderer renderer;
     private InputState inputState;
     private InputActor inputActor;
-    private BitmapCache bitmapCache;
+    private ResolutionLadder ladder;
 
     public PhotoView(Context context) {
         this(context, null, 0);
@@ -46,10 +45,13 @@ public class PhotoView extends View {
         mapping = new WorldMapping(extractScreenCenter());
         collection = new PhotoCollection();
         debugger = new GraphicalDebugger(mapping);
-        bitmapCache = new BitmapCache(getScreenSize().max());
-        renderer = new Renderer(debugger, mapping, collection, bitmapCache);
+        renderer = new Renderer(debugger, mapping, collection);
         inputState = new InputState(context, mapping);
-        inputActor = new InputActor(mapping, collection, bitmapCache);
+        int maxSize = getScreenSize().max();
+        ladder = new ResolutionLadder(1, 1, maxSize,
+                new ResolutionLadder(1, 0.5f, maxSize,
+                    new ResolutionLadder(1, 0.25f, maxSize, null)));
+        inputActor = new InputActor(mapping, collection, ladder);
     }
 
     @Override
@@ -68,13 +70,13 @@ public class PhotoView extends View {
     }
 
     public void loadDemoPhotos() {
-        ImportHandler importHandler = new ImportHandler(bitmapCache);
+        ImportHandler importHandler = new ImportHandler(ladder);
         importHandler.importDemoPhotos(collection, getResources());
         throwPhotos();
     }
 
     public void loadPhotosFromDir(File photoDir) {
-        ImportHandler importHandler = new ImportHandler(bitmapCache);
+        ImportHandler importHandler = new ImportHandler(ladder);
         importHandler.importPhotosFromDir(collection, photoDir);
         throwPhotos();
     }

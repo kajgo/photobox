@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.photobox.R;
 
-import com.photobox.files.BitmapCache;
+import com.photobox.files.ResolutionLadder;
 
 import com.photobox.world.Photo;
 import com.photobox.world.PhotoCollection;
@@ -16,10 +16,10 @@ import android.content.res.Resources;
 
 public class ImportHandler {
 
-    private BitmapCache bitmapCache;
+    private ResolutionLadder ladder;
 
-    public ImportHandler(BitmapCache bitmapCache) {
-        this.bitmapCache = bitmapCache;
+    public ImportHandler(ResolutionLadder ladder) {
+        this.ladder = ladder;
     }
 
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
@@ -27,7 +27,7 @@ public class ImportHandler {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
             loadPhoto(loader, collection);
         }
-        bitmapCache.loadAllBitmaps();
+        ladder.loadAllBitmaps();
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
@@ -35,7 +35,7 @@ public class ImportHandler {
             FileBitmapLoader loader = new FileBitmapLoader(f);
             loadPhoto(loader, collection);
         }
-        bitmapCache.loadAllBitmaps();
+        ladder.loadAllBitmaps();
     }
 
     public static boolean hasPhotos(File dir) {
@@ -62,7 +62,7 @@ public class ImportHandler {
         BitmapSize size = loader.getBitmapSize();
         Photo p = new Photo().withSize(size.width, size.height);
         collection.addPhoto(p);
-        bitmapCache.add(p, loader);
+        ladder.add(p, loader);
         return p;
     }
 
