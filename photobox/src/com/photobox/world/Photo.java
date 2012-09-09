@@ -1,5 +1,7 @@
 package com.photobox.world;
 
+import java.util.*;
+
 import android.graphics.Bitmap;
 
 import com.photobox.files.BitmapLoader;
@@ -12,9 +14,8 @@ public class Photo {
     public float width;
     public float height;
     public float angle;
-    public Bitmap lowRes;
-    public Bitmap highRes;
     public BitmapLoader bitmapLoader;
+    private Map<Float, Bitmap> bitmaps = new HashMap<Float, Bitmap>();
 
     public Photo withSize(float w, float h) {
         BORDER = (int)Math.round(0.02 * Math.max(w, h));
@@ -58,11 +59,34 @@ public class Photo {
         return new Point(centerX, centerY);
     }
 
-    public Bitmap getBitmap() {
-        if (highRes != null) {
-            return highRes;
+    public void setBitmap(float resolution, Bitmap bitmap) {
+        if (!bitmaps.containsKey(resolution)) {
+            bitmaps.put(resolution, bitmap);
         }
-        return lowRes;
+    }
+
+    public void clearBitmap(float resolution) {
+        if (bitmaps.containsKey(resolution)) {
+            bitmaps.get(resolution).recycle();
+            bitmaps.remove(resolution);
+        }
+    }
+
+    public Bitmap getBitmap() {
+        if (bitmaps.size() == 0) {
+            return null;
+        }
+        return bitmaps.get(maxKey());
+    }
+
+    private float maxKey() {
+        float max = 0;
+        for (float key : bitmaps.keySet()) {
+            if (key > max) {
+                max = key;
+            }
+        }
+        return max;
     }
 
 }

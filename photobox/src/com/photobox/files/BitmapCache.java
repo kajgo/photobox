@@ -18,20 +18,20 @@ public class BitmapCache {
 
     public void setHighRes(Photo p) {
         if (highResPhoto != null) {
-            highResPhoto.highRes.recycle();
-            highResPhoto.highRes = null;
+            highResPhoto.clearBitmap(1);
         }
         highResPhoto = p;
-        p.highRes = getHighRes(p);
+        loadWithRes(1, p);
     }
 
     public void add(Photo p, BitmapLoader b) {
         p.bitmapLoader = b;
-        p.lowRes = b.loadWithRes((int)Math.round(maxSize * 0.25f));
+        loadWithRes(0.25f, p);
     }
 
-    private Bitmap getHighRes(Photo p) {
-        return p.bitmapLoader.loadWithRes(maxSize);
+    private void loadWithRes(float res, Photo p) {
+        Bitmap b = p.bitmapLoader.loadWithRes((int)Math.round(maxSize * res));
+        p.setBitmap(res, b);
     }
 
 }
