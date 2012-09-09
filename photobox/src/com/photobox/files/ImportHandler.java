@@ -23,19 +23,21 @@ public class ImportHandler {
     }
 
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
+        List<Photo> photos = new ArrayList<Photo>();
         for (Integer which : photosInResources()) {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
-            loadPhoto(loader, collection);
+            photos.add(loadPhoto(loader, collection));
         }
-        ladder.loadAllBitmaps();
+        ladder.loadAllBitmaps(photos);
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
+        List<Photo> photos = new ArrayList<Photo>();
         for (File f : photosInDir(dir)) {
             FileBitmapLoader loader = new FileBitmapLoader(f);
-            loadPhoto(loader, collection);
+            photos.add(loadPhoto(loader, collection));
         }
-        ladder.loadAllBitmaps();
+        ladder.loadAllBitmaps(photos);
     }
 
     public static boolean hasPhotos(File dir) {
@@ -62,7 +64,7 @@ public class ImportHandler {
         BitmapSize size = loader.getBitmapSize();
         Photo p = new Photo().withSize(size.width, size.height);
         collection.addPhoto(p);
-        ladder.add(p, loader);
+        p.bitmapLoader = loader;
         return p;
     }
 

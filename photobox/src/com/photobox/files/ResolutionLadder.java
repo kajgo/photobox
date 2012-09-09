@@ -13,42 +13,28 @@ public class ResolutionLadder {
     private int maxSize;
     private ResolutionLadder nextLevel;
     private SizedQueue<Photo> photoQueue;
-    private List<Photo> photos = new ArrayList<Photo>();
 
     public ResolutionLadder(int maxPhotosAllowed, float resolution, int maxSize, ResolutionLadder nextLevel) {
         this.resolution = resolution;
-        this.nextLevel = nextLevel;
         this.maxSize = maxSize;
+        this.nextLevel = nextLevel;
         photoQueue = new SizedQueue<Photo>(maxPhotosAllowed);
     }
 
-    public void setHighRes(Photo p) {
-        activate(p);
+    public void putOnTop(Photo p) {
+        remove(p);
+        enqueue(p);
     }
 
-    public void add(Photo p, BitmapLoader b) {
-        p.bitmapLoader = b;
-        photos.add(p);
-    }
-
-    public void loadAllBitmaps() {
-        fillQueue(photos);
-    }
-
-    public void fillQueue(List<Photo> p) {
+    public void loadAllBitmaps(List<Photo> p) {
         int n = photoQueue.numFreeSlots();
         List<Photo> toActivate = popNLast(n, p);
         while(toActivate.size() > 0) {
-            activate(toActivate.remove(0));
+            putOnTop(toActivate.remove(0));
         }
         if(nextLevel != null) {
-            nextLevel.fillQueue(p);
+            nextLevel.loadAllBitmaps(p);
         }
-    }
-
-    public void activate(Photo photo) {
-        remove(photo);
-        enqueue(photo);
     }
 
     public void remove(Photo photo) {

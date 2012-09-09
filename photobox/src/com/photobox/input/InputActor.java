@@ -58,7 +58,7 @@ public class InputActor {
             activePhoto = null;
         } else {
             activePhoto = ActivePhoto.fromFingerPoint(fingerPoint, collection.getActive());
-            ladder.setHighRes(activePhoto.getPhoto());
+            ladder.putOnTop(activePhoto.getPhoto());
         }
     }
 
