@@ -11,12 +11,12 @@ class ResolutionLadder {
 
     private float resolution;
     private int maxSize;
-    private ResolutionLadder nextQueue;
+    private ResolutionLadder nextLevel;
     private SizedQueue<Photo> photoQueue;
 
-    public ResolutionLadder(int maxPhotosAllowed, float resolution, int maxSize, ResolutionLadder nextQueue) {
+    public ResolutionLadder(int maxPhotosAllowed, float resolution, int maxSize, ResolutionLadder nextLevel) {
         this.resolution = resolution;
-        this.nextQueue = nextQueue;
+        this.nextLevel = nextLevel;
         this.maxSize = maxSize;
         photoQueue = new SizedQueue<Photo>(maxPhotosAllowed);
     }
@@ -27,8 +27,20 @@ class ResolutionLadder {
         while(toActivate.size() > 0) {
             activate(toActivate.remove(0));
         }
-        if(nextQueue != null) {
-            nextQueue.fillQueue(p);
+        if(nextLevel != null) {
+            nextLevel.fillQueue(p);
+        }
+    }
+
+    public void activate(Photo photo) {
+        remove(photo);
+        enqueue(photo);
+    }
+
+    public void remove(Photo photo) {
+        photoQueue.remove(photo);
+        if (nextLevel != null) {
+            nextLevel.remove(photo);
         }
     }
 
@@ -40,24 +52,12 @@ class ResolutionLadder {
         return subList;
     }
 
-    public void activate(Photo photo) {
-        remove(photo);
-        enqueue(photo);
-    }
-
-    public void remove(Photo photo) {
-        photoQueue.remove(photo);
-        if (nextQueue != null) {
-            nextQueue.remove(photo);
-        }
-    }
-
     private void enqueue(Photo photo) {
         Photo dequeued = photoQueue.enqueue(photo);
         if (dequeued != null) {
             dequeued.clearBitmap(resolution);
-            if (nextQueue != null) {
-                nextQueue.enqueue(dequeued);
+            if (nextLevel != null) {
+                nextLevel.enqueue(dequeued);
             }
         }
         loadWithRes(resolution, photo);
