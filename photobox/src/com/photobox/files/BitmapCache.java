@@ -1,37 +1,34 @@
 package com.photobox.files;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.photobox.world.Photo;
 
-import android.graphics.Bitmap;
-
 public class BitmapCache {
 
-    private Photo highResPhoto;
-    private int maxSize;
+    private BitmapQueue queue;
+    private List<Photo> photos;
 
     public BitmapCache(int maxSize) {
-        this.maxSize = maxSize;
+        queue = new BitmapQueue(2, 1, maxSize,
+                new BitmapQueue(5, 0.5f, maxSize,
+                    new BitmapQueue(20, 0.25f, maxSize, null)));
+        photos = new ArrayList<Photo>();
     }
 
     public void setHighRes(Photo p) {
-        if (highResPhoto != null) {
-            highResPhoto.clearBitmap(1);
-        }
-        highResPhoto = p;
-        loadWithRes(1, p);
+        queue.activate(p);
     }
 
     public void add(Photo p, BitmapLoader b) {
         p.bitmapLoader = b;
-        loadWithRes(0.25f, p);
+        photos.add(p);
     }
 
-    private void loadWithRes(float res, Photo p) {
-        Bitmap b = p.bitmapLoader.loadWithRes((int)Math.round(maxSize * res));
-        p.setBitmap(res, b);
+    public void loadAllBitmaps() {
+        for (Photo p : photos) {
+            queue.activate(p);
+        }
     }
 
 }

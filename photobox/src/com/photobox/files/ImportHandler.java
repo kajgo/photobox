@@ -23,21 +23,19 @@ public class ImportHandler {
     }
 
     public void importDemoPhotos(PhotoCollection collection, Resources resources) {
-        Photo latestPhoto = new Photo();
         for (Integer which : photosInResources()) {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
-            latestPhoto = loadPhoto(loader, collection);
+            loadPhoto(loader, collection);
         }
-        bitmapCache.setHighRes(latestPhoto);
+        bitmapCache.loadAllBitmaps();
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
-        Photo latestPhoto = new Photo();
         for (File f : photosInDir(dir)) {
             FileBitmapLoader loader = new FileBitmapLoader(f);
-            latestPhoto = loadPhoto(loader, collection);
+            loadPhoto(loader, collection);
         }
-        bitmapCache.setHighRes(latestPhoto);
+        bitmapCache.loadAllBitmaps();
     }
 
     public static boolean hasPhotos(File dir) {

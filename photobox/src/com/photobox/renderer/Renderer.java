@@ -50,7 +50,9 @@ public class Renderer {
             -h / 2 + photo.BORDER,
              w / 2 - photo.BORDER,
              h / 2 - photo.BORDER);
-        canvas.drawBitmap(image, null, rect, photoPaint);
+        if (image != null) {
+            canvas.drawBitmap(image, null, rect, photoPaint);
+        }
         debugger.debugPhoto(canvas, photo);
     }
 
