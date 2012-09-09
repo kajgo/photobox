@@ -7,14 +7,14 @@ import com.photobox.world.Photo;
 
 import android.graphics.Bitmap;
 
-class BitmapQueue {
+class ResolutionLadder {
 
     private float resolution;
     private int maxSize;
-    private BitmapQueue nextQueue;
+    private ResolutionLadder nextQueue;
     private SizedQueue<Photo> photoQueue;
 
-    public BitmapQueue(int maxPhotosAllowed, float resolution, int maxSize, BitmapQueue nextQueue) {
+    public ResolutionLadder(int maxPhotosAllowed, float resolution, int maxSize, ResolutionLadder nextQueue) {
         this.resolution = resolution;
         this.nextQueue = nextQueue;
         this.maxSize = maxSize;

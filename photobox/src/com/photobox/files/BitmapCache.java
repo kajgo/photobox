@@ -6,13 +6,13 @@ import com.photobox.world.Photo;
 
 public class BitmapCache {
 
-    private BitmapQueue queue;
+    private ResolutionLadder queue;
     private List<Photo> photos;
 
     public BitmapCache(int maxSize) {
-        queue = new BitmapQueue(1, 1, maxSize,
-                new BitmapQueue(1, 0.5f, maxSize,
-                    new BitmapQueue(1, 0.25f, maxSize, null)));
+        queue = new ResolutionLadder(1, 1, maxSize,
+                new ResolutionLadder(1, 0.5f, maxSize,
+                    new ResolutionLadder(1, 0.25f, maxSize, null)));
         photos = new ArrayList<Photo>();
     }
 
