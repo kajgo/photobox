@@ -1,5 +1,4 @@
 Next release:
-    - Don't crash when loading too many images
     - Load high res in background.
     - Two finger rotation
         - Change instruction text
