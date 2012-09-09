@@ -9,22 +9,20 @@ import android.graphics.Bitmap;
 
 class BitmapQueue {
 
-    private int maxPhotosAllowed;
     private float resolution;
     private int maxSize;
     private BitmapQueue nextQueue;
-    private List<Photo> photos;
+    private SizedQueue<Photo> photoQueue;
 
     public BitmapQueue(int maxPhotosAllowed, float resolution, int maxSize, BitmapQueue nextQueue) {
-        this.maxPhotosAllowed = maxPhotosAllowed;
         this.resolution = resolution;
         this.nextQueue = nextQueue;
         this.maxSize = maxSize;
-        photos = new ArrayList<Photo>();
+        photoQueue = new SizedQueue<Photo>(maxPhotosAllowed);
     }
 
     public void fillQueue(List<Photo> p) {
-        int n = maxPhotosAllowed - photos.size();
+        int n = photoQueue.numFreeSlots();
         List<Photo> toActivate = popNLast(n, p);
         while(toActivate.size() > 0) {
             activate(toActivate.remove(0));
@@ -44,32 +42,25 @@ class BitmapQueue {
 
     public void activate(Photo photo) {
         remove(photo);
-        dequeue();
         enqueue(photo);
     }
 
     public void remove(Photo photo) {
-        if (photos.contains(photo)) {
-            photos.remove(photo);
-        }
+        photoQueue.remove(photo);
         if (nextQueue != null) {
             nextQueue.remove(photo);
         }
     }
 
-    private void dequeue() {
-        if (photos.size() == maxPhotosAllowed) {
-            Photo last = photos.remove(photos.size() - 1);
-            last.clearBitmap(resolution);
+    private void enqueue(Photo photo) {
+        Photo dequeued = photoQueue.enqueue(photo);
+        if (dequeued != null) {
+            dequeued.clearBitmap(resolution);
             if (nextQueue != null) {
-                nextQueue.activate(last);
+                nextQueue.enqueue(dequeued);
             }
         }
-    }
-
-    private void enqueue(Photo photo) {
         loadWithRes(resolution, photo);
-        photos.add(0, photo);
     }
 
     private void loadWithRes(float res, Photo p) {
