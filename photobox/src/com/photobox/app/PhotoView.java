@@ -49,8 +49,8 @@ public class PhotoView extends View {
         inputState = new InputState(context, mapping);
         int maxSize = getScreenSize().max();
         ladder = new ResolutionLadder(1, 1, maxSize,
-                new ResolutionLadder(1, 0.5f, maxSize,
-                    new ResolutionLadder(1, 0.25f, maxSize, null)));
+                new ResolutionLadder(3, 0.5f, maxSize,
+                    new ResolutionLadder(20, 0.25f, maxSize, null)));
         inputActor = new InputActor(mapping, collection, ladder);
     }
 
