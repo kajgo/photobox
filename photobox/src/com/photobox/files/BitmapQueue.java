@@ -23,6 +23,25 @@ class BitmapQueue {
         photos = new ArrayList<Photo>();
     }
 
+    public void fillQueue(List<Photo> p) {
+        int n = maxPhotosAllowed - photos.size();
+        List<Photo> toActivate = popNLast(n, p);
+        while(toActivate.size() > 0) {
+            activate(toActivate.remove(0));
+        }
+        if(nextQueue != null) {
+            nextQueue.fillQueue(p);
+        }
+    }
+
+    private List<Photo> popNLast(int length, List<Photo> list) {
+        List<Photo> subList = new ArrayList<Photo>();
+        while(list.size() > 0 && subList.size() < length) {
+            subList.add(list.remove(list.size()-1));
+        }
+        return subList;
+    }
+
     public void activate(Photo photo) {
         remove(photo);
         dequeue();
