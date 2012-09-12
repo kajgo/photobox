@@ -1,7 +1,5 @@
 Next release:
     - Load high res in background.
-    - Two finger rotation
-        - Change instruction text
     - Investigate crash reports
 Backlog:
     - Select subset of photos to show

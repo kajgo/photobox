@@ -63,11 +63,10 @@ public class InputActor {
     }
 
     private void movePhoto(InputState inputState) {
-        if (inputState.hasThreeFingerRotationDelta()) {
-            activePhoto.addAngle(inputState.getThreeFingerRotationDelta().floatValue());
+        if (inputState.hasFingerRotationDelta()) {
+            activePhoto.addAngle(inputState.getFingerRotationDelta().floatValue());
         }
-        if (inputState.getNumberOfFingers() == 1 ||
-            inputState.getNumberOfFingers() == 3) {
+        if (inputState.getNumberOfFingers() == 1) {
             activePhoto.move(inputState.worldFingerPoints().get(0));
         }
     }
