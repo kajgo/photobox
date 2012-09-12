@@ -3,6 +3,7 @@ package com.photobox.world;
 import java.util.*;
 
 import android.graphics.Bitmap;
+import android.graphics.RectF;
 
 import com.photobox.files.BitmapLoader;
 
@@ -77,6 +78,26 @@ public class Photo {
             return null;
         }
         return bitmaps.get(maxKey());
+    }
+
+    public boolean hasBitmap() {
+        return getBitmap() != null;
+    }
+
+    public RectF bitmapRect() {
+        return new RectF(
+            -width / 2 + BORDER,
+            -height / 2 + BORDER,
+             width / 2 - BORDER,
+             height / 2 - BORDER);
+    }
+
+    public RectF photoRect() {
+        return new RectF(
+            -width / 2,
+            -height / 2,
+             width / 2,
+             height / 2);
     }
 
     private float maxKey() {

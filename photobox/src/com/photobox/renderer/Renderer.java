@@ -28,34 +28,34 @@ public class Renderer {
     }
 
     public void renderPhoto(Canvas canvas, Photo photo) {
-        Bitmap image = photo.getBitmap();
-        float w = photo.width;
-        float h = photo.height;
+        renderPhotoBorder(canvas, photo);
+        if (photo.hasBitmap()) {
+            renderLoadedPhoto(canvas, photo);
+        } else {
+            renderUnloadedPhoto(canvas, photo);
+        }
+        debugger.debugPhoto(canvas, photo);
+    }
 
+    private void renderPhotoBorder(Canvas canvas, Photo photo) {
         Paint borderPaint = new Paint();
         borderPaint.setARGB(255, 255, 255, 255);
         borderPaint.setAntiAlias(true);
+        canvas.drawRect(photo.photoRect(), borderPaint);
+    }
 
+    private void renderLoadedPhoto(Canvas canvas, Photo photo) {
         Paint photoPaint = new Paint();
         photoPaint.setAntiAlias(true);
         photoPaint.setFilterBitmap(true);
+        canvas.drawBitmap(photo.getBitmap(), null, photo.bitmapRect(), photoPaint);
+    }
 
+    private void renderUnloadedPhoto(Canvas canvas, Photo photo) {
         Paint emptyPhotoPaint = new Paint();
         emptyPhotoPaint.setARGB(255, 210, 210, 210);
         emptyPhotoPaint.setAntiAlias(true);
-
-        canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
-        RectF rect = new RectF(
-            -w / 2 + photo.BORDER,
-            -h / 2 + photo.BORDER,
-             w / 2 - photo.BORDER,
-             h / 2 - photo.BORDER);
-        if (image != null) {
-            canvas.drawBitmap(image, null, rect, photoPaint);
-        } else {
-            canvas.drawRect(rect, emptyPhotoPaint);
-        }
-        debugger.debugPhoto(canvas, photo);
+        canvas.drawRect(photo.bitmapRect(), emptyPhotoPaint);
     }
 
     public void onDraw(Canvas canvas) {
