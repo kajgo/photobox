@@ -40,6 +40,10 @@ public class Renderer {
         photoPaint.setAntiAlias(true);
         photoPaint.setFilterBitmap(true);
 
+        Paint emptyPhotoPaint = new Paint();
+        emptyPhotoPaint.setARGB(255, 210, 210, 210);
+        emptyPhotoPaint.setAntiAlias(true);
+
         canvas.drawRect(-w / 2, -h / 2, w / 2, h / 2, borderPaint);
         RectF rect = new RectF(
             -w / 2 + photo.BORDER,
@@ -48,6 +52,8 @@ public class Renderer {
              h / 2 - photo.BORDER);
         if (image != null) {
             canvas.drawBitmap(image, null, rect, photoPaint);
+        } else {
+            canvas.drawRect(rect, emptyPhotoPaint);
         }
         debugger.debugPhoto(canvas, photo);
     }
