@@ -1,8 +1,5 @@
-Next release:
-    - Load high res in background
-    - Investigate crash reports
-    - Tweak ladder numbers
 Backlog:
+    - Load high res in background
     - Select subset of photos to show
     - New photo sources: picasa, flickr, ...
     - Only photo view should have fixed orientation
