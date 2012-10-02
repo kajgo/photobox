@@ -1,3 +1,14 @@
+photobox 1.2, released on 2 October 2012
+========================================
+
+New features:
+
+  * Rotate photos with two fingers
+
+Bug fixes:
+
+  * Limit visible photos to prevent crash and speed up loading
+
 photobox 1.1, released on 20 July 2012
 ======================================
 
