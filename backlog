@@ -1,9 +1,10 @@
-Backlog:
+Next release:
+    - Add pair commit gravatar and email
     - Load high res in background
-    - Select subset of photos to show
-    - New photo sources: picasa, flickr, ...
     - Only photo view should have fixed orientation
-    - Release old high res bitmap before generating the new one.
+Backlog:
+    - New photo sources: picasa, flickr, ...
+    - Select subset of photos to show
     - Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
     - Epic: Spara positioner och rotationer för foton
     - Epic: Visa karta när man flytta viewport
