@@ -28,7 +28,7 @@ public class ImportHandler {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
             photos.add(loadPhoto(loader, collection));
         }
-        ladder.loadAllBitmaps(photos);
+        ladder.fillFrom(photos);
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
@@ -37,7 +37,7 @@ public class ImportHandler {
             FileBitmapLoader loader = new FileBitmapLoader(f);
             photos.add(loadPhoto(loader, collection));
         }
-        ladder.loadAllBitmaps(photos);
+        ladder.fillFrom(photos);
     }
 
     public static boolean hasPhotos(File dir) {

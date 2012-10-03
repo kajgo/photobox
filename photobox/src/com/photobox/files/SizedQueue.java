@@ -34,4 +34,8 @@ class SizedQueue<T> {
         return numFreeSlots() == 0;
     }
 
+    public boolean contains(T item) {
+        return items.contains(item);
+    }
+
 }

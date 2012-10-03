@@ -22,25 +22,29 @@ public class ResolutionLadder {
     }
 
     public void putOnTop(Photo p) {
-        remove(p);
-        enqueue(p);
+        boolean fiddleWithBitmaps = !photoQueue.contains(p);
+        remove(p, fiddleWithBitmaps);
+        enqueue(p, fiddleWithBitmaps);
     }
 
-    public void loadAllBitmaps(List<Photo> p) {
+    public void fillFrom(List<Photo> p) {
         int n = photoQueue.numFreeSlots();
         List<Photo> toActivate = popNLast(n, p);
         while(toActivate.size() > 0) {
             putOnTop(toActivate.remove(0));
         }
         if(nextLevel != null) {
-            nextLevel.loadAllBitmaps(p);
+            nextLevel.fillFrom(p);
         }
     }
 
-    public void remove(Photo photo) {
+    private void remove(Photo photo, boolean clearPhoto) {
         photoQueue.remove(photo);
         if (nextLevel != null) {
-            nextLevel.remove(photo);
+            nextLevel.remove(photo, clearPhoto);
+        }
+        if (clearPhoto) {
+            photo.clearBitmap(resolution);
         }
     }
 
@@ -52,15 +56,17 @@ public class ResolutionLadder {
         return subList;
     }
 
-    private void enqueue(Photo photo) {
+    private void enqueue(Photo photo, boolean loadPhoto) {
         Photo dequeued = photoQueue.enqueue(photo);
         if (dequeued != null) {
             dequeued.clearBitmap(resolution);
             if (nextLevel != null) {
-                nextLevel.enqueue(dequeued);
+                nextLevel.enqueue(dequeued, loadPhoto);
             }
         }
-        loadWithRes(resolution, photo);
+        if(loadPhoto) {
+            loadWithRes(resolution, photo);
+        }
     }
 
     private void loadWithRes(float res, Photo p) {
