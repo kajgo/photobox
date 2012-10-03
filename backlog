@@ -1,7 +1,6 @@
 Next release:
     - Add pair commit gravatar and email
     - Load high res in background
-    - Only photo view should have fixed orientation
 Backlog:
     - New photo sources: picasa, flickr, ...
     - Select subset of photos to show
