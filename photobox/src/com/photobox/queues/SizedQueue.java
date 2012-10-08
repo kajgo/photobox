@@ -1,9 +1,9 @@
-package com.photobox.files;
+package com.photobox.queues;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class SizedQueue<T> {
+public class SizedQueue<T> {
 
     private int maxSize;
     private List<T> items;

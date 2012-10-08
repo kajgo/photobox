@@ -3,7 +3,7 @@ package com.photobox.files;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.photobox.queues.QueueExtractor;
+import com.photobox.queues.*;
 import com.photobox.world.Photo;
 
 import android.graphics.Bitmap;
