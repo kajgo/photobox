@@ -1,15 +1,11 @@
 package com.photobox.files;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
 
 import com.photobox.queues.*;
 import com.photobox.world.Photo;
 
-import android.os.AsyncTask;
 import android.graphics.Bitmap;
-import android.view.View;
 
 public class ResolutionLadder {
 
@@ -72,46 +68,4 @@ public class ResolutionLadder {
         p.setBitmap(res, b);
     }
 
-    class AsynchPhotoLoader {
-        private HashMap<Photo, PhotoLoaderAsynchTask> loadingTasks = new HashMap<Photo, PhotoLoaderAsynchTask>();
-        private View view;
-
-        public AsynchPhotoLoader(View view) {
-            this.view = view;
-        }
-
-        public void addLoadingTask(Photo photo, float resolution, int maxSize) {
-            if (loadingTasks.containsKey(photo)) {
-                loadingTasks.get(photo).cancel(true);
-            }
-            PhotoLoaderAsynchTask task = new PhotoLoaderAsynchTask(photo, resolution, maxSize, view);
-            loadingTasks.put(photo, task);
-            task.execute();
-        }
-    }
-
-    class PhotoLoaderAsynchTask extends AsyncTask<Void, Void, Bitmap> {
-
-        private Photo photo;
-        private float resolution;
-        private int maxSize;
-        private View view;
-
-        public PhotoLoaderAsynchTask(Photo photo, float resolution, int maxSize, View view) {
-            this.photo = photo;
-            this.resolution = resolution;
-            this.maxSize = maxSize;
-            this.view = view;
-        }
-
-        protected Bitmap doInBackground(Void... voids) {
-            int calcultedRes = (int)Math.round(maxSize * resolution);
-            return photo.bitmapLoader.loadWithRes(calcultedRes);
-        }
-
-        protected void onPostExecute(Bitmap bitmap) {
-            photo.setBitmap(resolution, bitmap);
-            view.invalidate();
-        }
-    }
 }
