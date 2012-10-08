@@ -3,6 +3,7 @@ package com.photobox.files;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.photobox.queues.QueueExtractor;
 import com.photobox.world.Photo;
 
 import android.graphics.Bitmap;
@@ -27,10 +28,10 @@ public class ResolutionLadder {
         enqueue(p, fiddleWithBitmaps);
     }
 
-    public void fillFrom(List<Photo> p) {
+    public void fillFrom(QueueExtractor<Photo> p) {
         int n = photoQueue.numFreeSlots();
-        List<Photo> toActivate = popNLast(n, p);
-        while(toActivate.size() > 0) {
+        List<Photo> toActivate = p.popN(n);
+        while (toActivate.size() > 0) {
             putOnTop(toActivate.remove(0));
         }
         if(nextLevel != null) {
@@ -46,14 +47,6 @@ public class ResolutionLadder {
         if (clearPhoto) {
             photo.clearBitmap(resolution);
         }
-    }
-
-    private List<Photo> popNLast(int length, List<Photo> list) {
-        List<Photo> subList = new ArrayList<Photo>();
-        while(list.size() > 0 && subList.size() < length) {
-            subList.add(list.remove(list.size()-1));
-        }
-        return subList;
     }
 
     private void enqueue(Photo photo, boolean fiddleWithBitmaps) {

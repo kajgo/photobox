@@ -9,6 +9,7 @@ import com.photobox.R;
 
 import com.photobox.files.ResolutionLadder;
 
+import com.photobox.queues.QueueExtractor;
 import com.photobox.world.Photo;
 import com.photobox.world.PhotoCollection;
 
@@ -28,7 +29,7 @@ public class ImportHandler {
             ResourceBitmapLoader loader = new ResourceBitmapLoader(resources, which);
             photos.add(loadPhoto(loader, collection));
         }
-        ladder.fillFrom(photos);
+        ladder.fillFrom(new QueueExtractor<Photo>(photos));
     }
 
     public void importPhotosFromDir(PhotoCollection collection, File dir) {
@@ -37,7 +38,7 @@ public class ImportHandler {
             FileBitmapLoader loader = new FileBitmapLoader(f);
             photos.add(loadPhoto(loader, collection));
         }
-        ladder.fillFrom(photos);
+        ladder.fillFrom(new QueueExtractor<Photo>(photos));
     }
 
     public static boolean hasPhotos(File dir) {
