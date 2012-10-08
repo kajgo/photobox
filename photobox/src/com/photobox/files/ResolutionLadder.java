@@ -28,7 +28,7 @@ public class ResolutionLadder {
         enqueue(p, fiddleWithBitmaps);
     }
 
-    public void fillFrom(QueueExtractor<Photo> p) {
+    public void fillFrom(MultiplePopQueue<Photo> p) {
         int n = photoQueue.numFreeSlots();
         List<Photo> toActivate = p.popN(n);
         while (toActivate.size() > 0) {

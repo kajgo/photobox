@@ -3,11 +3,11 @@ package com.photobox.queues;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueueExtractor<T> {
+public class MultiplePopQueue<T> {
 
     private List<T> items;
 
-    public QueueExtractor(List<T> items) {
+    public MultiplePopQueue(List<T> items) {
         this.items = new ArrayList(items);
     }
 
