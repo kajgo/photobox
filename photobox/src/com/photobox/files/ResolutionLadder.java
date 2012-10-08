@@ -56,15 +56,17 @@ public class ResolutionLadder {
         return subList;
     }
 
-    private void enqueue(Photo photo, boolean loadPhoto) {
+    private void enqueue(Photo photo, boolean fiddleWithBitmaps) {
         Photo dequeued = photoQueue.enqueue(photo);
         if (dequeued != null) {
-            dequeued.clearBitmap(resolution);
+            if (fiddleWithBitmaps) {
+                dequeued.clearBitmap(resolution);
+            }
             if (nextLevel != null) {
-                nextLevel.enqueue(dequeued, loadPhoto);
+                nextLevel.enqueue(dequeued, fiddleWithBitmaps);
             }
         }
-        if(loadPhoto) {
+        if(fiddleWithBitmaps) {
             loadWithRes(resolution, photo);
         }
     }
