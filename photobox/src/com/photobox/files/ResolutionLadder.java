@@ -2,6 +2,7 @@ package com.photobox.files;
 
 import java.util.List;
 
+import com.photobox.files.*;
 import com.photobox.queues.*;
 import com.photobox.world.Photo;
 
@@ -10,13 +11,13 @@ import android.graphics.Bitmap;
 public class ResolutionLadder {
 
     private float resolution;
-    private int maxSize;
+    private AsynchPhotoLoader asynchPhotoLoader;
     private ResolutionLadder nextLevel;
     private SizedQueue<Photo> photoQueue;
 
-    public ResolutionLadder(int maxPhotosAllowed, float resolution, int maxSize, ResolutionLadder nextLevel) {
+    public ResolutionLadder(int maxPhotosAllowed, float resolution, AsynchPhotoLoader asynchPhotoLoader, ResolutionLadder nextLevel) {
         this.resolution = resolution;
-        this.maxSize = maxSize;
+        this.asynchPhotoLoader = asynchPhotoLoader;
         this.nextLevel = nextLevel;
         photoQueue = new SizedQueue<Photo>(maxPhotosAllowed);
     }
@@ -64,8 +65,7 @@ public class ResolutionLadder {
     }
 
     private void loadWithRes(float res, Photo p) {
-        Bitmap b = p.bitmapLoader.loadWithRes((int)Math.round(maxSize * res));
-        p.setBitmap(res, b);
+        asynchPhotoLoader.addLoadingTask(p, res);
     }
 
 }
