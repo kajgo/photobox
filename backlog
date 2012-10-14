@@ -1,7 +1,8 @@
 Next release:
+    - Zoom individual photos
+    - New photo sources: picasa, flickr, ...
     - Add pair commit gravatar and email
 Backlog:
-    - New photo sources: picasa, flickr, ...
     - Select subset of photos to show
     - Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?
     - Epic: Spara positioner och rotationer för foton
