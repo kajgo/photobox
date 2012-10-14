@@ -27,6 +27,10 @@
             android:name=".app.ListActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".app.PicasaActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

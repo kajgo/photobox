@@ -28,6 +28,14 @@ public class IntroActivity extends Activity {
                 }
             }
         );
+        findViewById(R.id.showPicasaPicturesButton).setOnClickListener(
+            new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), PicasaActivity.class);
+                    startActivity(intent);
+                }
+            }
+        );
         findViewById(R.id.showSdcardPicturesButton).setOnClickListener(
             new View.OnClickListener() {
                 public void onClick(View v) {

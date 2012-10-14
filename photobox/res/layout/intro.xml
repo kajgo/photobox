@@ -61,6 +61,28 @@
             android:orientation="vertical">
 
             <android.widget.Button
+                android:id="@+id/showPicasaPicturesButton"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:text="Picasa" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:gravity="center_horizontal"
+                android:text="View your Picasa photos" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:orientation="vertical">
+
+            <android.widget.Button
                 android:text="Demo"
                 android:id="@+id/showDemoPicturesButton"
                 android:layout_width="fill_parent"
