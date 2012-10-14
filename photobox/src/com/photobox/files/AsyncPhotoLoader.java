@@ -9,13 +9,13 @@ import android.os.AsyncTask;
 import android.graphics.Bitmap;
 import android.view.View;
 
-public class AsynchPhotoLoader {
+public class AsyncPhotoLoader {
 
-    private HashMap<Photo, PhotoLoaderAsynchTask> loadingTasks = new HashMap<Photo, PhotoLoaderAsynchTask>();
+    private HashMap<Photo, PhotoLoaderAsyncTask> loadingTasks = new HashMap<Photo, PhotoLoaderAsyncTask>();
     private View view;
     private int maxSize;
 
-    public AsynchPhotoLoader(View view, int maxSize) {
+    public AsyncPhotoLoader(View view, int maxSize) {
         this.view = view;
         this.maxSize = maxSize;
     }
@@ -24,18 +24,18 @@ public class AsynchPhotoLoader {
         if (loadingTasks.containsKey(photo)) {
             loadingTasks.get(photo).cancel(true);
         }
-        PhotoLoaderAsynchTask task = new PhotoLoaderAsynchTask(photo, resolution, view);
+        PhotoLoaderAsyncTask task = new PhotoLoaderAsyncTask(photo, resolution, view);
         loadingTasks.put(photo, task);
         task.execute();
     }
 
-    class PhotoLoaderAsynchTask extends AsyncTask<Void, Void, Bitmap> {
+    class PhotoLoaderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
 
         private Photo photo;
         private float resolution;
         private View view;
 
-        public PhotoLoaderAsynchTask(Photo photo, float resolution, View view) {
+        public PhotoLoaderAsyncTask(Photo photo, float resolution, View view) {
             this.photo = photo;
             this.resolution = resolution;
             this.view = view;

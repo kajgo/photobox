@@ -27,7 +27,7 @@ public class PhotoView extends View {
     private WorldMapping mapping;
     private Renderer renderer;
     private InputState inputState;
-    private AsynchPhotoLoader asynchPhotoLoader;
+    private AsyncPhotoLoader asyncPhotoLoader;
     private InputActor inputActor;
     private ResolutionLadder ladder;
 
@@ -47,10 +47,10 @@ public class PhotoView extends View {
         renderer = new Renderer(debugger, mapping, collection);
         inputState = new InputState(context, mapping);
         int maxSize = getScreenSize().max();
-        asynchPhotoLoader = new AsynchPhotoLoader(this, maxSize);
-        ladder = new ResolutionLadder(1, 1, asynchPhotoLoader,
-                new ResolutionLadder(3, 0.5f, asynchPhotoLoader,
-                    new ResolutionLadder(10, 0.15f, asynchPhotoLoader, null)));
+        asyncPhotoLoader = new AsyncPhotoLoader(this, maxSize);
+        ladder = new ResolutionLadder(1, 1, asyncPhotoLoader,
+                new ResolutionLadder(3, 0.5f, asyncPhotoLoader,
+                    new ResolutionLadder(10, 0.15f, asyncPhotoLoader, null)));
         inputActor = new InputActor(mapping, collection, ladder);
     }
 

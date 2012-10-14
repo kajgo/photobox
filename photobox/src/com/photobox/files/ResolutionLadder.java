@@ -11,13 +11,13 @@ import android.graphics.Bitmap;
 public class ResolutionLadder {
 
     private float resolution;
-    private AsynchPhotoLoader asynchPhotoLoader;
+    private AsyncPhotoLoader asyncPhotoLoader;
     private ResolutionLadder nextLevel;
     private SizedQueue<Photo> photoQueue;
 
-    public ResolutionLadder(int maxPhotosAllowed, float resolution, AsynchPhotoLoader asynchPhotoLoader, ResolutionLadder nextLevel) {
+    public ResolutionLadder(int maxPhotosAllowed, float resolution, AsyncPhotoLoader asyncPhotoLoader, ResolutionLadder nextLevel) {
         this.resolution = resolution;
-        this.asynchPhotoLoader = asynchPhotoLoader;
+        this.asyncPhotoLoader = asyncPhotoLoader;
         this.nextLevel = nextLevel;
         photoQueue = new SizedQueue<Photo>(maxPhotosAllowed);
     }
@@ -65,7 +65,7 @@ public class ResolutionLadder {
     }
 
     private void loadWithRes(float res, Photo p) {
-        asynchPhotoLoader.addLoadingTask(p, res);
+        asyncPhotoLoader.addLoadingTask(p, res);
     }
 
 }
