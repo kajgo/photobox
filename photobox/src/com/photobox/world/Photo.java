@@ -66,6 +66,13 @@ public class Photo {
         }
     }
 
+    public void clearAllBitmaps() {
+        for (Float resolution : bitmaps.keySet()) {
+            bitmaps.get(resolution).recycle();
+        }
+        bitmaps.clear();
+    }
+
     public void clearBitmap(float resolution) {
         if (bitmaps.containsKey(resolution)) {
             bitmaps.get(resolution).recycle();

@@ -1,7 +1,6 @@
 Next release:
     - Add pair commit gravatar and email
 Backlog:
-    - Unload photo after loading high res.
     - New photo sources: picasa, flickr, ...
     - Select subset of photos to show
     - Epic: Vrida foto kring godtyckling punkt i fotot? Mer naturlig rotation?

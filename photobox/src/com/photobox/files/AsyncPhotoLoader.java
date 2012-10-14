@@ -47,6 +47,7 @@ public class AsyncPhotoLoader {
         }
 
         protected void onPostExecute(Bitmap bitmap) {
+            photo.clearAllBitmaps();
             photo.setBitmap(resolution, bitmap);
             view.invalidate();
         }

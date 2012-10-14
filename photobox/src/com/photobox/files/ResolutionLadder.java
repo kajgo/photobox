@@ -24,7 +24,7 @@ public class ResolutionLadder {
 
     public void putOnTop(Photo p) {
         boolean fiddleWithBitmaps = !photoQueue.contains(p);
-        remove(p, fiddleWithBitmaps);
+        remove(p);
         enqueue(p, fiddleWithBitmaps);
     }
 
@@ -39,13 +39,10 @@ public class ResolutionLadder {
         }
     }
 
-    private void remove(Photo photo, boolean clearPhoto) {
+    private void remove(Photo photo) {
         photoQueue.remove(photo);
         if (nextLevel != null) {
-            nextLevel.remove(photo, clearPhoto);
-        }
-        if (clearPhoto) {
-            photo.clearBitmap(resolution);
+            nextLevel.remove(photo);
         }
     }
 
@@ -53,19 +50,17 @@ public class ResolutionLadder {
         Photo dequeued = photoQueue.enqueue(photo);
         if (dequeued != null) {
             if (fiddleWithBitmaps) {
-                dequeued.clearBitmap(resolution);
+                if (nextLevel == null) {
+                    dequeued.clearAllBitmaps();
+                }
             }
             if (nextLevel != null) {
                 nextLevel.enqueue(dequeued, fiddleWithBitmaps);
             }
         }
-        if(fiddleWithBitmaps) {
-            loadWithRes(resolution, photo);
+        if (fiddleWithBitmaps) {
+            asyncPhotoLoader.addLoadingTask(photo, resolution);
         }
-    }
-
-    private void loadWithRes(float res, Photo p) {
-        asyncPhotoLoader.addLoadingTask(p, res);
     }
 
 }
