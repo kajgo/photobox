@@ -1,8 +1,7 @@
 package com.photobox.app;
 
 import java.io.File;
-
-import com.photobox.files.ImportHandler;
+import java.util.*;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.*;
 
 import com.photobox.R;
+import com.photobox.files.*;
 
 public class PicasaActivity extends Activity {
 
@@ -44,8 +44,13 @@ public class PicasaActivity extends Activity {
         Button loadAlbumsButton = (Button)findViewById(R.id.loadAlbumsButton);
         loadAlbumsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String foo = "" + usernameEditText.getText();
-                String[] items = {"one", "two", foo };
+                List<String> albums = new PicasaApi("" + usernameEditText.getText()).getAlbums();
+                String[] items;
+                if (albums != null) {
+                    items = (String[])albums.toArray();
+                } else {
+                    items = new String[] { "no albums found" };
+                }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                         thisActivity,
                         android.R.layout.simple_list_item_1,
