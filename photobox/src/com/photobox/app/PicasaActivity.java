@@ -59,6 +59,13 @@ public class PicasaActivity extends Activity {
                 albumList.setAdapter(adapter);
             }
         });
+
+        albumList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("PicasaActivity", "you clicked item: " + position);
+            }
+        });
     }
 
 }
