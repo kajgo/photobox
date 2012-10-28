@@ -47,7 +47,7 @@ public class PicasaActivity extends Activity {
                 List<String> albums = new PicasaApi("" + usernameEditText.getText()).getAlbums();
                 String[] items;
                 if (albums != null) {
-                    items = (String[])albums.toArray();
+                    items = albums.toArray(new String[] {"dummy array to get correct type"});
                 } else {
                     items = new String[] { "no albums found" };
                 }
