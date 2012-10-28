@@ -26,6 +26,7 @@ public class PicasaActivity extends Activity {
     private ListView albumList;
     private EditText usernameEditText;
     private PicasaActivity thisActivity;
+    private List<PicasaAlbum> albums;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,10 @@ public class PicasaActivity extends Activity {
         Button loadAlbumsButton = (Button)findViewById(R.id.loadAlbumsButton);
         loadAlbumsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                List<PicasaAlbum> albums = new PicasaApi("" + usernameEditText.getText()).getAlbums();
+                thisActivity.albums = new PicasaApi("" + usernameEditText.getText()).getAlbums();
                 String[] items;
-                if (albums != null) {
-                    items = getAlbumTitlesArray(albums);
+                if (thisActivity.albums != null) {
+                    items = getAlbumTitlesArray(thisActivity.albums);
                 } else {
                     items = new String[] { "No albums found" };
                 }
@@ -63,7 +64,9 @@ public class PicasaActivity extends Activity {
         albumList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("PicasaActivity", "you clicked item: " + position);
+                Log.d("PicasaActivity", "you clicked album:");
+                Log.d("PicasaActivity", " id   = " + thisActivity.albums.get(position).getId());
+                Log.d("PicasaActivity", " name = " + thisActivity.albums.get(position).getName());
             }
         });
     }

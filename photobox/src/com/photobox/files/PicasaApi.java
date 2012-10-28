@@ -22,21 +22,33 @@ public class PicasaApi {
         if (doc == null) {
             return null;
         }
-        NodeList nodes = filterNodes(doc, "//entry/title");
+        NodeList nodes = filterNodes(doc, "//entry");
         if (nodes == null) {
             return null;
         }
         List<PicasaAlbum> albums = new ArrayList<PicasaAlbum>();
         for (int s = 0; s < nodes.getLength(); s++) {
-            Node currentNode = nodes.item(s);
-            String albumTitle = currentNode.getFirstChild().getNodeValue();
-            String albumId = "";
             PicasaAlbum album = new PicasaAlbum();
-            album.setName(albumTitle);
-            album.setId(albumId);
+            Node currentNode = nodes.item(s);
+            populateAlbum(album, currentNode);
             albums.add(album);
         }
         return albums;
+    }
+
+    private void populateAlbum(PicasaAlbum album, Node entryNode) {
+        album.setName(getFirstNodeText(entryNode, "title"));
+        album.setId(getFirstNodeText(entryNode, "id"));
+    }
+
+    private String getFirstNodeText(Node parentNode, String nodeName) {
+        for (int i = 0; i < parentNode.getChildNodes().getLength(); i++) {
+            Node currentNode = parentNode.getChildNodes().item(i);
+            if (currentNode.getNodeName().equals(nodeName)) {
+                return currentNode.getFirstChild().getNodeValue();
+            }
+        }
+        return "";
     }
 
     public List<String> getPhotoUrlsForAlbum(String albumId) {
