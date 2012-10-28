@@ -49,7 +49,7 @@ public class PicasaActivity extends Activity {
                 if (albums != null) {
                     items = albums.toArray(new String[] {"dummy array to get correct type"});
                 } else {
-                    items = new String[] { "no albums found" };
+                    items = new String[] { "No albums found" };
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                         thisActivity,
