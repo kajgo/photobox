@@ -67,6 +67,12 @@ public class PicasaActivity extends Activity {
                 Log.d("PicasaActivity", "you clicked album:");
                 Log.d("PicasaActivity", " id   = " + thisActivity.albums.get(position).getId());
                 Log.d("PicasaActivity", " name = " + thisActivity.albums.get(position).getName());
+                List<String> things = new PicasaApi("" + usernameEditText.getText()).getPhotoUrlsForAlbum(thisActivity.albums.get(position).getId());
+                if (things != null) {
+                    for (String thing : things) {
+                        Log.d("PicasaActivity", " photo = " + thing);
+                    }
+                }
             }
         });
     }

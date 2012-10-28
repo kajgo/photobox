@@ -38,7 +38,7 @@ public class PicasaApi {
 
     private void populateAlbum(PicasaAlbum album, Node entryNode) {
         album.setName(getFirstNodeText(entryNode, "title"));
-        album.setId(getFirstNodeText(entryNode, "id"));
+        album.setId(getFirstNodeText(entryNode, "gphoto:id"));
     }
 
     private String getFirstNodeText(Node parentNode, String nodeName) {
