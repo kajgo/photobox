@@ -28,8 +28,8 @@ public class PicasaApi {
         }
         List<String> albums = new ArrayList<String>();
         for (int s = 0; s < nodes.getLength(); s++) {
-            Node fstNode = nodes.item(s);
-            String albumTitle = fstNode.getFirstChild().getNodeValue();
+            Node currentNode = nodes.item(s);
+            String albumTitle = currentNode.getFirstChild().getNodeValue();
             albums.add(albumTitle);
         }
         return albums;
@@ -46,8 +46,8 @@ public class PicasaApi {
         }
         List<String> urls = new ArrayList<String>();
         for (int s = 0; s < nodes.getLength(); s++) {
-            Node fstNode = nodes.item(s);
-            String imageUrl = fstNode.getAttributes().getNamedItem("src").getNodeValue();
+            Node currentNode = nodes.item(s);
+            String imageUrl = currentNode.getAttributes().getNamedItem("src").getNodeValue();
             urls.add(imageUrl);
         }
         return urls;
