@@ -37,17 +37,20 @@ public class PicasaApi {
 
     public List<String> getPhotoUrlsForAlbum(String albumId) {
         Document doc = getDocumentAt("https://picasaweb.google.com/data/feed/api/user/" + userId + "/albumid/" + albumId);
-        if (doc != null) {
-            List<String> urls = new ArrayList<String>();
-            NodeList nodes = doc.getElementsByTagName("content");
-            for (int s = 0; s < nodes.getLength(); s++) {
-                Node fstNode = nodes.item(s);
-                String imageUrl = fstNode.getAttributes().getNamedItem("src").getNodeValue();
-                urls.add(imageUrl);
-            }
-            return urls;
+        if (doc == null) {
+            return null;
         }
-        return null;
+        NodeList nodes = filterNodes(doc, "//content");
+        if (nodes == null) {
+            return null;
+        }
+        List<String> urls = new ArrayList<String>();
+        for (int s = 0; s < nodes.getLength(); s++) {
+            Node fstNode = nodes.item(s);
+            String imageUrl = fstNode.getAttributes().getNamedItem("src").getNodeValue();
+            urls.add(imageUrl);
+        }
+        return urls;
     }
 
     private NodeList filterNodes(Document doc, String xpathExpression) {
