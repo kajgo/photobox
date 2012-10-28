@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.xml.parsers.*;
+import javax.xml.xpath.*;
 import org.w3c.dom.*;
 
 import android.util.*;
@@ -18,32 +19,48 @@ public class PicasaApi {
 
     public List<String> getAlbums() {
         Document doc = getDocumentAt("https://picasaweb.google.com/data/feed/api/user/" + userId);
-        if (doc != null) {
-            List<String> albums = new ArrayList<String>();
-            NodeList nodeLst = doc.getElementsByTagName("title");
-            for (int s = 0; s < nodeLst.getLength(); s++) {
-                Node fstNode = nodeLst.item(s);
-                String albumTitle = fstNode.getFirstChild().getNodeValue();
-                albums.add(albumTitle);
-            }
-            return albums;
+        if (doc == null) {
+            return null;
         }
-        return null;
+        NodeList nodes = filterNodes(doc, "//entry/title");
+        if (nodes == null) {
+            return null;
+        }
+        List<String> albums = new ArrayList<String>();
+        for (int s = 0; s < nodes.getLength(); s++) {
+            Node fstNode = nodes.item(s);
+            String albumTitle = fstNode.getFirstChild().getNodeValue();
+            albums.add(albumTitle);
+        }
+        return albums;
     }
 
     public List<String> getPhotoUrlsForAlbum(String albumId) {
         Document doc = getDocumentAt("https://picasaweb.google.com/data/feed/api/user/" + userId + "/albumid/" + albumId);
         if (doc != null) {
             List<String> urls = new ArrayList<String>();
-            NodeList nodeLst = doc.getElementsByTagName("content");
-            for (int s = 0; s < nodeLst.getLength(); s++) {
-                Node fstNode = nodeLst.item(s);
+            NodeList nodes = doc.getElementsByTagName("content");
+            for (int s = 0; s < nodes.getLength(); s++) {
+                Node fstNode = nodes.item(s);
                 String imageUrl = fstNode.getAttributes().getNamedItem("src").getNodeValue();
                 urls.add(imageUrl);
             }
             return urls;
         }
         return null;
+    }
+
+    private NodeList filterNodes(Document doc, String xpathExpression) {
+        try {
+            XPathFactory xPathfactory = XPathFactory.newInstance();
+            XPath xpath = xPathfactory.newXPath();
+            XPathExpression expr = xpath.compile(xpathExpression);
+            NodeList nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
+            return nodes;
+        } catch (Exception e) {
+            Log.d("PicasaApi", "failed to filter nodes: " + e.toString(), e);
+            return null;
+        }
     }
 
     private Document getDocumentAt(String url) {
