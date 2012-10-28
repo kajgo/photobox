@@ -17,7 +17,7 @@ public class PicasaApi {
         this.userId = userId;
     }
 
-    public List<String> getAlbums() {
+    public List<PicasaAlbum> getAlbums() {
         Document doc = getDocumentAt("https://picasaweb.google.com/data/feed/api/user/" + userId);
         if (doc == null) {
             return null;
@@ -26,11 +26,15 @@ public class PicasaApi {
         if (nodes == null) {
             return null;
         }
-        List<String> albums = new ArrayList<String>();
+        List<PicasaAlbum> albums = new ArrayList<PicasaAlbum>();
         for (int s = 0; s < nodes.getLength(); s++) {
             Node currentNode = nodes.item(s);
             String albumTitle = currentNode.getFirstChild().getNodeValue();
-            albums.add(albumTitle);
+            String albumId = "";
+            PicasaAlbum album = new PicasaAlbum();
+            album.setName(albumTitle);
+            album.setId(albumId);
+            albums.add(album);
         }
         return albums;
     }

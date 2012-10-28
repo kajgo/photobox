@@ -44,10 +44,10 @@ public class PicasaActivity extends Activity {
         Button loadAlbumsButton = (Button)findViewById(R.id.loadAlbumsButton);
         loadAlbumsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                List<String> albums = new PicasaApi("" + usernameEditText.getText()).getAlbums();
+                List<PicasaAlbum> albums = new PicasaApi("" + usernameEditText.getText()).getAlbums();
                 String[] items;
                 if (albums != null) {
-                    items = albums.toArray(new String[] {"dummy array to get correct type"});
+                    items = getAlbumTitlesArray(albums);
                 } else {
                     items = new String[] { "No albums found" };
                 }
@@ -66,6 +66,14 @@ public class PicasaActivity extends Activity {
                 Log.d("PicasaActivity", "you clicked item: " + position);
             }
         });
+    }
+
+    private String[] getAlbumTitlesArray(List<PicasaAlbum> albumList) {
+        List<String> albumStrings = new ArrayList<String>();
+        for(PicasaAlbum album : albumList) {
+            albumStrings.add(album.getName());
+        }
+        return albumStrings.toArray(new String[] {"dummy array to get correct type"});
     }
 
 }
