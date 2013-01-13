@@ -110,9 +110,12 @@ public class PicasaActivity extends Activity {
         }
 
         private void downloadEachPhoto() {
+            int i = 0;
             for(String url : urls) {
-                downloadFile(new File(folder, "foo.jpg"), url);
-                return;
+                String extension = url.substring(url.lastIndexOf("."));
+                String filename = "photobox" + i + extension;
+                downloadFile(new File(folder, filename), url);
+                i++;
             }
         }
 
