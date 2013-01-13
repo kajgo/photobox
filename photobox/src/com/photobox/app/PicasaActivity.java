@@ -4,20 +4,16 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.*;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.*;
 import android.content.*;
-import android.os.Bundle;
-import android.os.Environment;
+import android.os.*;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.*;
 
 import com.photobox.R;
@@ -78,14 +74,40 @@ public class PicasaActivity extends Activity {
                 Log.d("PicasaActivity", "PATH = " + new ContextWrapper(getBaseContext()).getFilesDir());
 
                 File destinationDir = new File("/mnt/sdcard/data/com.photobox/photos");
-                new FileDownloader(destinationDir, things).start();
 
-                Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
-                intent.putExtra("action", "dir");
-                intent.putExtra("dir", destinationDir.getAbsolutePath());
-                startActivity(intent);
+                new FileDownloaderAsyncTask(destinationDir, things).execute();
             }
         });
+    }
+
+    class FileDownloaderAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private ProgressDialog progressDialog;
+        private File destinationDir;
+        private List<String> things;
+
+        public FileDownloaderAsyncTask(File destinationDir, List<String> things) {
+            this.destinationDir = destinationDir;
+            this.things = things;
+        }
+
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(PicasaActivity.this, "", "Loading...");
+        }
+
+        protected Void doInBackground(Void... voids) {
+            new FileDownloader(destinationDir, things).start();
+            return null;
+        }
+
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.dismiss();
+
+            Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
+            intent.putExtra("action", "dir");
+            intent.putExtra("dir", destinationDir.getAbsolutePath());
+            startActivity(intent);
+        }
     }
 
     class FileDownloader {
