@@ -1,6 +1,7 @@
 package com.photobox.app;
 
-import java.io.File;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
 import android.app.Activity;
@@ -8,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.*;
+import android.content.*;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -73,8 +75,65 @@ public class PicasaActivity extends Activity {
                         Log.d("PicasaActivity", " photo = " + thing);
                     }
                 }
+                Log.d("PicasaActivity", "PATH = " + new ContextWrapper(getBaseContext()).getFilesDir());
+
+                File destinationDir = new File("/mnt/sdcard/data/com.photobox/photos");
+                new FileDownloader(destinationDir, things).start();
+
+                Intent intent = new Intent(getBaseContext(), PhotoboxActivity.class);
+                intent.putExtra("action", "dir");
+                intent.putExtra("dir", destinationDir.getAbsolutePath());
+                startActivity(intent);
             }
         });
+    }
+
+    class FileDownloader {
+        private File folder;
+        private List<String> urls;
+
+        public FileDownloader(File folder, List<String> urls) {
+            this.folder = folder;
+            this.urls = urls;
+        }
+
+        public void start() {
+            wipeFolder();
+            downloadEachPhoto();
+        }
+
+        private void wipeFolder() {
+            folder.mkdirs();
+            for(File file : folder.listFiles()) {
+                file.delete();
+            }
+        }
+
+        private void downloadEachPhoto() {
+            for(String url : urls) {
+                downloadFile(new File(folder, "foo.jpg"), url);
+                return;
+            }
+        }
+
+        private void downloadFile(File destination, String url) {
+            try {
+                HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("GET");
+                InputStream is = connection.getInputStream();
+                FileOutputStream fos = new FileOutputStream(destination);
+                int c;
+                while ((c = is.read()) != -1) {
+                    fos.write(c);
+                }
+                fos.close();
+                is.close();
+            } catch (Exception e) {
+                Log.d("PicasaApi", "failed to downloadFile: " + e.toString(), e);
+            }
+        }
+
     }
 
     private String[] getAlbumTitlesArray(List<PicasaAlbum> albumList) {
