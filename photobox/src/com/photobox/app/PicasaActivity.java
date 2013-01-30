@@ -62,19 +62,8 @@ public class PicasaActivity extends Activity {
         albumList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("PicasaActivity", "you clicked album:");
-                Log.d("PicasaActivity", " id   = " + thisActivity.albums.get(position).getId());
-                Log.d("PicasaActivity", " name = " + thisActivity.albums.get(position).getName());
                 List<String> things = new PicasaApi("" + usernameEditText.getText()).getPhotoUrlsForAlbum(thisActivity.albums.get(position).getId());
-                if (things != null) {
-                    for (String thing : things) {
-                        Log.d("PicasaActivity", " photo = " + thing);
-                    }
-                }
-                Log.d("PicasaActivity", "PATH = " + new ContextWrapper(getBaseContext()).getFilesDir());
-
-                File destinationDir = new File("/mnt/sdcard/data/com.photobox/photos");
-
+                File destinationDir = new ContextWrapper(getBaseContext()).getExternalFilesDir(null);
                 new FileDownloaderAsyncTask(destinationDir, things).execute();
             }
         });
