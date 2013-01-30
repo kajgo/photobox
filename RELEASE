@@ -1,2 +1,8 @@
 * Write changes
 * Update AndroidManifest.xml
+
+* cd to /photobox
+* ant release
+* Upload APK
+* Update release notes on Android Play Store
+* Create git tag
